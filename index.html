@@ -1051,6 +1051,54 @@
             font-weight: 600;
             text-transform: uppercase;
         }
+
+        /* Specific styles for Renato Approval Screen table */
+        #renatoApprovalScreen .data-table {
+            table-layout: fixed; /* Ensures columns respect defined widths */
+        }
+
+        #renatoApprovalScreen .data-table th,
+        #renatoApprovalScreen .data-table td {
+            white-space: normal; /* Allow text to wrap */
+            word-wrap: break-word; /* Ensure long words break */
+            font-size: 12px; /* Slightly smaller font for more content */
+            padding: 8px 5px; /* Reduced padding */
+        }
+
+        #renatoApprovalScreen .data-table thead th:nth-child(1) { width: 10%; } /* Cód Produto */
+        #renatoApprovalScreen .data-table thead th:nth-child(2) { width: 18%; } /* Descrição */
+        #renatoApprovalScreen .data-table thead th:nth-child(3) { width: 6%; } /* Qtd. */
+        #renatoApprovalScreen .data-table thead th:nth-child(4) { width: 10%; } /* Valor Unit. Interno */
+        #renatoApprovalScreen .data-table thead th:nth-child(5) { width: 10%; } /* Valor Unit. Fornecedor */
+        #renatoApprovalScreen .data-table thead th:nth-child(6) { width: 12%; } /* Dif */
+        #renatoApprovalScreen .data-table thead th:nth-child(7) { width: 10%; } /* Valor Total Interno */
+        #renatoApprovalScreen .data-table thead th:nth-child(8) { width: 10%; } /* Valor Total Fornecedor */
+        #renatoApprovalScreen .data-table thead th:nth-child(9) { width: 8%; } /* Status Aprovação */
+        #renatoApprovalScreen .data-table thead th:nth-child(10) { width: 16%; } /* Ação */
+
+        .approval-buttons-group {
+            display: flex;
+            flex-direction: column; /* Stack buttons vertically */
+            gap: 3px; /* Small gap between buttons */
+            align-items: stretch; /* Make buttons fill available width */
+        }
+
+        .approval-buttons-group .btn {
+            padding: 4px 8px; /* Smaller padding for buttons */
+            font-size: 10px; /* Smaller font size for buttons */
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .approval-buttons-group .btn-approve { background-color: var(--green-success); color: white; border-radius: 4px; }
+        .approval-buttons-group .btn-negotiate { background-color: var(--orange-warning); color: white; border-radius: 4px; }
+        .approval-buttons-group .btn-reject { background-color: var(--red-alert); color: white; border-radius: 4px; }
+
+        .approval-buttons-group .btn.selected {
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.3);
+        }
+
     </style>
 </head>
 <body>
@@ -1091,6 +1139,7 @@
             <div class="header-right">
                 <button class="btn-primary" id="novaSolicitacao"><i class="icon-plus"></i> Nova Solicitação</button>
                 <span class="header-icon" onclick="showScreenInfo()"><i class="icon-question"></i></span>
+                <button class="btn-secondary" id="logoutButton">Sair (Logout)</button>
             </div>
         </header>
 
@@ -1158,9 +1207,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="footer-button">
-                <button class="btn-secondary" id="logoutButton">Sair (Logout)</button>
-            </div>
+            <!-- Removed footer-button from here -->
         </div>
     </div>
 
@@ -1413,6 +1460,7 @@
             </div>
             <div class="header-right">
                 <span class="header-icon" onclick="showScreenInfo()"><i class="icon-question"></i></span>
+                <button class="btn-secondary" id="purchasingLogoutButton">Sair (Logout)</button>
             </div>
         </header>
         <div class="container">
@@ -1587,10 +1635,16 @@
             </div>
             <div class="header-right">
                 <span class="header-icon" onclick="showScreenInfo()"><i class="icon-question"></i></span>
+                <button class="btn-secondary" id="renatoLogoutButton">Sair (Logout)</button>
             </div>
         </header>
         <div class="container">
-            <div id="pendingOrdersList">
+            <div class="tab-buttons" id="renatoApprovalTabButtons">
+                <button class="tab-button active" onclick="switchRenatoApprovalTab('pendingApproval')">Aguardando Aprovação</button>
+                <button class="tab-button" onclick="switchRenatoApprovalTab('rejectedOrders')">Pedidos Rejeitados</button>
+            </div>
+
+            <div id="pendingApprovalTab" class="tab-content active">
                 <h2 class="text-xl font-semibold mb-4">Pedidos Aguardando Sua Aprovação</h2>
                 <div class="table-container">
                     <table class="w-full">
@@ -1607,6 +1661,28 @@
                             </tr>
                         </thead>
                         <tbody id="pendingOrdersTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="rejectedOrdersTab" class="tab-content">
+                <h2 class="text-xl font-semibold mb-4">Pedidos Rejeitados</h2>
+                <div class="table-container">
+                    <table class="w-full">
+                        <thead>
+                            <tr>
+                                <th>ID SOLICITAÇÃO PRINCIPAL</th>
+                                <th>Nº PO</th>
+                                <th>CLIENTE (NOME)</th>
+                                <th>FORNECEDOR (NOME)</th>
+                                <th>VALOR TOTAL</th>
+                                <th>ÚLTIMA ATUALIZAÇÃO</th>
+                                <th>STATUS</th>
+                                <th>AÇÃO</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rejectedOrdersTableBody">
                         </tbody>
                     </table>
                 </div>
@@ -1634,6 +1710,7 @@
                 </div>
             </div>
         </div>
+        <!-- Removed footer-button from here -->
     </div>
 
     <div id="hongKongFinalScreen" class="page">
@@ -1728,7 +1805,7 @@
         let simulatedSupplierOrders = {};
         let simulatedColombiaOrder = null;
         let currentOrderDetails = null;
-        let currentUserClientName = "Cliente Prototipo";
+        let currentUserClientName = "Cliente Mexico"; // Updated default client name
         let nextParentRequestCounter = 1;
         let nextPurchaseOrderIdCounter = 0;
         let nextSapOrderIdCounter = 1;
@@ -1765,109 +1842,125 @@
         const supplierNameMap = {};
         let nextSupplierCode = 22;
 
+        // New client names
+        const clientNames = ["Cliente Mexico", "Cliente Chile", "Cliente Paraguai", "Cliente Colombia"];
+        let clientIndex = 0;
+
+        // Function to assign client names cyclically, avoiding "Cliente Colombia" for "Colômbia" origin
+        function assignClientName(originCountry) {
+            let assignedClient = clientNames[clientIndex % clientNames.length];
+            // Ensure "Cliente Colombia" is not assigned to "Colômbia" origin
+            if (originCountry === 'Colômbia' && assignedClient === 'Cliente Colombia') {
+                clientIndex++; // Skip "Cliente Colombia" for this origin
+                assignedClient = clientNames[clientIndex % clientNames.length];
+            }
+            clientIndex++;
+            return assignedClient;
+        }
+
         const orders = [
             {
-                orderId: 'PED-001', parentOrderId: 'SOL-001', clientFlag: 'TOTVS BRASIL', originCountry: 'Hong Kong',
+                orderId: 'PED-001', parentOrderId: 'SOL-001', clientFlag: assignClientName('Hong Kong'), originCountry: 'Hong Kong',
                 totalValue: 1550.00, status: 'Pendente', requestDate: '2025-06-20', lastUpdateDate: '2025-06-20',
                 supplier: 'Fornecedor A', products: [{ code: 'PROD001', description: 'Smartphone Premium X1', quantity: 10, unitPrice: 155.00, cubageUnit: 0.005 }]
             },
             {
-                orderId: 'PED-002', parentOrderId: 'SOL-009', clientFlag: 'ACME Corp', originCountry: 'Colômbia',
+                orderId: 'PED-002', parentOrderId: 'SOL-009', clientFlag: assignClientName('Colômbia'), originCountry: 'Colômbia',
                 totalValue: 1200.00, status: 'Pendente', requestDate: '2025-06-21', lastUpdateDate: '2025-06-21',
                 supplier: 'Fornecedor B', products: [{ code: 'PROD007', description: 'Cadeira Ergonômica', quantity: 2, unitPrice: 600.00, cubageUnit: 0.15 }]
             },
             {
-                orderId: 'PED-003', parentOrderId: 'SOL-002', clientFlag: 'Global Tech', originCountry: 'Hong Kong',
+                orderId: 'PED-003', parentOrderId: 'SOL-002', clientFlag: assignClientName('Hong Kong'), originCountry: 'Hong Kong',
                 totalValue: 300.00, status: 'Rejeitado', requestDate: '2025-06-18', lastUpdateDate: '2025-06-19',
                 supplier: 'Fornecedor A', products: [{ code: 'PROD003', description: 'Fone Bluetooth Max', quantity: 5, unitPrice: 45.00, cubageUnit: 0.001 }, { code: 'PROD006', description: 'Bateria Portátil Mega', quantity: 5, unitPrice: 25.00, cubageUnit: 0.0005 }]
             },
             {
-                orderId: 'PED-004', parentOrderId: 'SOL-010', clientFlag: 'Importadora Sul', originCountry: 'Colômbia',
+                orderId: 'PED-004', parentOrderId: 'SOL-010', clientFlag: assignClientName('Colômbia'), originCountry: 'Colômbia',
                 totalValue: 800.00, status: 'Entregue', requestDate: '2025-06-23', lastUpdateDate: '2025-06-23',
                 supplier: 'Fornecedor C', products: [{ code: 'PROD008', description: 'Impressora 3D Industrial', quantity: 1, unitPrice: 800.00, cubageUnit: 0.8 }]
             },
             {
-                orderId: 'PED-005', parentOrderId: 'SOL-003', clientFlag: 'Tech Solutions', originCountry: 'Hong Kong',
+                orderId: 'PED-005', parentOrderId: 'SOL-003', clientFlag: assignClientName('Hong Kong'), originCountry: 'Hong Kong',
                 totalValue: 454.00, status: 'Pendente', requestDate: '2025-06-24', lastUpdateDate: '2025-06-24',
                 supplier: 'Fornecedor B', products: [{ code: 'PROD001', description: 'Smartphone Premium X1', quantity: 2, unitPrice: 152.00, cubageUnit: 0.005 }, { code: 'PROD003', description: 'Fone Bluetooth Max', quantity: 3, unitPrice: 46.00, cubageUnit: 0.001 }]
             },
             {
-                orderId: 'PED-006', parentOrderId: 'SOL-003', clientFlag: 'Eletro Mundi', originCountry: 'Hong Kong',
+                orderId: 'PED-006', parentOrderId: 'SOL-003', clientFlag: assignClientName('Hong Kong'), originCountry: 'Hong Kong',
                 totalValue: 120.00, status: 'Chegada no Porto de Destino (ATA)', requestDate: '2025-06-24', lastUpdateDate: '2025-06-25',
                 supplier: 'Fornecedor A', products: [{ code: 'PROD004', description: 'Smartwatch Sport Y', quantity: 1, unitPrice: 80.00, cubageUnit: 0.002 }, { code: 'PROD006', description: 'Bateria Portátil Mega', quantity: 2, unitPrice: 20.00, cubageUnit: 0.0005 }]
             },
             {
-                orderId: 'PED-007', parentOrderId: 'SOL-004', clientFlag: 'Casa e Conforto', originCountry: 'Colômbia',
+                orderId: 'PED-007', parentOrderId: 'SOL-004', clientFlag: assignClientName('Colômbia'), originCountry: 'Colômbia',
                 totalValue: 1800.00, status: 'Em Conferência', requestDate: '2025-06-25', lastUpdateDate: '2025-06-25',
                 supplier: 'Fornecedor C', products: [{ code: 'PROD007', description: 'Cadeira Ergonômica', quantity: 3, unitPrice: 600.00, cubageUnit: 0.15 }]
             },
             {
-                orderId: 'PED-008', parentOrderId: 'SOL-011', clientFlag: 'Home Office Ltda', originCountry: 'Hong Kong',
+                orderId: 'PED-008', parentOrderId: 'SOL-011', clientFlag: assignClientName('Hong Kong'), originCountry: 'Hong Kong',
                 totalValue: 700.00, status: 'Carga Pronta', requestDate: '2025-06-25', lastUpdateDate: '2025-06-25',
                 supplier: 'Fornecedor B', products: [{ code: 'PROD009', description: 'Monitor Ultrawide', quantity: 2, unitPrice: 350.00, cubageUnit: 0.05 }]
             },
             {
-                orderId: 'PED-009', parentOrderId: 'SOL-005', clientFlag: 'Game Lovers', originCountry: 'Hong Kong',
+                orderId: 'PED-009', parentOrderId: 'SOL-005', clientFlag: assignClientName('Hong Kong'), originCountry: 'Hong Kong',
                 totalValue: 120.00, status: 'Aprovado', requestDate: '2025-06-26', lastUpdateDate: '2025-06-26',
                 supplier: 'Fornecedor A', products: [{ code: 'PROD010', description: 'Teclado Mecânico', quantity: 1, unitPrice: 80.00, cubageUnit: 0.01 }, { code: 'PROD011', description: 'Mouse Gamer', quantity: 1, unitPrice: 40.00, cubageUnit: 0.001 }]
             },
             {
-                orderId: 'PED-010', parentOrderId: 'SOL-005', clientFlag: 'Fotografia Profissional', originCountry: 'Hong Kong',
+                orderId: 'PED-010', parentOrderId: 'SOL-005', clientFlag: assignClientName('Hong Kong'), originCountry: 'Hong Kong',
                 totalValue: 960.00, status: 'Pendente', requestDate: '2025-06-26', lastUpdateDate: '2025-06-26',
                 supplier: 'Fornecedor C', products: [{ code: 'PROD005', description: 'Câmera Digital Ultra HD', quantity: 3, unitPrice: 320.00, cubageUnit: 0.01 }]
             },
             {
-                orderId: 'PED-011', parentOrderId: 'SOL-006', clientFlag: 'Acessórios Digitais', originCountry: 'Hong Kong',
+                orderId: 'PED-011', parentOrderId: 'SOL-006', clientFlag: assignClientName('Hong Kong'), originCountry: 'Hong Kong',
                 totalValue: 100.00, status: 'Cancelado', requestDate: '2025-06-27', lastUpdateDate: '2025-06-27',
                 supplier: 'Fornecedor A', products: [{ code: 'PROD003', description: 'Fone Bluetooth Max', quantity: 2, unitPrice: 50.00, cubageUnit: 0.001 }]
             },
             {
-                orderId: 'PED-012', parentOrderId: 'SOL-012', clientFlag: 'Tecnologia Avançada', originCountry: 'Colômbia',
+                orderId: 'PED-012', parentOrderId: 'SOL-012', clientFlag: assignClientName('Colômbia'), originCountry: 'Colômbia',
                 totalValue: 800.00, status: 'Em Rota de Entrega', requestDate: '2025-06-27', lastUpdateDate: '2025-06-27',
                 supplier: 'Fornecedor B', products: [{ code: 'PROD008', description: 'Impressora 3D Industrial', quantity: 1, unitPrice: 800.00, cubageUnit: 0.8 }]
             },
             {
-                orderId: 'PED-013', parentOrderId: 'SOL-007', clientFlag: 'Móveis Modernos', originCountry: 'Colômbia',
+                orderId: 'PED-013', parentOrderId: 'SOL-007', clientFlag: assignClientName('Colômbia'), originCountry: 'Colômbia',
                 totalValue: 1200.00, status: 'Pendente', requestDate: '2025-06-28', lastUpdateDate: '2025-06-28',
                 supplier: 'Fornecedor C', products: [{ code: 'PROD007', description: 'Cadeira Ergonômica', quantity: 2, unitPrice: 600.00, cubageUnit: 0.15 }]
             },
             {
-                orderId: 'PED-014', parentOrderId: 'SOL-013', clientFlag: 'Importadora Nova', originCountry: 'Hong Kong',
+                orderId: 'PED-014', parentOrderId: 'SOL-013', clientFlag: assignClientName('Hong Kong'), originCountry: 'Hong Kong',
                 totalValue: 160.00, status: 'Saída do Porto de Embarque (ATD)', requestDate: '2025-06-28', lastUpdateDate: '2025-06-28',
                 supplier: 'Fornecedor A', products: [{ code: 'PROD001', description: 'Smartphone Premium X1', quantity: 1, unitPrice: 160.00, cubageUnit: 0.005 }]
             },
             {
-                orderId: 'PED-015', parentOrderId: 'SOL-008', clientFlag: 'Cliente Prototipo', originCountry: 'Hong Kong',
+                orderId: 'PED-015', parentOrderId: 'SOL-008', clientFlag: assignClientName('Hong Kong'), originCountry: 'Hong Kong',
                 totalValue: 760.00, status: 'Pendente', requestDate: '2025-06-29', lastUpdateDate: '2025-06-29',
                 supplier: 'Fornecedor A', products: [{ code: 'PROD001', description: 'Smartphone Premium X1', quantity: 5, unitPrice: 152.00, cubageUnit: 0.005 }]
             },
             {
-                orderId: 'PED-016', parentOrderId: 'SOL-008', clientFlag: 'Cliente Prototipo', originCountry: 'Hong Kong',
+                orderId: 'PED-016', parentOrderId: 'SOL-008', clientFlag: assignClientName('Hong Kong'), originCountry: 'Hong Kong',
                 totalValue: 510.00, status: 'Pendente', requestDate: '2025-06-29', lastUpdateDate: '2025-06-29',
                 supplier: 'Fornecedor B', products: [{ code: 'PROD002', description: 'Tablet Pro Z', quantity: 2, unitPrice: 255.00, cubageUnit: 0.008 }]
             },
             {
-                orderId: 'PED-017', parentOrderId: 'SOL-014', clientFlag: 'New Client 1', originCountry: 'Hong Kong',
+                orderId: 'PED-017', parentOrderId: 'SOL-014', clientFlag: assignClientName('Hong Kong'), originCountry: 'Hong Kong',
                 totalValue: 840.00, status: 'Pendente', requestDate: '2025-06-30', lastUpdateDate: '2025-06-30',
                 supplier: 'Fornecedor C', products: [{ code: 'PROD003', description: 'Fone Bluetooth Max', quantity: 20, unitPrice: 42.00, cubageUnit: 0.001 }]
             },
             {
-                orderId: 'PED-018', parentOrderId: 'SOL-015', clientFlag: 'New Client 2', originCountry: 'Hong Kong',
+                orderId: 'PED-018', parentOrderId: 'SOL-015', clientFlag: assignClientName('Hong Kong'), originCountry: 'Hong Kong',
                 totalValue: 410.00, status: 'Pendente', requestDate: '2025-06-29', lastUpdateDate: '2025-06-29',
                 supplier: 'Fornecedor A', products: [{ code: 'PROD004', description: 'Smartwatch Sport Y', quantity: 5, unitPrice: 82.00, cubageUnit: 0.002 }]
             },
             {
-                orderId: 'PED-019', parentOrderId: 'SOL-016', clientFlag: 'New Client 3', originCountry: 'Hong Kong',
+                orderId: 'PED-019', parentOrderId: 'SOL-016', clientFlag: assignClientName('Hong Kong'), originCountry: 'Hong Kong',
                 totalValue: 310.00, status: 'Pendente', requestDate: '2025-06-30', lastUpdateDate: '2025-06-30',
                 supplier: 'Fornecedor B', products: [{ code: 'PROD005', description: 'Câmera Digital Ultra HD', quantity: 1, unitPrice: 310.00, cubageUnit: 0.01 }]
             },
             {
-                orderId: 'PED-020', parentOrderId: 'SOL-017', clientFlag: 'New Client 4', originCountry: 'Hong Kong',
+                orderId: 'PED-020', parentOrderId: 'SOL-017', clientFlag: assignClientName('Hong Kong'), originCountry: 'Hong Kong',
                 totalValue: 330.00, status: 'Pendente', requestDate: '2025-06-25', lastUpdateDate: '2025-06-25',
                 supplier: 'Fornecedor A', products: [{ code: 'PROD006', description: 'Bateria Portátil Mega', quantity: 15, unitPrice: 22.00, cubageUnit: 0.0005 }]
             },
             {
-                orderId: 'SAP-001', parentOrderId: 'SOL-018', clientFlag: 'Cliente Colômbia 1', originCountry: 'Colômbia',
+                orderId: 'SAP-001', parentOrderId: 'SOL-018', clientFlag: assignClientName('Colômbia'), originCountry: 'Colômbia', // This client will not be "Cliente Colombia"
                 totalValue: 500.00, status: 'Em Separação', requestDate: '2025-07-01', lastUpdateDate: '2025-07-01',
                 supplier: 'Fornecedor C', products: [{ code: 'PROD009', description: 'Monitor Ultrawide', quantity: 1, unitPrice: 350.00, cubageUnit: 0.05 }, { code: 'PROD003', description: 'Fone Bluetooth Max', quantity: 3, unitPrice: 50.00, cubageUnit: 0.001 }]
             }
@@ -2031,7 +2124,7 @@
                 case 'newOrderFormScreen':
                     info = `
                         <h2 style="font-size:1.3rem; font-weight:bold; margin-bottom:10px;">📝 Nova Solicitação de Compra</h2>
-                        <p>Crie uma nova solicitação de compra. Adicione produtos e selecione a filial de origem para cada um.</p>
+                        <p>Crie uma nova solicitação de compra. Adicione produtos e selecione a filial de origem para cada uno.</p>
                         <hr style="margin:16px 0;">
                         <ul style="margin-bottom:10px;">
                         <li><b>Pedido Fácil:</b> Adicione produtos rapidamente via upload de planilha ou colando códigos (para grandes volumes).</li>
@@ -2229,7 +2322,7 @@
              else if (username === 'gestor' && password === 'gestor') {
                 userRole = 'gestor';
                 showScreen('renatoApprovalScreen');
-                renderPendingRenatoApprovalList();
+                switchRenatoApprovalTab('pendingApproval'); // Default to pending approval tab
             }
             else if (username === 'dimpex' && password === 'dimpex') {
                 userRole = 'dimpex';
@@ -2344,6 +2437,29 @@
                 tabButtonsContainer.children[3].classList.add('active');
             }
             renderPurchasingCenterTables();
+        }
+
+        function switchRenatoApprovalTab(tabType) {
+            const pendingApprovalTab = document.getElementById('pendingApprovalTab');
+            const rejectedOrdersTab = document.getElementById('rejectedOrdersTab');
+            const tabButtonsContainer = document.getElementById('renatoApprovalTabButtons');
+
+            pendingApprovalTab.classList.remove('active');
+            rejectedOrdersTab.classList.remove('active');
+
+            Array.from(tabButtonsContainer.children).forEach(button => {
+                button.classList.remove('active');
+            });
+
+            if (tabType === 'pendingApproval') {
+                pendingApprovalTab.classList.add('active');
+                tabButtonsContainer.children[0].classList.add('active');
+                renderPendingRenatoApprovalList();
+            } else if (tabType === 'rejectedOrders') {
+                rejectedOrdersTab.classList.add('active');
+                tabButtonsContainer.children[1].classList.add('active');
+                renderRejectedRenatoApprovalList();
+            }
         }
 
         function backToOrderCenter() {
@@ -3076,7 +3192,7 @@
             simulatedColombiaOrder = {
                 orderId: newOrderId,
                 parentOrderId: currentParentOrderId,
-                clientFlag: currentUserClientName,
+                clientFlag: currentUserClientName, // Use the current user's client name
                 originCountry: 'Colômbia',
                 totalValue: totalValue,
                 status: 'Em Separação',
@@ -3342,7 +3458,7 @@
             filteredPOs.forEach(po => {
                 const row = document.createElement('tr');
                 const orderInMainList = orders.find(o => o.orderId === po.id);
-                const clientName = orderInMainList ? orderInMainList.clientFlag : 'N/A';
+                const clientName = orderInMainList ? orderInMainList.clientFlag : 'Cliente Desconhecido'; // Ensured no N/A
                 const supplierName = po.supplier || 'N/A';
                 const lastUpdateDate = orderInMainList ? orderInMainList.lastUpdateDate : po.date;
                 
@@ -3543,18 +3659,29 @@
 
         function simulateRenatoApprovalScreen() {
             showScreen('renatoApprovalScreen');
-            renderPendingRenatoApprovalList();
+            switchRenatoApprovalTab('pendingApproval');
         }
 
         function renderPendingRenatoApprovalList() {
             const pendingForRenato = generatedPurchaseOrders.filter(po =>
-                po.overallApprovalStatus === 'Aguardando Aprovação' || po.overallApprovalStatus === 'Rejeitado'
+                po.overallApprovalStatus === 'Aguardando Aprovação'
             ).sort((a, b) => {
                 if (a.date > b.date) return 1;
                 if (a.date < b.date) return -1;
                 return a.id.localeCompare(b.id);
             });
             renderPOTable('pendingOrdersTableBody', pendingForRenato, 'Visualizar', 'viewDetailedApproval');
+        }
+
+        function renderRejectedRenatoApprovalList() {
+            const rejectedForRenato = generatedPurchaseOrders.filter(po =>
+                po.overallApprovalStatus === 'Rejeitado'
+            ).sort((a, b) => {
+                if (a.date > b.date) return 1;
+                if (a.date < b.date) return -1;
+                return a.id.localeCompare(b.id);
+            });
+            renderPOTable('rejectedOrdersTableBody', rejectedForRenato, 'Visualizar', 'viewDetailedApproval');
         }
 
         function viewDetailedApproval(poId) {
@@ -3569,11 +3696,19 @@
                     return;
                 }
 
-                const pendingOrdersListDiv = document.getElementById('pendingOrdersList');
+                const pendingApprovalTab = document.getElementById('pendingApprovalTab');
+                const rejectedOrdersTab = document.getElementById('rejectedOrdersTab');
                 const detailedApprovalViewDiv = document.getElementById('detailedApprovalView');
+                const renatoApprovalTabButtons = document.getElementById('renatoApprovalTabButtons');
 
-                if (pendingOrdersListDiv) {
-                    pendingOrdersListDiv.classList.add('hidden');
+                if (pendingApprovalTab) {
+                    pendingApprovalTab.classList.add('hidden');
+                }
+                if (rejectedOrdersTab) {
+                    rejectedOrdersTab.classList.add('hidden');
+                }
+                if (renatoApprovalTabButtons) {
+                    renatoApprovalTabButtons.classList.add('hidden');
                 }
 
                 if (detailedApprovalViewDiv) {
@@ -3590,8 +3725,20 @@
 
         function backToPendingOrdersList() {
             document.getElementById('detailedApprovalView').classList.add('hidden');
-            document.getElementById('pendingOrdersList').classList.remove('hidden');
-            renderPendingRenatoApprovalList();
+            const pendingApprovalTab = document.getElementById('pendingApprovalTab');
+            const rejectedOrdersTab = document.getElementById('rejectedOrdersTab');
+            const renatoApprovalTabButtons = document.getElementById('renatoApprovalTabButtons');
+
+            if (pendingApprovalTab) {
+                pendingApprovalTab.classList.remove('hidden');
+            }
+            if (rejectedOrdersTab) {
+                rejectedOrdersTab.classList.remove('hidden');
+            }
+            if (renatoApprovalTabButtons) {
+                renatoApprovalTabButtons.classList.remove('hidden');
+            }
+            switchRenatoApprovalTab('pendingApproval'); // Go back to the pending tab
         }
 
         function renderSupplierApprovalCards() {
@@ -3883,6 +4030,13 @@
                 renderOrdersTable();
             } else if (currentScreen === 'purchasingCenterScreen') {
                 renderPurchasingCenterTables();
+            } else if (currentScreen === 'renatoApprovalScreen') {
+                const activeTabButton = document.querySelector('#renatoApprovalTabButtons .tab-button.active');
+                if (activeTabButton) {
+                    switchRenatoApprovalTab(activeTabButton.onclick.toString().match(/switchRenatoApprovalTab\('(\w+)'\)/)[1]);
+                } else {
+                    switchRenatoApprovalTab('pendingApproval');
+                }
             }
         }
 
@@ -4202,9 +4356,20 @@
                 novaSolicitacaoButton.addEventListener('click', () => showScreen('newOrderFormScreen'));
             }
 
-            const logoutButton = document.getElementById('logoutButton');
-            if (logoutButton) {
-                logoutButton.addEventListener('click', logout);
+            // Moved logout buttons to header and updated event listeners
+            const logoutButtonCentralPedidos = document.getElementById('logoutButton');
+            if (logoutButtonCentralPedidos) {
+                logoutButtonCentralPedidos.addEventListener('click', logout);
+            }
+
+            const purchasingLogoutButton = document.getElementById('purchasingLogoutButton');
+            if (purchasingLogoutButton) {
+                purchasingLogoutButton.addEventListener('click', logout);
+            }
+
+            const renatoLogoutButton = document.getElementById('renatoLogoutButton');
+            if (renatoLogoutButton) {
+                renatoLogoutButton.addEventListener('click', logout);
             }
         });
     </script>
