@@ -80,10 +80,10 @@
             background-color: var(--primary-color);
             color: #fff;
             border: none;
-            padding: 10px 20px;
+            padding: 5px 10px; /* Ajustado para menor */
             border-radius: 5px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px; /* Ajustado para menor */
             font-weight: 500;
             transition: background-color 0.2s ease-in-out;
             white-space: nowrap;
@@ -95,10 +95,10 @@
             background-color: var(--secondary-color);
             color: #fff;
             border: none;
-            padding: 10px 20px;
+            padding: 5px 10px; /* Ajustado para menor */
             border-radius: 5px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px; /* Ajustado para menor */
             font-weight: 500;
             transition: background-color 0.2s ease-in-out;
             white-space: nowrap;
@@ -110,10 +110,10 @@
             background-color: var(--red-alert);
             color: #fff;
             border: none;
-            padding: 10px 20px;
+            padding: 5px 10px; /* Ajustado para menor */
             border-radius: 5px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px; /* Ajustado para menor */
             font-weight: 500;
             transition: background-color 0.2s ease-in-out;
             white-space: nowrap;
@@ -124,7 +124,7 @@
         .icon-button {
             background: none;
             border: 1px solid var(--border-color);
-            padding: 8px;
+            padding: 3px; /* Ajustado para menor */
             border-radius: 5px;
             cursor: pointer;
             display: inline-flex;
@@ -267,8 +267,9 @@
         .status-indicator.pending-approval { background-color: var(--orange-warning); }
         .status-indicator.pending-inspection { background-color: var(--orange-warning); }
         .status-indicator.approved-inspection { background-color: var(--green-success); }
-        .status-indicator.reprovado-inspection { background-color: var(--red-alert); } /* Added for reprovado */
-        .status-indicator.n-a-inspection { background-color: var(--secondary-color); } /* Added for N/A */
+        .status-indicator.reprovado-inspection { background-color: var(--red-alert); }
+        .status-indicator.n-a-inspection { background-color: var(--secondary-color); }
+        .status-indicator.aprovado-com-ressalvas-inspection { background-color: var(--orange-warning); }
 
 
         .modal-overlay {
@@ -747,6 +748,143 @@
             white-space: nowrap;
         }
 
+        /* Styles for Inspection Report Modal */
+        #inspectionReportModal .modal-content {
+            max-width: 900px; /* Increased max-width for better product layout */
+            width: 90%;
+            padding: 20px;
+        }
+        #inspectionReportModal .report-section {
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        #inspectionReportModal .report-section-title {
+            background-color: #f0f0f0;
+            padding: 8px 10px;
+            margin: -10px -10px 10px -10px;
+            border-bottom: 1px solid #ccc;
+            font-weight: bold;
+            font-size: 15px;
+        }
+        #inspectionReportModal .report-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        #inspectionReportModal .report-item {
+            display: flex;
+            flex-direction: column;
+        }
+        #inspectionReportModal .report-label {
+            font-weight: 500;
+            color: #555;
+            font-size: 13px;
+            margin-bottom: 3px;
+        }
+        #inspectionReportModal .report-value {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+        #inspectionReportModal .report-item input[type="text"],
+        #inspectionReportModal .report-item input[type="date"],
+        #inspectionReportModal .report-item textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+            box-sizing: border-box;
+            background-color: #fff;
+        }
+        #inspectionReportModal .report-item textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+        
+        /* Product Inspection Specific Styles */
+        .inspection-table-container {
+            overflow-x: auto;
+            margin-top: 10px;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #e0e0e0;
+        }
+        .inspection-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fdfdfd;
+        }
+        .inspection-table th, .inspection-table td {
+            border: 1px solid #eee;
+            padding: 4px 6px; /* Ajustado para mais espaço */
+            text-align: center;
+            font-size: 11px; /* Ajustado para menor */
+            white-space: normal; /* Permitir quebra de linha */
+            word-break: break-word;
+        }
+        .inspection-table th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+            color: #555;
+            text-transform: uppercase;
+        }
+        .inspection-table td:first-child { /* Cód Produto */
+            text-align: left;
+            font-weight: 500;
+            color: #333;
+            max-width: 70px; 
+        }
+        .inspection-table td:nth-child(2) { /* Descrição */
+            max-width: 120px;
+        }
+        .inspection-table td:nth-child(3) { /* Quantidade */
+            max-width: 50px;
+        }
+        .inspection-table tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .icon-selection {
+            display: flex;
+            gap: 1px; /* Reduzido ainda mais */
+            justify-content: center;
+            align-items: center;
+        }
+        .icon-status {
+            width: 20px; /* Reduzido */
+            height: 20px; /* Reduzido */
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px; /* Reduzido */
+            cursor: pointer;
+            border: 2px solid #ccc;
+            transition: all 0.2s ease-in-out;
+            color: #666;
+            font-weight: bold;
+        }
+        .icon-status.conforme { background-color: #e6ffe6; color: var(--green-success); border-color: var(--green-success); }
+        .icon-status.nao-conforme { background-color: #ffe6e6; color: var(--red-alert); border-color: var(--red-alert); }
+        .icon-status.n-a { background-color: #f0f0f0; color: var(--secondary-color); border-color: var(--secondary-color); font-size: 7px; /* Ajustado N/A font size */ }
+
+        .icon-status:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .icon-status.active {
+            box-shadow: 0 0 0 3px var(--primary-color);
+            transform: scale(1.1);
+        }
+        .icon-status.conforme.active { background-color: var(--green-success); color: #fff; }
+        .icon-status.nao-conforme.active { background-color: var(--red-alert); color: #fff; }
+        .icon-status.n-a.active { background-color: var(--secondary-color); color: #fff; }
+
+
         @media (max-width: 1200px) {
             .detail-grid {
                 grid-template-columns: repeat(4, 1fr);
@@ -759,6 +897,16 @@
             }
             .followup-section {
                 flex-direction: column;
+            }
+            #inspectionReportModal .report-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            }
+            /* Adjust table for smaller screens */
+            .inspection-table-container {
+                overflow-x: auto;
+            }
+            .inspection-table {
+                min-width: 550px; /* Adjusted min-width for better fit */
             }
         }
 
@@ -805,6 +953,13 @@
             .tabs-container {
                 flex-wrap: wrap;
             }
+            #inspectionReportModal .report-grid {
+                grid-template-columns: 1fr;
+            }
+            /* Ensure table is scrollable on very small screens */
+            .inspection-table {
+                min-width: 400px; /* Even smaller for mobile */
+            }
         }
 
         @media (max-width: 480px) {
@@ -820,6 +975,9 @@
             .followup-section {
                 flex-direction: column;
             }
+            .inspection-table {
+                min-width: 300px; /* Further reduction for tiny screens */
+            }
         }
     </style>
 </head>
@@ -829,6 +987,9 @@
             <div class="header-left">
                 <h1>Central Dimpex de Embarques</h1>
                 <p>Gerencie e acompanhe os embarques de Hong Kong.</p>
+            </div>
+            <div class="header-right">
+                <button class="btn-secondary" onclick="logout()">Sair (Logout)</button>
             </div>
         </header>
 
@@ -1248,16 +1409,65 @@
         </div>
     </div>
 
-    <!-- Novo Modal para Relatório de Inspeção -->
+    <!-- Novo Modal para Relatório de Inspeção Detalhado e Visual -->
     <div id="inspectionReportModal" class="modal-overlay">
-        <div class="modal-content" style="max-width: 800px; width: 90%;">
+        <div class="modal-content">
             <button class="modal-close-btn" onclick="closeInspectionReportModal()">&times;</button>
             <h3 style="color: var(--primary-color); margin-bottom: 15px;">Relatório de Inspeção da Engenharia</h3>
-            <div id="inspectionReportContentDisplay" style="white-space: pre-wrap; word-wrap: break-word; max-height: 70vh; overflow-y: auto; background-color: #f8f9fa; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); font-family: 'Roboto', sans-serif; font-size: 14px; line-height: 1.5; color: #333;">
-                <p id="inspectionReportContent"></p>
+            
+            <div class="report-section">
+                <div class="report-section-title">Dados do Embarque</div>
+                <div class="report-grid">
+                    <div class="report-item">
+                        <div class="report-label">Cliente:</div>
+                        <div class="report-value" id="reportCliente"></div>
+                    </div>
+                    <div class="report-item">
+                        <div class="report-label">Nº Pedido (Interno):</div>
+                        <div class="report-value" id="reportPedidoInterno"></div>
+                    </div>
+                    <div class="report-item">
+                        <div class="report-label">Embarque:</div>
+                        <div class="report-value" id="reportEmbarque"></div>
+                    </div>
+                    <div class="report-item">
+                        <div class="report-label">Fornecedor:</div>
+                        <div class="report-value" id="reportFornecedor"></div>
+                    </div>
+                </div>
             </div>
+
+            <div class="report-section">
+                <div class="report-section-title">Dados da Inspeção</div>
+                <div class="report-grid">
+                    <div class="report-item">
+                        <div class="report-label">Data de início da inspeção:</div>
+                        <input type="date" id="reportDataInicioInspecao">
+                    </div>
+                    <div class="report-item">
+                        <div class="report-label">Data de fim inspeção:</div>
+                        <input type="date" id="reportDataFimInspecao">
+                    </div>
+                    <div class="report-item">
+                        <div class="report-label">Responsável:</div>
+                        <input type="text" id="reportResponsavel">
+                    </div>
+                    <div class="report-item" style="grid-column: 1 / -1;">
+                        <div class="report-label">Observações Gerais:</div>
+                        <textarea id="reportObservacoesGerais" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="report-section">
+                <div class="report-section-title">Aspectos Gerais da Carga por Produto</div>
+                <div id="productInspectionContainer" class="inspection-table-container">
+                    <!-- Product-specific inspection items will be rendered here dynamically in a table -->
+                </div>
+            </div>
+
             <div class="modal-actions" style="margin-top: 20px; text-align: right;">
-                <button class="btn-primary" id="approveInspectionBtn">Aprovar Inspeção</button>
+                <button class="btn-primary" id="saveInspectionReportBtn">Salvar Relatório</button>
                 <button class="btn-danger" id="rejectInspectionBtn" style="margin-left: 10px;">Reprovar Inspeção</button>
                 <button class="btn-secondary" style="margin-left: 10px;" onclick="closeInspectionReportModal()">Fechar</button>
             </div>
@@ -1429,7 +1639,7 @@
         </div>
 
         <div class="footer-text">
-            Final data will be available at the documents, which will be sent with stamp and signature after sailing
+            Final data will be available at the documents, which will be sent with stamp and signature and signature after sailing
         </div>
     </div>
 
@@ -1443,6 +1653,9 @@
                 fornecedor: 'Fornecedor LONCIN',
                 fornecedorLoja: '01',
                 cliente: 'Cliente A',
+                clienteEndereco: 'Rua Exemplo, 123, Cidade, Estado',
+                clienteTelefone: '(11) 9999-8888',
+                clienteCnpj: '00.000.000/0001-00',
                 aprovacaoDate: '2025-06-29',
                 statusDimpex: 'Reserva de Espaço (Booking)',
                 shipmentName: 'EMB-001-CLIA',
@@ -1515,7 +1728,14 @@
                 pgSaldoCR: '20000.00',
                 dtPgSalCR: '2025-09-01',
                 dtFinalizado: '2025-08-25',
-                inspectionReport: { status: 'N/A', reportContent: '', approvalDate: '', approvedBy: '' }
+                inspectionReport: { 
+                    status: 'N/A', 
+                    dataInicio: '', 
+                    dataFim: '', 
+                    responsavel: '', 
+                    observacoesGerais: '',
+                    productInspections: [] // Will be populated dynamically
+                }
             },
             {
                 id: 'PED-019',
@@ -1523,6 +1743,9 @@
                 fornecedor: 'Fornecedor XY',
                 fornecedorLoja: '02',
                 cliente: 'Cliente B',
+                clienteEndereco: 'Rua Alfa, 456, Cidade, Estado',
+                clienteTelefone: '(21) 7777-6666',
+                clienteCnpj: '01.111.111/0001-11',
                 aprovacaoDate: '2025-06-30',
                 statusDimpex: 'Reserva de Espaço (Booking)',
                 shipmentName: 'EMB-002-CLIB',
@@ -1595,7 +1818,14 @@
                 pgSaldoCR: '13000.00',
                 dtPgSalCR: '2025-09-15',
                 dtFinalizado: '',
-                inspectionReport: { status: 'N/A', reportContent: '', approvalDate: '', approvedBy: '' }
+                inspectionReport: { 
+                    status: 'N/A', 
+                    dataInicio: '', 
+                    dataFim: '', 
+                    responsavel: '', 
+                    observacoesGerais: '',
+                    productInspections: [] 
+                }
             },
             {
                 id: 'PED-020',
@@ -1603,6 +1833,9 @@
                 fornecedor: 'Fornecedor LONCIN',
                 fornecedorLoja: '01',
                 cliente: 'Toyama Chile',
+                clienteEndereco: 'Av. Libertador, 789, Santiago, Chile',
+                clienteTelefone: '(56) 2222-1111',
+                clienteCnpj: '77.777.777/0001-77',
                 aprovacaoDate: '2025-06-25',
                 statusDimpex: 'Saída do Porto de Embarque (ATD)',
                 shipmentName: 'EMB-003-TYCH',
@@ -1672,9 +1905,21 @@
                 dtFinalizado: '',
                 inspectionReport: {
                     status: 'Aprovado',
-                    reportContent: `--- Relatório de Inspeção de Engenharia - Embarque EMB-003-TYCH ---\n\nData da Inspeção: 2025-07-01\nInspetor: João Silva (Engenharia)\n\nResultados da Inspeção:\n- Verificação de conformidade dos produtos: OK\n- Qualidade das embalagens: OK\n- Quantidade de itens: OK (15 unidades de Mini Bomba D'água)\n- Condições gerais da carga para embarque: Aprovado\n\nObservações Adicionais:\n- Pequenas marcas de manuseio na embalagem externa de uma caixa, mas sem impacto no produto.\n- Recomenda-se reforçar a proteção para futuras remessas de itens frágeis.\n\nStatus Final: APROVADO PARA EMBARQUE`,
-                    approvalDate: '2025-07-01',
-                    approvedBy: 'Engenharia'
+                    dataInicio: '2025-07-01',
+                    dataFim: '2025-07-01',
+                    responsavel: 'João Silva',
+                    observacoesGerais: 'Inspeção de rotina concluída. Pequenas marcas de manuseio na embalagem externa de uma caixa, mas sem impacto no produto. Recomenda-se reforçar a proteção para futuras remessas de itens frágeis.',
+                    productInspections: [
+                        {
+                            productCode: 'PROD003',
+                            description: 'Mini Bomba D\'água',
+                            conformidadePO: 'Conforme',
+                            qualidadeEmbalagem: 'Conforme',
+                            integridadeProdutos: 'Conforme',
+                            documentacaoEmbarque: 'Conforme',
+                            condicoesCarregamento: 'Conforme'
+                        }
+                    ]
                 }
             },
             {
@@ -1683,6 +1928,9 @@
                 fornecedor: 'Fornecedor XY',
                 fornecedorLoja: '02',
                 cliente: 'Cliente G',
+                clienteEndereco: 'Av. Principal, 789, Cidade, Estado',
+                clienteTelefone: '(31) 5555-4444',
+                clienteCnpj: '02.222.222/0001-22',
                 aprovacaoDate: '2025-07-05',
                 statusDimpex: 'Em Trânsito',
                 shipmentName: 'EMB-004-CLIG',
@@ -1752,9 +2000,21 @@
                 dtFinalizado: '',
                 inspectionReport: {
                     status: 'Aprovado',
-                    reportContent: `--- Relatório de Inspeção de Engenharia - Embarque EMB-004-CLIG ---\n\nData da Inspeção: 2025-07-10\nInspetor: Ana Costa (Engenharia)\n\nResultados da Inspeção:\n- Verificação de conformidade dos produtos: OK\n- Qualidade das embalagens: OK, exceto pequena avaria em uma caixa.\n- Quantidade de itens: OK (2 unidades de Gerador a Gasolina 5kVA)\n- Condições gerais da carga para embarque: Aprovado com ressalvas\n\nObservações Adicionais:\n- Uma das caixas apresentou um amassado leve na lateral. Verificado o produto internamente, sem danos aparentes.\n- Fotos anexadas ao relatório completo para documentação.\n\nStatus Final: APROVADO COM RESSALVAS`,
-                    approvalDate: '2025-07-10',
-                    approvedBy: 'Engenharia'
+                    dataInicio: '2025-07-10',
+                    dataFim: '2025-07-10',
+                    responsavel: 'Ana Costa',
+                    observacoesGerais: 'Uma das caixas apresentou um amassado leve na lateral. Verificado o produto internamente, sem danos aparentes. Fotos anexadas ao relatório completo para documentação.',
+                    productInspections: [
+                        {
+                            productCode: 'PROD002',
+                            description: 'Gerador a Gasolina 5kVA',
+                            conformidadePO: 'Conforme',
+                            qualidadeEmbalagem: 'Nao Conforme',
+                            integridadeProdutos: 'Conforme',
+                            documentacaoEmbarque: 'Conforme',
+                            condicoesCarregamento: 'Conforme'
+                        }
+                    ]
                 }
             },
             {
@@ -1763,6 +2023,9 @@
                 fornecedor: 'Fornecedor LONCIN',
                 fornecedorLoja: '01',
                 cliente: 'Cliente H',
+                clienteEndereco: 'Rua da Praia, 10, Salvador, Bahia',
+                clienteTelefone: '(71) 3333-2222',
+                clienteCnpj: '03.333.333/0001-33',
                 aprovacaoDate: '2025-07-06',
                 statusDimpex: 'Chegada no Porto de Destino (ATA)',
                 shipmentName: 'EMB-005-CLIh',
@@ -1832,9 +2095,21 @@
                 dtFinalizado: '',
                 inspectionReport: {
                     status: 'Pendente',
-                    reportContent: `--- Relatório de Inspeção de Engenharia - Embarque EMB-005-CLIh ---\n\nData da Inspeção: 2025-07-15\nInspetor: (Aguardando Designação)\n\nResultados da Inspeção:\n- Verificação de conformidade dos produtos: Pendente\n- Qualidade das embalagens: Pendente\n- Quantidade de itens: Pendente\n- Condições gerais da carga para embarque: Pendente\n\nObservações Adicionais:\n- A carga chegou ao porto de destino e está aguardando a inspeção física pela equipe de engenharia.\n- Necessário verificar a integridade dos produtos após o transporte marítimo.\n\nStatus Final: AGUARDANDO INSPEÇÃO`,
-                    approvalDate: '',
-                    approvedBy: ''
+                    dataInicio: '2025-07-15',
+                    dataFim: '',
+                    responsavel: 'Engenheiro Teste',
+                    observacoesGerais: 'A carga chegou ao porto de destino e está aguardando a inspeção física pela equipe de engenharia. Necessário verificar a integridade dos produtos após o transporte marítimo.',
+                    productInspections: [
+                        {
+                            productCode: 'PROD003',
+                            description: 'Mini Bomba D\'água',
+                            conformidadePO: 'N/A',
+                            qualidadeEmbalagem: 'N/A',
+                            integridadeProdutos: 'N/A',
+                            documentacaoEmbarque: 'N/A',
+                            condicoesCarregamento: 'N/A'
+                        }
+                    ]
                 }
             },
             {
@@ -1843,6 +2118,9 @@
                 fornecedor: 'Fornecedor XY',
                 fornecedorLoja: '02',
                 cliente: 'Cliente I',
+                clienteEndereco: 'Av. Central, 555, Fortaleza, Ceará',
+                clienteTelefone: '(85) 1111-2222',
+                clienteCnpj: '04.444.444/0001-44',
                 aprovacaoDate: '2025-07-07',
                 statusDimpex: 'Chegada no Porto de Destino (ATA)',
                 shipmentName: 'EMB-006-CLII',
@@ -1869,7 +2147,7 @@
                     { name: 'PO Aprovada (PED-027)', status: 'Recebido', receivedDate: '2025-07-07', dimpexApprovalStatus: 'Aceito', content: '--- Ordem de Compra Aprovada (PED-027) ---\n\nDetalhes da PO aprovada para Cliente I.\n\nConteúdo de exemplo para visualização.' },
                     { name: 'Bill of Lading (BL)', status: 'Recebido', receivedDate: '2025-07-18', dimpexApprovalStatus: 'Pendente', content: '--- Bill of Lading (BL) ---\n\nEste é um documento BL simulado. Conteúdo real seria o BL.' },
                     { name: 'Commercial Invoice', status: 'Recebido', receivedDate: '2025-07-18', dimpexApprovalStatus: 'Pendente', content: '--- Commercial Invoice ---\n\nEste é um documento de Commercial Invoice simulado. Conteúdo real seria a fatura comercial.' },
-                    { name: 'Packing List', status: 'Recebido', receivedDate: '2025-07-18', dimpexApprovalStatus: 'Pendente', content: '--- Packing List ---\n\nEste é um documento de Packing List simulado. Conteúdo real seria a lista de embalagem.' },
+                    { name: 'Packing List', status: 'Pendente', receivedDate: '2025-07-18', dimpexApprovalStatus: 'Pendente', content: '--- Packing List ---\n\nEste é um documento de Packing List simulado. Conteúdo real seria a lista de embalagem.' },
                     { name: 'Certificado de Conformidade', status: 'Pendente', receivedDate: '', dimpexApprovalStatus: 'N/A', content: '--- Certificado de Conformidade ---\n\nEste é um documento de Certificado de Conformidade simulado. Conteúdo real seria o certificado.' }
                 ],
                 productLines: [
@@ -1913,9 +2191,11 @@
                 dtFinalizado: '',
                 inspectionReport: {
                     status: 'N/A',
-                    reportContent: '',
-                    approvalDate: '',
-                    approvedBy: ''
+                    dataInicio: '', 
+                    dataFim: '', 
+                    responsavel: '', 
+                    observacoesGerais: '',
+                    productInspections: []
                 }
             },
             {
@@ -1924,6 +2204,9 @@
                 fornecedor: 'Fornecedor LONCIN',
                 fornecedorLoja: '01',
                 cliente: 'Cliente J',
+                clienteEndereco: 'Rua do Cerrado, 777, Goiânia, Goiás',
+                clienteTelefone: '(62) 4444-3333',
+                clienteCnpj: '05.555.555/0001-55',
                 aprovacaoDate: '2025-07-08',
                 statusDimpex: 'Chegada no Porto de Destino (ATA)',
                 shipmentName: 'EMB-007-CLIJ',
@@ -1994,9 +2277,21 @@
                 dtFinalizado: '',
                 inspectionReport: {
                     status: 'Reprovado',
-                    reportContent: `--- Relatório de Inspeção de Engenharia - Embarque EMB-007-CLIJ ---\n\nData da Inspeção: 2025-07-20\nInspetor: Carlos Mendes (Engenharia)\n\nResultados da Inspeção:\n- Verificação de conformidade dos produtos: REPROVADO\n- Qualidade das embalagens: OK\n- Quantidade de itens: OK (1 unidade de Gerador a Gasolina 5kVA)\n- Condições gerais da carga para embarque: Reprovado\n\nObservações Adicionais:\n- O gerador apresentou uma falha no sistema de partida durante o teste inicial.\n- Necessário retorno ao fornecedor para reparo ou substituição.\n- A carga NÃO está liberada para embarque até a resolução do problema.\n\nStatus Final: REPROVADO - AGUARDANDO AÇÃO CORRETIVA`,
-                    approvalDate: '2025-07-20',
-                    approvedBy: 'Engenharia'
+                    dataInicio: '2025-07-20',
+                    dataFim: '2025-07-20',
+                    responsavel: 'Carlos Mendes',
+                    observacoesGerais: 'O gerador apresentou uma falha no sistema de partida durante o teste inicial. Necessário retorno ao fornecedor para reparo ou substituição. A carga NÃO está liberada para embarque até a resolução do problema.',
+                    productInspections: [
+                        {
+                            productCode: 'PROD002',
+                            description: 'Gerador a Gasolina 5kVA',
+                            conformidadePO: 'Nao Conforme',
+                            qualidadeEmbalagem: 'Conforme',
+                            integridadeProdutos: 'Nao Conforme',
+                            documentacaoEmbarque: 'Conforme',
+                            condicoesCarregamento: 'N/A'
+                        }
+                    ]
                 }
             },
             {
@@ -2005,6 +2300,9 @@
                 fornecedor: 'Fornecedor XY',
                 fornecedorLoja: '02',
                 cliente: 'Cliente K',
+                clienteEndereco: 'Av. Paulista, 1000, São Paulo, SP',
+                clienteTelefone: '(11) 9876-5432',
+                clienteCnpj: '06.666.666/0001-66',
                 aprovacaoDate: '2025-07-09',
                 statusDimpex: 'Entrega ao Cliente',
                 shipmentName: 'EMB-008-CLIK',
@@ -2075,9 +2373,21 @@
                 dtFinalizado: '2025-07-31',
                 inspectionReport: {
                     status: 'Aprovado',
-                    reportContent: `--- Relatório de Inspeção de Engenharia - Embarque EMB-008-CLIK ---\n\nData da Inspeção: 2025-07-25\nInspetor: Fernanda Lima (Engenharia)\n\nResultados da Inspeção:\n- Verificação de conformidade dos produtos: OK\n- Qualidade das embalagens: OK\n- Quantidade de itens: OK (5 unidades de Mini Bomba D'água)\n- Condições gerais da carga para embarque: Aprovado\n\nObservações Adicionais:\n- Todos os testes de funcionalidade foram realizados com sucesso.\n- Carga pronta para despacho final ao cliente.\n\nStatus Final: APROVADO PARA DESPACHO`,
-                    approvalDate: '2025-07-25',
-                    approvedBy: 'Engenharia'
+                    dataInicio: '2025-07-25',
+                    dataFim: '2025-07-25',
+                    responsavel: 'Fernanda Lima',
+                    observacoesGerais: 'Todos os testes de funcionalidade foram realizados com sucesso. Carga pronta para despacho final ao cliente.',
+                    productInspections: [
+                        {
+                            productCode: 'PROD003',
+                            description: 'Mini Bomba D\'água',
+                            conformidadePO: 'Conforme',
+                            qualidadeEmbalagem: 'Conforme',
+                            integridadeProdutos: 'Conforme',
+                            documentacaoEmbarque: 'Conforme',
+                            condicoesCarregamento: 'Conforme'
+                        }
+                    ]
                 }
             }
         ];
@@ -2104,6 +2414,15 @@
                 return `${day}/${month}/${year}`;
             }
             return dateString;
+        }
+
+        function formatDateTime(dateTimeString) {
+            if (!dateTimeString) return 'N/A';
+            const date = new Date(dateTimeString);
+            if (isNaN(date.getTime())) return 'N/A'; // Invalid date
+            const datePart = date.toLocaleDateString('pt-BR');
+            const timePart = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            return `${datePart} às ${timePart}`;
         }
 
         function showMessage(title, content, type = 'info', onConfirm = null, onCancel = null) {
@@ -2265,7 +2584,7 @@
             if (currentDimpexOrder.inspectionReport) {
                 inspectionStatusElement.innerText = currentDimpexOrder.inspectionReport.status;
                 // Apply status class dynamically based on normalized status name
-                const normalizedStatus = currentDimpexOrder.inspectionReport.status.toLowerCase().replace(/ /g, '-');
+                const normalizedStatus = currentDimpexOrder.inspectionReport.status.toLowerCase().replace(/ /g, '-').replace(/\//g, '-');
                 inspectionStatusElement.className = `detail-value status-indicator ${normalizedStatus}-inspection`;
                 
                 inspectionApprovedByElement.innerText = currentDimpexOrder.inspectionReport.approvedBy || 'N/A';
@@ -2280,7 +2599,7 @@
                         openInspectionReportBtn.innerText = 'Ver Relatório Aprovado';
                         openInspectionReportBtn.classList.remove('btn-primary');
                         openInspectionReportBtn.classList.add('btn-secondary');
-                    } else if (currentDimpexOrder.inspectionReport.status === 'Reprovado' || currentDimpexOrder.inspectionReport.status === 'Pendente') {
+                    } else if (currentDimpexOrder.inspectionReport.status === 'Reprovado' || currentDimpexOrder.inspectionReport.status === 'Pendente' || currentDimpexOrder.inspectionReport.status === 'Aprovado com Ressalvas') {
                         openInspectionReportBtn.innerText = 'Abrir Relatório de Inspeção';
                         openInspectionReportBtn.classList.remove('btn-secondary');
                         openInspectionReportBtn.classList.add('btn-primary');
@@ -2386,10 +2705,25 @@
             if (newStatus === 'Carga Pronta' && (!currentDimpexOrder.inspectionReport || currentDimpexOrder.inspectionReport.status === 'N/A' || currentDimpexOrder.inspectionReport.status === 'Reprovado')) {
                 currentDimpexOrder.inspectionReport = {
                     status: 'Pendente',
-                    reportContent: `--- Relatório de Inspeção de Engenharia - Embarque ${currentDimpexOrder.shipmentName} ---\n\nData da Inspeção: ${new Date().toISOString().slice(0, 10)}\nInspetor: (Aguardando Designação)\n\nResultados da Inspeção:\n- Verificação de conformidade dos produtos: Pendente\n- Qualidade das embalagens: Pendente\n- Quantidade de itens: Pendente\n- Condições gerais da carga para embarque: Pendente\n\nObservações Adicionais:\n- A carga foi declarada pronta pelo fornecedor e está aguardando a inspeção física pela equipe de engenharia.\n- É crucial verificar a integridade e conformidade dos produtos antes do embarque.\n\nStatus Final: AGUARDANDO INSPEÇÃO`,
-                    approvalDate: '',
-                    approvedBy: ''
+                    dataInicio: new Date().toISOString().slice(0, 10), // Only date
+                    dataFim: '',
+                    responsavel: '',
+                    observacoesGerais: `A carga foi declarada pronta pelo fornecedor e está aguardando a inspeção física pela equipe de engenharia. É crucial verificar a integridade e conformidade dos produtos antes do embarque.`,
+                    productInspections: [] // Initialize empty, will be populated on modal open
                 };
+                // Populate productInspections with default N/A values for each product
+                currentDimpexOrder.productLines.forEach(product => {
+                    currentDimpexOrder.inspectionReport.productInspections.push({
+                        productCode: product.productCode,
+                        description: product.description,
+                        conformidadePO: 'N/A',
+                        qualidadeEmbalagem: 'N/A',
+                        integridadeProdutos: 'N/A',
+                        documentacaoEmbarque: 'N/A',
+                        condicoesCarregamento: 'N/A'
+                    });
+                });
+
             } else if (newStatus !== 'Carga Pronta' && currentDimpexOrder.inspectionReport && currentDimpexOrder.inspectionReport.status === 'Pendente') {
                 // If status moves past 'Carga Pronta' and inspection is still pending, it implies it was skipped or not required.
                 // For this simulation, we'll auto-approve it if it moves past 'Carga Pronta' without explicit action.
@@ -2397,7 +2731,7 @@
                 currentDimpexOrder.inspectionReport.status = 'Aprovado (Auto)';
                 currentDimpexOrder.inspectionReport.approvalDate = new Date().toISOString().slice(0, 10);
                 currentDimpexOrder.inspectionReport.approvedBy = 'Sistema Automático';
-                currentDimpexOrder.inspectionReport.reportContent += `\n\n--- APROVAÇÃO AUTOMÁTICA ---\nRelatório aprovado automaticamente pois o embarque avançou para a próxima etapa sem inspeção explícita.`;
+                currentDimpexOrder.inspectionReport.observacoesGerais += `\n\n--- APROVAÇÃO AUTOMÁTICA ---\nRelatório aprovado automaticamente pois o embarque avançou para a próxima etapa sem inspeção explícita.`;
             }
 
 
@@ -2469,7 +2803,14 @@
                 () => {
                     currentDimpexOrder.statusDimpex = 'Aprovado';
                     // Reset inspection report status if reverting to a previous stage
-                    currentDimpexOrder.inspectionReport = { status: 'N/A', reportContent: '', approvalDate: '', approvedBy: '' };
+                    currentDimpexOrder.inspectionReport = { 
+                        status: 'N/A', 
+                        dataInicio: '', 
+                        dataFim: '', 
+                        responsavel: '', 
+                        observacoesGerais: '',
+                        productInspections: [] 
+                    };
 
                     let allDimpexOrders = JSON.parse(localStorage.getItem('dimpexOrders')) || [];
                     const orderIndex = allDimpexOrders.findIndex(order => order.id === currentDimpexOrder.id);
@@ -2546,7 +2887,6 @@
                         const p = document.createElement('p');
                         p.style.cssText = 'margin-bottom: 10px; color: #444;';
                         p.innerText = line;
-                        documentViewerContent.appendChild(p);
                         currentList = null;
                     }
                 });
@@ -2733,13 +3073,13 @@
                     <td>${product.description || 'N/A'}</td>
                     <td>${product.item || 'N/A'}</td>
                     <td>${product.serialNumber || 'N/A'}</td>
-                    <td>${(product.grossWeight !== undefined && product.grossWeight !== null) ? product.grossWeight.toFixed(2).replace('.', '.', ',') : 'N/A'}</td>
-                    <td>${(product.netWeight !== undefined && product.netWeight !== null) ? product.netWeight.toFixed(2).replace('.', '.', ',') : 'N/A'}</td>
+                    <td>${(product.grossWeight !== undefined && product.grossWeight !== null) ? product.grossWeight.toFixed(2).replace('.', ',', '.') : 'N/A'}</td>
+                    <td>${(product.netWeight !== undefined && product.netWeight !== null) ? product.netWeight.toFixed(2).replace('.', ',', '.') : 'N/A'}</td>
                     <td>${(product.productCode || 'N/A')}</td>
                     <td>${product.quantity || 'N/A'} ${product.unitMeasure || ''}</td>
-                    <td>${(product.volumeM3 !== undefined && product.volumeM3 !== null) ? product.volumeM3.toFixed(3).replace('.', '.', ',') : 'N/A'}</td>
-                    <td>R$ ${(product.prcUnit !== undefined && product.prcUnit !== null) ? product.prcUnit.toFixed(2).replace('.', '.', ',') : 'N/A'}</td>
-                    <td>R$ ${(product.prcUnitFor !== undefined && product.prcUnitFor !== null) ? product.prcUnitFor.toFixed(2).replace('.', '.', ',') : 'N/A'}</td>
+                    <td>${(product.volumeM3 !== undefined && product.volumeM3 !== null) ? product.volumeM3.toFixed(3).replace('.', ',', '.') : 'N/A'}</td>
+                    <td>R$ ${(product.prcUnit !== undefined && product.prcUnit !== null) ? product.prcUnit.toFixed(2).replace('.', ',', '.') : 'N/A'}</td>
+                    <td>R$ ${(product.prcUnitFor !== undefined && product.prcUnitFor !== null) ? product.prcUnitFor.toFixed(2).replace('.', ',', '.') : 'N/A'}</td>
                 `;
                 tbody.appendChild(row);
             });
@@ -2946,105 +3286,210 @@
                 return;
             }
 
-            const inspectionReportModal = document.getElementById('inspectionReportModal');
-            const inspectionReportContentDisplay = document.getElementById('inspectionReportContentDisplay');
-            const approveBtn = document.getElementById('approveInspectionBtn');
-            const rejectBtn = document.getElementById('rejectInspectionBtn');
+            const report = currentDimpexOrder.inspectionReport;
 
-            // Clear previous content
-            inspectionReportContentDisplay.innerHTML = '';
+            // Populate shipment data
+            document.getElementById('reportCliente').innerText = currentDimpexOrder.cliente || 'N/A';
+            document.getElementById('reportPedidoInterno').innerText = currentDimpexOrder.id || 'N/A';
+            document.getElementById('reportEmbarque').innerText = currentDimpexOrder.shipmentName || 'N/A';
+            document.getElementById('reportFornecedor').innerText = currentDimpexOrder.fornecedor || 'N/A';
 
-            // Parse and display structured content
-            const lines = (currentDimpexOrder.inspectionReport.reportContent || 'Nenhum conteúdo de relatório disponível.').split('\n');
-            let currentList = null;
+            // Populate inspection data
+            document.getElementById('reportDataInicioInspecao').value = report.dataInicio || '';
+            document.getElementById('reportDataFimInspecao').value = report.dataFim || '';
+            document.getElementById('reportResponsavel').value = report.responsavel || '';
+            document.getElementById('reportObservacoesGerais').value = report.observacoesGerais || '';
 
-            lines.forEach(line => {
-                line = line.trim();
-                if (line.startsWith('---') && line.endsWith('---')) {
-                    const title = line.replace(/---/g, '').trim();
-                    const h4 = document.createElement('h4');
-                    h4.style.cssText = 'font-size: 16px; font-weight: 600; color: var(--primary-color); margin-top: 20px; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px;';
-                    h4.innerText = title;
-                    inspectionReportContentDisplay.appendChild(h4);
-                    currentList = null;
-                } else if (line.includes(':') && !line.startsWith('-')) {
-                    const parts = line.split(':', 2);
-                    const label = parts[0].trim();
-                    const value = parts[1] ? parts[1].trim() : '';
+            // Render product-specific inspections
+            renderProductInspections();
 
-                    const itemDiv = document.createElement('div');
-                    itemDiv.style.cssText = 'display: flex; margin-bottom: 5px;';
-                    
-                    const labelSpan = document.createElement('span');
-                    labelSpan.style.cssText = 'font-weight: 500; color: #555; min-width: 150px;';
-                    labelSpan.innerText = `${label}:`;
-                    
-                    const valueSpan = document.createElement('span');
-                    valueSpan.style.cssText = 'color: #333; flex-grow: 1;';
-                    valueSpan.innerText = value;
-
-                    itemDiv.appendChild(labelSpan);
-                    itemDiv.appendChild(valueSpan);
-                    inspectionReportContentDisplay.appendChild(itemDiv);
-                    currentList = null;
-                } else if (line.startsWith('-')) {
-                    if (!currentList) {
-                        currentList = document.createElement('ul');
-                        currentList.style.cssText = 'list-style: disc inside; margin-left: 20px; margin-bottom: 10px;';
-                        inspectionReportContentDisplay.appendChild(currentList);
-                    }
-                    const listItem = document.createElement('li');
-                    listItem.style.cssText = 'margin-bottom: 3px; color: #333;';
-                    listItem.innerText = line;
-                    currentList.appendChild(listItem);
-                }
-                else if (line) {
-                    const p = document.createElement('p');
-                    p.style.cssText = 'margin-bottom: 10px; color: #444;';
-                    p.innerText = line;
-                    inspectionReportContentDisplay.appendChild(p);
-                    currentList = null;
-                }
-            });
-
+            // Set button actions
+            document.getElementById('saveInspectionReportBtn').onclick = saveInspectionReport;
+            document.getElementById('rejectInspectionBtn').onclick = rejectInspectionReport;
 
             // Enable/disable buttons based on current inspection status
-            if (currentDimpexOrder.inspectionReport.status === 'Pendente' || currentDimpexOrder.inspectionReport.status === 'Reprovado') {
-                approveBtn.disabled = false;
-                rejectBtn.disabled = false;
-            } else {
-                approveBtn.disabled = true;
+            const saveBtn = document.getElementById('saveInspectionReportBtn');
+            const rejectBtn = document.getElementById('rejectInspectionBtn');
+
+            if (report.status === 'Aprovado' || report.status === 'Aprovado (Auto)') {
+                saveBtn.disabled = true;
                 rejectBtn.disabled = true;
+                saveBtn.innerText = 'Relatório Aprovado';
+                rejectBtn.innerText = 'Reprovado';
+            } else if (report.status === 'Reprovado') {
+                saveBtn.disabled = false;
+                rejectBtn.disabled = true; // Can't reject an already rejected report
+                saveBtn.innerText = 'Revisar e Aprovar';
+                rejectBtn.innerText = 'Já Reprovado';
+            } else { // Pendente, N/A, or Aprovado com Ressalvas
+                saveBtn.disabled = false;
+                rejectBtn.disabled = false;
+                saveBtn.innerText = 'Salvar Relatório';
+                rejectBtn.innerText = 'Reprovar Inspeção';
             }
 
-            approveBtn.onclick = approveInspectionReport;
-            rejectBtn.onclick = rejectInspectionReport;
-
-            inspectionReportModal.classList.add('active');
+            document.getElementById('inspectionReportModal').classList.add('active');
         }
 
         function closeInspectionReportModal() {
-            const inspectionReportModal = document.getElementById('inspectionReportModal');
-            if (inspectionReportModal) {
-                inspectionReportModal.classList.remove('active');
-            }
+            document.getElementById('inspectionReportModal').classList.remove('active');
         }
 
-        function approveInspectionReport() {
+        function renderProductInspections() {
+            const container = document.getElementById('productInspectionContainer');
+            container.innerHTML = ''; // Clear previous content
+
+            // Ensure productInspections is initialized based on productLines if empty
+            if (!currentDimpexOrder.inspectionReport.productInspections || currentDimpexOrder.inspectionReport.productInspections.length === 0) {
+                currentDimpexOrder.inspectionReport.productInspections = currentDimpexOrder.productLines.map(product => ({
+                    productCode: product.productCode,
+                    description: product.description,
+                    conformidadePO: 'N/A',
+                    qualidadeEmbalagem: 'N/A',
+                    integridadeProdutos: 'N/A',
+                    documentacaoEmbarque: 'N/A', // Keep this for internal data, but not displayed
+                    condicoesCarregamento: 'N/A'
+                }));
+                // Update localStorage immediately after populating
+                updateDimpexOrderInLocalStorage(currentDimpexOrder);
+            }
+
+            if (!currentDimpexOrder.inspectionReport.productInspections || currentDimpexOrder.inspectionReport.productInspections.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #777; padding: 15px;">Nenhum produto para inspeção neste embarque.</p>';
+                return;
+            }
+
+            // Map for display headers and corresponding data keys
+            const criteriaMap = {
+                conformidadePO: 'PO',
+                qualidadeEmbalagem: 'Embalagem',
+                integridadeProdutos: 'Integridade',
+                condicoesCarregamento: 'Condições'
+            };
+
+            let tableHtml = `
+                <table class="inspection-table">
+                    <thead>
+                        <tr>
+                            <th>Cód Produto</th>
+                            <th>Descrição</th>
+                            <th>Quantidade</th>
+                            ${Object.values(criteriaMap).map(criterionName => `<th>${criterionName}</th>`).join('')}
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            currentDimpexOrder.productLines.forEach((product, index) => {
+                const productInspection = currentDimpexOrder.inspectionReport.productInspections.find(pi => pi.productCode === product.productCode) || {};
+
+                tableHtml += `
+                    <tr>
+                        <td>${product.productCode || 'N/A'}</td>
+                        <td>${product.description || 'N/A'}</td>
+                        <td>${product.quantity || 'N/A'}</td>
+                        ${Object.keys(criteriaMap).map(criterionKey => `
+                            <td>
+                                <div class="icon-selection" data-product-index="${index}" data-criterion="${criterionKey}">
+                                    <span class="icon-status conforme ${productInspection[criterionKey] === 'Conforme' ? 'active' : ''}" data-value="Conforme">&#10003;</span>
+                                    <span class="icon-status nao-conforme ${productInspection[criterionKey] === 'Nao Conforme' ? 'active' : ''}" data-value="Nao Conforme">&#10007;</span>
+                                    <span class="icon-status n-a ${productInspection[criterionKey] === 'N/A' ? 'active' : ''}" data-value="N/A">N/A</span>
+                                </div>
+                            </td>
+                        `).join('')}
+                    </tr>
+                `;
+            });
+
+            tableHtml += `
+                    </tbody>
+                </table>
+            `;
+            container.innerHTML = tableHtml;
+
+            // Add event listeners to the new icon elements
+            container.querySelectorAll('.icon-status').forEach(icon => {
+                icon.addEventListener('click', function() {
+                    const productIndex = this.closest('.icon-selection').dataset.productIndex;
+                    const criterion = this.closest('.icon-selection').dataset.criterion;
+                    const value = this.dataset.value;
+
+                    // Update the active class for the clicked icon and its siblings
+                    this.closest('.icon-selection').querySelectorAll('.icon-status').forEach(sibling => {
+                        sibling.classList.remove('active');
+                    });
+                    this.classList.add('active');
+
+                    // Update the data model
+                    if (currentDimpexOrder && currentDimpexOrder.inspectionReport && currentDimpexOrder.inspectionReport.productInspections[productIndex]) {
+                        currentDimpexOrder.inspectionReport.productInspections[productIndex][criterion] = value;
+                    }
+                });
+            });
+        }
+
+
+        function saveInspectionReport() {
             if (!currentDimpexOrder) return;
 
-            currentDimpexOrder.inspectionReport.status = 'Aprovado';
-            currentDimpexOrder.inspectionReport.approvalDate = new Date().toISOString().slice(0, 10);
-            currentDimpexOrder.inspectionReport.approvedBy = 'Engenharia';
+            const report = currentDimpexOrder.inspectionReport;
+
+            // Get values from inputs
+            report.dataInicio = document.getElementById('reportDataInicioInspecao').value;
+            report.dataFim = document.getElementById('reportDataFimInspecao').value;
+            report.responsavel = document.getElementById('reportResponsavel').value;
+            report.observacoesGerais = document.getElementById('reportObservacoesGerais').value;
+
+            // Recalculate overall status based on product inspections
+            let hasNonConforme = false;
+            let allConformeOrNA = true;
+            let anyNA = false;
             
-            // Append approval message to the report content
-            currentDimpexOrder.inspectionReport.reportContent += `\n\n--- APROVAÇÃO DA ENGENHARIA ---\nRelatório aprovado por Engenharia em ${formatDate(currentDimpexOrder.inspectionReport.approvalDate)}. Carga liberada para prosseguir.`;
+            if (report.productInspections && report.productInspections.length > 0) {
+                report.productInspections.forEach(prodInsp => {
+                    // Only check the criteria that are actually displayed/managed by icons
+                    const criteriaToCheck = ['conformidadePO', 'qualidadeEmbalagem', 'integridadeProdutos', 'condicoesCarregamento'];
+                    criteriaToCheck.forEach(key => {
+                        if (prodInsp[key] === 'Nao Conforme') {
+                            hasNonConforme = true;
+                            allConformeOrNA = false; 
+                        } else if (prodInsp[key] === 'N/A') {
+                            anyNA = true;
+                        } else if (prodInsp[key] !== 'Conforme') {
+                            // If any criterion is not Conforme, Nao Conforme, or N/A, it's problematic
+                            allConformeOrNA = false;
+                        }
+                    });
+                });
+            } else {
+                // If there are no products to inspect, the report is N/A for product aspects
+                report.status = 'N/A';
+                updateDimpexOrderInLocalStorage(currentDimpexOrder);
+                showMessage('Sucesso', `Relatório de inspeção do embarque ${currentDimpexOrder.shipmentName} salvo com status: ${report.status}!`, 'success', () => {
+                    closeInspectionReportModal();
+                    renderDimpexOrderDetails();
+                });
+                return; // Exit function early
+            }
+
+            if (hasNonConforme) {
+                report.status = 'Reprovado';
+            } else if (allConformeOrNA && anyNA) {
+                report.status = 'Aprovado com Ressalvas'; // All are Conforme or N/A, but some are N/A
+            } else if (allConformeOrNA && !anyNA) {
+                report.status = 'Aprovado'; // All are Conforme
+            } else {
+                report.status = 'Pendente'; // Fallback, should ideally not be hit if all criteria are handled
+            }
+
+            report.approvalDate = new Date().toISOString().slice(0, 10);
+            report.approvedBy = report.responsavel || 'Engenharia';
 
             updateDimpexOrderInLocalStorage(currentDimpexOrder);
 
-            showMessage('Sucesso', `Relatório de inspeção do embarque ${currentDimpexOrder.shipmentName} aprovado pela Engenharia!`, 'success', () => {
+            showMessage('Sucesso', `Relatório de inspeção do embarque ${currentDimpexOrder.shipmentName} salvo com status: ${report.status}!`, 'success', () => {
                 closeInspectionReportModal();
-                renderDimpexOrderDetails(); // Re-render to update status display
+                renderDimpexOrderDetails();
             });
         }
 
@@ -3056,18 +3501,18 @@
                 `Tem certeza que deseja reprovar o relatório de inspeção do embarque ${currentDimpexOrder.shipmentName}?`,
                 'warning',
                 () => {
-                    currentDimpexOrder.inspectionReport.status = 'Reprovado';
-                    currentDimpexOrder.inspectionReport.approvalDate = new Date().toISOString().slice(0, 10);
-                    currentDimpexOrder.inspectionReport.approvedBy = 'Engenharia';
-                    
-                    // Append rejection message to the report content
-                    currentDimpexOrder.inspectionReport.reportContent += `\n\n--- REPROVAÇÃO DA ENGENHARIA ---\nRelatório reprovado por Engenharia em ${formatDate(currentDimpexOrder.inspectionReport.approvalDate)}. Carga retida para ação corretiva.`;
+                    const report = currentDimpexOrder.inspectionReport;
+                    report.status = 'Reprovado';
+                    report.dataFim = new Date().toISOString().slice(0, 10); // Set end date on rejection
+                    report.approvalDate = new Date().toISOString().slice(0, 10);
+                    report.approvedBy = report.responsavel || 'Engenharia';
+                    report.observacoesGerais += `\n\n[REPROVADO]: Reprovado pela Engenharia em ${formatDate(report.dataFim)}.`;
 
                     updateDimpexOrderInLocalStorage(currentDimpexOrder);
 
                     showMessage('Sucesso', `Relatório de inspeção do embarque ${currentDimpexOrder.shipmentName} reprovado pela Engenharia!`, 'success', () => {
                         closeInspectionReportModal();
-                        renderDimpexOrderDetails(); // Re-render to update status display
+                        renderDimpexOrderDetails();
                     });
                 }
             );
@@ -3084,45 +3529,110 @@
             localStorage.setItem('dimpexOrders', JSON.stringify(allDimpexOrders));
         }
 
+        function logout() {
+            showMessage(
+                'Confirmação',
+                'Tem certeza que deseja sair?',
+                'info',
+                () => {
+                    // In a real application, you would clear session data, cookies, etc.
+                    // For this prototype, we'll simply redirect to index.html
+                    window.location.href = 'index.html'; 
+                },
+                () => {
+                    // Do nothing if cancel is clicked
+                }
+            );
+        }
+
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Clear localStorage to ensure fresh data is loaded
-            localStorage.removeItem('dimpexOrders'); 
+            // It's good practice to keep this commented out for user's persistence,
+            // but for debugging, uncommenting it helps ensure fresh data.
+            // localStorage.removeItem('dimpexOrders'); 
 
             const storedAllOrders = localStorage.getItem('dimpexOrders');
             if (storedAllOrders) {
                 dimpexOrders = JSON.parse(storedAllOrders);
-                dimpexOrders.forEach(order => {
-                    // Ensure inspectionReport exists and has default values
-                    if (!order.inspectionReport) {
-                        order.inspectionReport = { status: 'N/A', reportContent: '', approvalDate: '', approvedBy: '' };
-                    }
-                    if (order.inspectionReport.status === undefined) {
-                        order.inspectionReport.status = 'N/A';
-                    }
-                    if (order.inspectionReport.reportContent === undefined) {
-                        order.inspectionReport.reportContent = '';
-                    }
-                    if (order.inspectionReport.approvalDate === undefined) {
-                        order.inspectionReport.approvalDate = '';
-                    }
-                    if (order.inspectionReport.approvedBy === undefined) {
-                        order.inspectionReport.approvedBy = '';
-                    }
-
-                    order.documents.forEach(doc => {
-                        if (doc.dimpexApprovalStatus === undefined) {
-                            doc.dimpexApprovalStatus = doc.status === 'Recebido' ? 'Pendente' : 'N/A';
-                        }
-                        if (doc.status === 'Recebido' && !doc.content) {
-                            doc.content = `--- Documento ${doc.name} ---\n\nConteúdo de exemplo para o documento ${doc.name}.\n\nEste é um placeholder para visualização.`;
-                        }
-                    });
-                });
             } else {
                 dimpexOrders = initialDimpexOrders;
-                localStorage.setItem('dimpexOrders', JSON.stringify(initialDimpexOrders));
             }
+
+            dimpexOrders.forEach(order => {
+                // Ensure inspectionReport exists
+                if (!order.inspectionReport) {
+                    order.inspectionReport = { 
+                        status: 'N/A', 
+                        dataInicio: '', 
+                        dataFim: '', 
+                        responsavel: '', 
+                        observacoesGerais: '',
+                        productInspections: [] 
+                    };
+                }
+
+                // Ensure all default fields for inspectionReport are present
+                const defaultReportFields = {
+                    dataInicio: '', dataFim: '', responsavel: '', observacoesGerais: ''
+                };
+                for (const key in defaultReportFields) {
+                    if (order.inspectionReport[key] === undefined) {
+                        order.inspectionReport[key] = defaultReportFields[key];
+                    }
+                }
+
+                // IMPORTANT: Re-populate productInspections based on productLines to ensure consistency
+                // This handles cases where old data might have empty or missing productInspections
+                if (order.productLines && order.productLines.length > 0) {
+                    // Create a map for existing product inspections by productCode for easy lookup
+                    const existingProductInspectionsMap = new Map();
+                    if (order.inspectionReport.productInspections) {
+                        order.inspectionReport.productInspections.forEach(pi => {
+                            existingProductInspectionsMap.set(pi.productCode, pi);
+                        });
+                    }
+
+                    // Rebuild productInspections, preserving existing data if productCode matches
+                    order.inspectionReport.productInspections = order.productLines.map(product => {
+                        const existing = existingProductInspectionsMap.get(product.productCode);
+                        if (existing) {
+                            // If an existing inspection for this productCode is found, use it
+                            return existing;
+                        } else {
+                            // Otherwise, create a new default inspection for this product
+                            return {
+                                productCode: product.productCode,
+                                description: product.description,
+                                conformidadePO: 'N/A',
+                                qualidadeEmbalagem: 'N/A',
+                                integridadeProdutos: 'N/A',
+                                documentacaoEmbarque: 'N/A', // Default to N/A if not explicitly set
+                                condicoesCarregamento: 'N/A'
+                            };
+                        }
+                    });
+                } else {
+                    // If no productLines, ensure productInspections is an empty array
+                    order.inspectionReport.productInspections = [];
+                }
+
+                // Ensure client details are present for the report
+                if (!order.clienteEndereco) order.clienteEndereco = 'Endereço Padrão';
+                if (!order.clienteTelefone) order.clienteTelefone = '(XX) XXXX-XXXX';
+                if (!order.clienteCnpj) order.clienteCnpj = 'XX.XXX.XXX/XXXX-XX';
+
+                order.documents.forEach(doc => {
+                    if (doc.dimpexApprovalStatus === undefined) {
+                        doc.dimpexApprovalStatus = doc.status === 'Recebido' ? 'Pendente' : 'N/A';
+                    }
+                    if (doc.status === 'Recebido' && !doc.content) {
+                        doc.content = `--- Documento ${doc.name} ---\n\nConteúdo de exemplo para o documento ${doc.name}.\n\nEste é um placeholder para visualização.`;
+                    }
+                });
+            });
+
+            // Save the potentially updated dimpexOrders back to localStorage
+            localStorage.setItem('dimpexOrders', JSON.stringify(dimpexOrders));
             showCentralPage();
         });
     </script>
