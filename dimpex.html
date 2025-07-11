@@ -80,10 +80,10 @@
             background-color: var(--primary-color);
             color: #fff;
             border: none;
-            padding: 5px 10px; /* Ajustado para menor */
+            padding: 5px 10px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 13px; /* Ajustado para menor */
+            font-size: 13px;
             font-weight: 500;
             transition: background-color 0.2s ease-in-out;
             white-space: nowrap;
@@ -95,10 +95,10 @@
             background-color: var(--secondary-color);
             color: #fff;
             border: none;
-            padding: 5px 10px; /* Ajustado para menor */
+            padding: 5px 10px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 13px; /* Ajustado para menor */
+            font-size: 13px;
             font-weight: 500;
             transition: background-color 0.2s ease-in-out;
             white-space: nowrap;
@@ -110,10 +110,10 @@
             background-color: var(--red-alert);
             color: #fff;
             border: none;
-            padding: 5px 10px; /* Ajustado para menor */
+            padding: 5px 10px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 13px; /* Ajustado para menor */
+            font-size: 13px;
             font-weight: 500;
             transition: background-color 0.2s ease-in-out;
             white-space: nowrap;
@@ -124,7 +124,7 @@
         .icon-button {
             background: none;
             border: 1px solid var(--border-color);
-            padding: 3px; /* Ajustado para menor */
+            padding: 3px;
             border-radius: 5px;
             cursor: pointer;
             display: inline-flex;
@@ -750,7 +750,7 @@
 
         /* Styles for Inspection Report Modal */
         #inspectionReportModal .modal-content {
-            max-width: 900px; /* Increased max-width for better product layout */
+            max-width: 900px;
             width: 90%;
             padding: 20px;
         }
@@ -820,10 +820,10 @@
         }
         .inspection-table th, .inspection-table td {
             border: 1px solid #eee;
-            padding: 4px 6px; /* Ajustado para mais espaço */
+            padding: 4px 6px;
             text-align: center;
-            font-size: 11px; /* Ajustado para menor */
-            white-space: normal; /* Permitir quebra de linha */
+            font-size: 11px;
+            white-space: normal;
             word-break: break-word;
         }
         .inspection-table th {
@@ -832,16 +832,16 @@
             color: #555;
             text-transform: uppercase;
         }
-        .inspection-table td:first-child { /* Cód Produto */
+        .inspection-table td:first-child {
             text-align: left;
             font-weight: 500;
             color: #333;
             max-width: 70px; 
         }
-        .inspection-table td:nth-child(2) { /* Descrição */
+        .inspection-table td:nth-child(2) {
             max-width: 120px;
         }
-        .inspection-table td:nth-child(3) { /* Quantidade */
+        .inspection-table td:nth-child(3) {
             max-width: 50px;
         }
         .inspection-table tbody tr:hover {
@@ -850,18 +850,18 @@
 
         .icon-selection {
             display: flex;
-            gap: 1px; /* Reduzido ainda mais */
+            gap: 1px;
             justify-content: center;
             align-items: center;
         }
         .icon-status {
-            width: 20px; /* Reduzido */
-            height: 20px; /* Reduzido */
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 10px; /* Reduzido */
+            font-size: 10px;
             cursor: pointer;
             border: 2px solid #ccc;
             transition: all 0.2s ease-in-out;
@@ -870,7 +870,6 @@
         }
         .icon-status.conforme { background-color: #e6ffe6; color: var(--green-success); border-color: var(--green-success); }
         .icon-status.nao-conforme { background-color: #ffe6e6; color: var(--red-alert); border-color: var(--red-alert); }
-        .icon-status.n-a { background-color: #f0f0f0; color: var(--secondary-color); border-color: var(--secondary-color); font-size: 7px; /* Ajustado N/A font size */ }
 
         .icon-status:hover {
             transform: scale(1.05);
@@ -882,7 +881,6 @@
         }
         .icon-status.conforme.active { background-color: var(--green-success); color: #fff; }
         .icon-status.nao-conforme.active { background-color: var(--red-alert); color: #fff; }
-        .icon-status.n-a.active { background-color: var(--secondary-color); color: #fff; }
 
 
         @media (max-width: 1200px) {
@@ -901,12 +899,11 @@
             #inspectionReportModal .report-grid {
                 grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             }
-            /* Adjust table for smaller screens */
             .inspection-table-container {
                 overflow-x: auto;
             }
             .inspection-table {
-                min-width: 550px; /* Adjusted min-width for better fit */
+                min-width: 550px;
             }
         }
 
@@ -956,9 +953,8 @@
             #inspectionReportModal .report-grid {
                 grid-template-columns: 1fr;
             }
-            /* Ensure table is scrollable on very small screens */
             .inspection-table {
-                min-width: 400px; /* Even smaller for mobile */
+                min-width: 400px;
             }
         }
 
@@ -976,7 +972,7 @@
                 flex-direction: column;
             }
             .inspection-table {
-                min-width: 300px; /* Further reduction for tiny screens */
+                min-width: 300px;
             }
         }
     </style>
@@ -1409,7 +1405,6 @@
         </div>
     </div>
 
-    <!-- Novo Modal para Relatório de Inspeção Detalhado e Visual -->
     <div id="inspectionReportModal" class="modal-overlay">
         <div class="modal-content">
             <button class="modal-close-btn" onclick="closeInspectionReportModal()">&times;</button>
@@ -1462,7 +1457,6 @@
             <div class="report-section">
                 <div class="report-section-title">Aspectos Gerais da Carga por Produto</div>
                 <div id="productInspectionContainer" class="inspection-table-container">
-                    <!-- Product-specific inspection items will be rendered here dynamically in a table -->
                 </div>
             </div>
 
@@ -1734,7 +1728,7 @@
                     dataFim: '', 
                     responsavel: '', 
                     observacoesGerais: '',
-                    productInspections: [] // Will be populated dynamically
+                    productInspections: []
                 }
             },
             {
@@ -1916,7 +1910,6 @@
                             conformidadePO: 'Conforme',
                             qualidadeEmbalagem: 'Conforme',
                             integridadeProdutos: 'Conforme',
-                            documentacaoEmbarque: 'Conforme',
                             condicoesCarregamento: 'Conforme'
                         }
                     ]
@@ -2011,7 +2004,6 @@
                             conformidadePO: 'Conforme',
                             qualidadeEmbalagem: 'Nao Conforme',
                             integridadeProdutos: 'Conforme',
-                            documentacaoEmbarque: 'Conforme',
                             condicoesCarregamento: 'Conforme'
                         }
                     ]
@@ -2106,7 +2098,6 @@
                             conformidadePO: 'N/A',
                             qualidadeEmbalagem: 'N/A',
                             integridadeProdutos: 'N/A',
-                            documentacaoEmbarque: 'N/A',
                             condicoesCarregamento: 'N/A'
                         }
                     ]
@@ -2288,7 +2279,6 @@
                             conformidadePO: 'Nao Conforme',
                             qualidadeEmbalagem: 'Conforme',
                             integridadeProdutos: 'Nao Conforme',
-                            documentacaoEmbarque: 'Conforme',
                             condicoesCarregamento: 'N/A'
                         }
                     ]
@@ -2384,7 +2374,6 @@
                             conformidadePO: 'Conforme',
                             qualidadeEmbalagem: 'Conforme',
                             integridadeProdutos: 'Conforme',
-                            documentacaoEmbarque: 'Conforme',
                             condicoesCarregamento: 'Conforme'
                         }
                     ]
@@ -2419,7 +2408,7 @@
         function formatDateTime(dateTimeString) {
             if (!dateTimeString) return 'N/A';
             const date = new Date(dateTimeString);
-            if (isNaN(date.getTime())) return 'N/A'; // Invalid date
+            if (isNaN(date.getTime())) return 'N/A';
             const datePart = date.toLocaleDateString('pt-BR');
             const timePart = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
             return `${datePart} às ${timePart}`;
@@ -2575,7 +2564,6 @@
             renderTracking(currentDimpexOrder.statusDimpex);
             safeSetValue('newStatusSelect', currentDimpexOrder.statusDimpex);
 
-            // Render Inspection Report section
             const inspectionStatusElement = document.getElementById('inspectionStatus');
             const inspectionApprovedByElement = document.getElementById('inspectionApprovedBy');
             const inspectionApprovalDateElement = document.getElementById('inspectionApprovalDate');
@@ -2583,14 +2571,12 @@
 
             if (currentDimpexOrder.inspectionReport) {
                 inspectionStatusElement.innerText = currentDimpexOrder.inspectionReport.status;
-                // Apply status class dynamically based on normalized status name
                 const normalizedStatus = currentDimpexOrder.inspectionReport.status.toLowerCase().replace(/ /g, '-').replace(/\//g, '-');
                 inspectionStatusElement.className = `detail-value status-indicator ${normalizedStatus}-inspection`;
                 
                 inspectionApprovedByElement.innerText = currentDimpexOrder.inspectionReport.approvedBy || 'N/A';
                 inspectionApprovalDateElement.innerText = formatDate(currentDimpexOrder.inspectionReport.approvalDate);
 
-                // Enable/Disable the inspection button based on status
                 const allowedStatusesForInspection = ['Carga Pronta', 'Reserva de Espaço (Booking)', 'Saída do Porto de Embarque (ATD)', 'Documentação Pendente', 'Documentação OK', 'Em Trânsito', 'Chegada no Porto de Destino (ATA)'];
                 if (allowedStatusesForInspection.includes(currentDimpexOrder.statusDimpex)) {
                     openInspectionReportBtn.disabled = false;
@@ -2613,7 +2599,7 @@
 
             } else {
                 inspectionStatusElement.innerText = 'N/A';
-                inspectionStatusElement.className = 'detail-value status-indicator n-a-inspection'; // Ensure N/A also gets a class
+                inspectionStatusElement.className = 'detail-value status-indicator n-a-inspection';
                 inspectionApprovedByElement.innerText = 'N/A';
                 inspectionApprovalDateElement.innerText = 'N/A';
                 openInspectionReportBtn.disabled = true;
@@ -2621,7 +2607,6 @@
                 openInspectionReportBtn.classList.remove('btn-primary');
                 openInspectionReportBtn.classList.add('btn-secondary');
             }
-
 
             renderProductsTable();
 
@@ -2701,17 +2686,15 @@
             const newStatusSelect = document.getElementById('newStatusSelect');
             const newStatus = newStatusSelect.value;
 
-            // Logic for Inspection Report status change
             if (newStatus === 'Carga Pronta' && (!currentDimpexOrder.inspectionReport || currentDimpexOrder.inspectionReport.status === 'N/A' || currentDimpexOrder.inspectionReport.status === 'Reprovado')) {
                 currentDimpexOrder.inspectionReport = {
                     status: 'Pendente',
-                    dataInicio: new Date().toISOString().slice(0, 10), // Only date
+                    dataInicio: new Date().toISOString().slice(0, 10),
                     dataFim: '',
                     responsavel: '',
                     observacoesGerais: `A carga foi declarada pronta pelo fornecedor e está aguardando a inspeção física pela equipe de engenharia. É crucial verificar a integridade e conformidade dos produtos antes do embarque.`,
-                    productInspections: [] // Initialize empty, will be populated on modal open
+                    productInspections: []
                 };
-                // Populate productInspections with default N/A values for each product
                 currentDimpexOrder.productLines.forEach(product => {
                     currentDimpexOrder.inspectionReport.productInspections.push({
                         productCode: product.productCode,
@@ -2719,34 +2702,19 @@
                         conformidadePO: 'N/A',
                         qualidadeEmbalagem: 'N/A',
                         integridadeProdutos: 'N/A',
-                        documentacaoEmbarque: 'N/A',
                         condicoesCarregamento: 'N/A'
                     });
                 });
 
             } else if (newStatus !== 'Carga Pronta' && currentDimpexOrder.inspectionReport && currentDimpexOrder.inspectionReport.status === 'Pendente') {
-                // If status moves past 'Carga Pronta' and inspection is still pending, it implies it was skipped or not required.
-                // For this simulation, we'll auto-approve it if it moves past 'Carga Pronta' without explicit action.
-                // In a real system, this would require a strict approval flow.
                 currentDimpexOrder.inspectionReport.status = 'Aprovado (Auto)';
                 currentDimpexOrder.inspectionReport.approvalDate = new Date().toISOString().slice(0, 10);
                 currentDimpexOrder.inspectionReport.approvedBy = 'Sistema Automático';
                 currentDimpexOrder.inspectionReport.observacoesGerais += `\n\n--- APROVAÇÃO AUTOMÁTICA ---\nRelatório aprovado automaticamente pois o embarque avançou para a próxima etapa sem inspeção explícita.`;
             }
 
-
             currentDimpexOrder.statusDimpex = newStatus;
-
-            let allDimpexOrders = JSON.parse(localStorage.getItem('dimpexOrders')) || [];
-            
-            const orderIndex = allDimpexOrders.findIndex(order => order.id === currentDimpexOrder.id);
-            if (orderIndex !== -1) {
-                allDimpexOrders[orderIndex] = currentDimpexOrder;
-                localStorage.setItem('dimpexOrders', JSON.stringify(allDimpexOrders));
-            } else {
-                allDimpexOrders.push(currentDimpexOrder);
-                localStorage.setItem('dimpexOrders', JSON.stringify(allDimpexOrders));
-            }
+            updateDimpexOrderInLocalStorage(currentDimpexOrder);
 
             showMessage('Sucesso', `Status do embarque ${currentDimpexOrder.shipmentName} atualizado para "${newStatus}"!`, 'success', () => {
                 renderDimpexOrderDetails();
@@ -2777,13 +2745,7 @@
             currentDimpexOrder.containerLCL = safeGetValue('detailContLCL');
             currentDimpexOrder.followUp = safeGetValue('detailFollowUp');
 
-            let allDimpexOrders = JSON.parse(localStorage.getItem('dimpexOrders')) || [];
-
-            const orderIndex = allDimpexOrders.findIndex(order => order.id === currentDimpexOrder.id);
-            if (orderIndex !== -1) {
-                allDimpexOrders[orderIndex] = currentDimpexOrder;
-                localStorage.setItem('dimpexOrders', JSON.stringify(allDimpexOrders));
-            }
+            updateDimpexOrderInLocalStorage(currentDimpexOrder);
 
             showMessage('Sucesso', `Detalhes do embarque ${currentDimpexOrder.shipmentName} salvos com sucesso!`, 'success', () => {
                 renderDimpexOrderDetails();
@@ -2802,7 +2764,6 @@
                 'warning',
                 () => {
                     currentDimpexOrder.statusDimpex = 'Aprovado';
-                    // Reset inspection report status if reverting to a previous stage
                     currentDimpexOrder.inspectionReport = { 
                         status: 'N/A', 
                         dataInicio: '', 
@@ -2812,12 +2773,7 @@
                         productInspections: [] 
                     };
 
-                    let allDimpexOrders = JSON.parse(localStorage.getItem('dimpexOrders')) || [];
-                    const orderIndex = allDimpexOrders.findIndex(order => order.id === currentDimpexOrder.id);
-                    if (orderIndex !== -1) {
-                        allDimpexOrders[orderIndex] = currentDimpexOrder;
-                        localStorage.setItem('dimpexOrders', JSON.stringify(allDimpexOrders));
-                    }
+                    updateDimpexOrderInLocalStorage(currentDimpexOrder);
                     showMessage('Sucesso', `Embarque ${currentDimpexOrder.shipmentName} estornado para "Aprovado" com sucesso!`, 'success', () => {
                         showCentralPage();
                     });
@@ -2988,13 +2944,7 @@
             currentDimpexOrder.documents[index].receivedDate = new Date().toISOString().slice(0, 10);
             currentDimpexOrder.documents[index].dimpexApprovalStatus = 'Pendente';
 
-            let allDimpexOrders = JSON.parse(localStorage.getItem('dimpexOrders')) || [];
-            
-            const orderIndex = allDimpexOrders.findIndex(order => order.id === currentDimpexOrder.id);
-            if (orderIndex !== -1) {
-                allDimpexOrders[orderIndex] = currentDimpexOrder;
-                localStorage.setItem('dimpexOrders', JSON.stringify(allDimpexOrders));
-            }
+            updateDimpexOrderInLocalStorage(currentDimpexOrder);
 
             showMessage('Sucesso', `Documento "${docName}" recebido com sucesso!`, 'success', () => {
                 renderDocumentsTable();
@@ -3011,14 +2961,7 @@
             }
 
             currentDimpexOrder.documents[index].dimpexApprovalStatus = 'Aceito';
-
-            let allDimpexOrders = JSON.parse(localStorage.getItem('dimpexOrders')) || [];
-            
-            const orderIndex = allDimpexOrders.findIndex(order => order.id === currentDimpexOrder.id);
-            if (orderIndex !== -1) {
-                allDimpexOrders[orderIndex] = currentDimpexOrder;
-                localStorage.setItem('dimpexOrders', JSON.stringify(allDimpexOrders));
-            }
+            updateDimpexOrderInLocalStorage(currentDimpexOrder);
 
             showMessage('Sucesso', `Documento "${docName}" aceito pelo Dimpex!`, 'success', () => {
                 renderDocumentsTable();
@@ -3040,17 +2983,10 @@
                 'warning',
                 () => {
                     currentDimpexOrder.documents[index].dimpexApprovalStatus = 'Recusado';
-
-                    let allDimpexOrders = JSON.parse(localStorage.getItem('dimpexOrders')) || [];
-                    
-                    const orderIndex = allDimpexOrders.findIndex(order => order.id === currentDimpexOrder.id);
-                    if (orderIndex !== -1) {
-                        allDimpexOrders[orderIndex] = currentDimpexOrder;
-                        localStorage.setItem('dimpexOrders', JSON.stringify(allDimpexOrders));
-                    }
+                    updateDimpexOrderInLocalStorage(currentDimpexOrder);
 
                     showMessage('Sucesso', `Documento "${docName}" recusado pelo Dimpex!`, 'success', () => {
-                        renderDocumentsTable(); // Re-render the table to reflect the change immediately
+                        renderDocumentsTable();
                     });
                 }
             );
@@ -3086,13 +3022,8 @@
         }
 
         function openTab(evt, tabName) {
-            let i, tabcontent, tabbuttons;
-
-            tabcontent = document.querySelectorAll("#dimpex-detail-page .tab-content");
-            tabcontent.forEach(el => el.classList.remove("active"));
-
-            tabbuttons = document.querySelectorAll("#dimpex-detail-page .tab-button");
-            tabbuttons.forEach(el => el.classList.remove("active"));
+            document.querySelectorAll("#dimpex-detail-page .tab-content").forEach(el => el.classList.remove("active"));
+            document.querySelectorAll("#dimpex-detail-page .tab-button").forEach(el => el.classList.remove("active"));
 
             const targetTab = document.getElementById(tabName);
             if (targetTab) {
@@ -3107,7 +3038,7 @@
                     'tabDocumentos': 'Documentos',
                     'tabFinanceiro': 'Financeiro'
                 };
-                const activeButton = Array.from(tabbuttons).find(button => button.innerText.includes(buttonText[tabName]));
+                const activeButton = Array.from(document.querySelectorAll("#dimpex-detail-page .tab-button")).find(button => button.innerText.includes(buttonText[tabName]));
                 if (activeButton) {
                     activeButton.classList.add('active');
                 }
@@ -3279,7 +3210,6 @@
             showMessage('Sucesso', `Dados financeiros do embarque ${currentDimpexOrder.shipmentName} simulados como enviados ao Protheus!`, 'success');
         }
 
-        // New functions for Inspection Report
         function openInspectionReportModal() {
             if (!currentDimpexOrder || !currentDimpexOrder.inspectionReport) {
                 showMessage('Erro', 'Relatório de inspeção não disponível para este embarque.', 'error');
@@ -3288,26 +3218,21 @@
 
             const report = currentDimpexOrder.inspectionReport;
 
-            // Populate shipment data
             document.getElementById('reportCliente').innerText = currentDimpexOrder.cliente || 'N/A';
             document.getElementById('reportPedidoInterno').innerText = currentDimpexOrder.id || 'N/A';
             document.getElementById('reportEmbarque').innerText = currentDimpexOrder.shipmentName || 'N/A';
             document.getElementById('reportFornecedor').innerText = currentDimpexOrder.fornecedor || 'N/A';
 
-            // Populate inspection data
             document.getElementById('reportDataInicioInspecao').value = report.dataInicio || '';
             document.getElementById('reportDataFimInspecao').value = report.dataFim || '';
             document.getElementById('reportResponsavel').value = report.responsavel || '';
             document.getElementById('reportObservacoesGerais').value = report.observacoesGerais || '';
 
-            // Render product-specific inspections
             renderProductInspections();
 
-            // Set button actions
             document.getElementById('saveInspectionReportBtn').onclick = saveInspectionReport;
             document.getElementById('rejectInspectionBtn').onclick = rejectInspectionReport;
 
-            // Enable/disable buttons based on current inspection status
             const saveBtn = document.getElementById('saveInspectionReportBtn');
             const rejectBtn = document.getElementById('rejectInspectionBtn');
 
@@ -3318,10 +3243,10 @@
                 rejectBtn.innerText = 'Reprovado';
             } else if (report.status === 'Reprovado') {
                 saveBtn.disabled = false;
-                rejectBtn.disabled = true; // Can't reject an already rejected report
+                rejectBtn.disabled = true;
                 saveBtn.innerText = 'Revisar e Aprovar';
                 rejectBtn.innerText = 'Já Reprovado';
-            } else { // Pendente, N/A, or Aprovado com Ressalvas
+            } else {
                 saveBtn.disabled = false;
                 rejectBtn.disabled = false;
                 saveBtn.innerText = 'Salvar Relatório';
@@ -3337,9 +3262,8 @@
 
         function renderProductInspections() {
             const container = document.getElementById('productInspectionContainer');
-            container.innerHTML = ''; // Clear previous content
+            container.innerHTML = '';
 
-            // Ensure productInspections is initialized based on productLines if empty
             if (!currentDimpexOrder.inspectionReport.productInspections || currentDimpexOrder.inspectionReport.productInspections.length === 0) {
                 currentDimpexOrder.inspectionReport.productInspections = currentDimpexOrder.productLines.map(product => ({
                     productCode: product.productCode,
@@ -3347,10 +3271,8 @@
                     conformidadePO: 'N/A',
                     qualidadeEmbalagem: 'N/A',
                     integridadeProdutos: 'N/A',
-                    documentacaoEmbarque: 'N/A', // Keep this for internal data, but not displayed
                     condicoesCarregamento: 'N/A'
                 }));
-                // Update localStorage immediately after populating
                 updateDimpexOrderInLocalStorage(currentDimpexOrder);
             }
 
@@ -3359,7 +3281,6 @@
                 return;
             }
 
-            // Map for display headers and corresponding data keys
             const criteriaMap = {
                 conformidadePO: 'PO',
                 qualidadeEmbalagem: 'Embalagem',
@@ -3393,7 +3314,6 @@
                                 <div class="icon-selection" data-product-index="${index}" data-criterion="${criterionKey}">
                                     <span class="icon-status conforme ${productInspection[criterionKey] === 'Conforme' ? 'active' : ''}" data-value="Conforme">&#10003;</span>
                                     <span class="icon-status nao-conforme ${productInspection[criterionKey] === 'Nao Conforme' ? 'active' : ''}" data-value="Nao Conforme">&#10007;</span>
-                                    <span class="icon-status n-a ${productInspection[criterionKey] === 'N/A' ? 'active' : ''}" data-value="N/A">N/A</span>
                                 </div>
                             </td>
                         `).join('')}
@@ -3407,20 +3327,17 @@
             `;
             container.innerHTML = tableHtml;
 
-            // Add event listeners to the new icon elements
             container.querySelectorAll('.icon-status').forEach(icon => {
                 icon.addEventListener('click', function() {
                     const productIndex = this.closest('.icon-selection').dataset.productIndex;
                     const criterion = this.closest('.icon-selection').dataset.criterion;
                     const value = this.dataset.value;
 
-                    // Update the active class for the clicked icon and its siblings
                     this.closest('.icon-selection').querySelectorAll('.icon-status').forEach(sibling => {
                         sibling.classList.remove('active');
                     });
                     this.classList.add('active');
 
-                    // Update the data model
                     if (currentDimpexOrder && currentDimpexOrder.inspectionReport && currentDimpexOrder.inspectionReport.productInspections[productIndex]) {
                         currentDimpexOrder.inspectionReport.productInspections[productIndex][criterion] = value;
                     }
@@ -3428,58 +3345,47 @@
             });
         }
 
-
         function saveInspectionReport() {
             if (!currentDimpexOrder) return;
 
             const report = currentDimpexOrder.inspectionReport;
 
-            // Get values from inputs
             report.dataInicio = document.getElementById('reportDataInicioInspecao').value;
             report.dataFim = document.getElementById('reportDataFimInspecao').value;
             report.responsavel = document.getElementById('reportResponsavel').value;
             report.observacoesGerais = document.getElementById('reportObservacoesGerais').value;
 
-            // Recalculate overall status based on product inspections
             let hasNonConforme = false;
-            let allConformeOrNA = true;
-            let anyNA = false;
+            let allConforme = true;
             
             if (report.productInspections && report.productInspections.length > 0) {
                 report.productInspections.forEach(prodInsp => {
-                    // Only check the criteria that are actually displayed/managed by icons
                     const criteriaToCheck = ['conformidadePO', 'qualidadeEmbalagem', 'integridadeProdutos', 'condicoesCarregamento'];
                     criteriaToCheck.forEach(key => {
                         if (prodInsp[key] === 'Nao Conforme') {
                             hasNonConforme = true;
-                            allConformeOrNA = false; 
-                        } else if (prodInsp[key] === 'N/A') {
-                            anyNA = true;
-                        } else if (prodInsp[key] !== 'Conforme') {
-                            // If any criterion is not Conforme, Nao Conforme, or N/A, it's problematic
-                            allConformeOrNA = false;
+                        }
+                        if (prodInsp[key] !== 'Conforme') {
+                            allConforme = false;
                         }
                     });
                 });
             } else {
-                // If there are no products to inspect, the report is N/A for product aspects
                 report.status = 'N/A';
                 updateDimpexOrderInLocalStorage(currentDimpexOrder);
                 showMessage('Sucesso', `Relatório de inspeção do embarque ${currentDimpexOrder.shipmentName} salvo com status: ${report.status}!`, 'success', () => {
                     closeInspectionReportModal();
                     renderDimpexOrderDetails();
                 });
-                return; // Exit function early
+                return;
             }
 
             if (hasNonConforme) {
                 report.status = 'Reprovado';
-            } else if (allConformeOrNA && anyNA) {
-                report.status = 'Aprovado com Ressalvas'; // All are Conforme or N/A, but some are N/A
-            } else if (allConformeOrNA && !anyNA) {
-                report.status = 'Aprovado'; // All are Conforme
+            } else if (allConforme) {
+                report.status = 'Aprovado';
             } else {
-                report.status = 'Pendente'; // Fallback, should ideally not be hit if all criteria are handled
+                report.status = 'Aprovado com Ressalvas';
             }
 
             report.approvalDate = new Date().toISOString().slice(0, 10);
@@ -3503,7 +3409,7 @@
                 () => {
                     const report = currentDimpexOrder.inspectionReport;
                     report.status = 'Reprovado';
-                    report.dataFim = new Date().toISOString().slice(0, 10); // Set end date on rejection
+                    report.dataFim = new Date().toISOString().slice(0, 10);
                     report.approvalDate = new Date().toISOString().slice(0, 10);
                     report.approvedBy = report.responsavel || 'Engenharia';
                     report.observacoesGerais += `\n\n[REPROVADO]: Reprovado pela Engenharia em ${formatDate(report.dataFim)}.`;
@@ -3535,22 +3441,14 @@
                 'Tem certeza que deseja sair?',
                 'info',
                 () => {
-                    // In a real application, you would clear session data, cookies, etc.
-                    // For this prototype, we'll simply redirect to index.html
                     window.location.href = 'index.html'; 
                 },
                 () => {
-                    // Do nothing if cancel is clicked
                 }
             );
         }
 
-
         document.addEventListener('DOMContentLoaded', () => {
-            // It's good practice to keep this commented out for user's persistence,
-            // but for debugging, uncommenting it helps ensure fresh data.
-            // localStorage.removeItem('dimpexOrders'); 
-
             const storedAllOrders = localStorage.getItem('dimpexOrders');
             if (storedAllOrders) {
                 dimpexOrders = JSON.parse(storedAllOrders);
@@ -3559,7 +3457,6 @@
             }
 
             dimpexOrders.forEach(order => {
-                // Ensure inspectionReport exists
                 if (!order.inspectionReport) {
                     order.inspectionReport = { 
                         status: 'N/A', 
@@ -3571,7 +3468,6 @@
                     };
                 }
 
-                // Ensure all default fields for inspectionReport are present
                 const defaultReportFields = {
                     dataInicio: '', dataFim: '', responsavel: '', observacoesGerais: ''
                 };
@@ -3581,10 +3477,7 @@
                     }
                 }
 
-                // IMPORTANT: Re-populate productInspections based on productLines to ensure consistency
-                // This handles cases where old data might have empty or missing productInspections
                 if (order.productLines && order.productLines.length > 0) {
-                    // Create a map for existing product inspections by productCode for easy lookup
                     const existingProductInspectionsMap = new Map();
                     if (order.inspectionReport.productInspections) {
                         order.inspectionReport.productInspections.forEach(pi => {
@@ -3592,31 +3485,25 @@
                         });
                     }
 
-                    // Rebuild productInspections, preserving existing data if productCode matches
                     order.inspectionReport.productInspections = order.productLines.map(product => {
                         const existing = existingProductInspectionsMap.get(product.productCode);
                         if (existing) {
-                            // If an existing inspection for this productCode is found, use it
                             return existing;
                         } else {
-                            // Otherwise, create a new default inspection for this product
                             return {
                                 productCode: product.productCode,
                                 description: product.description,
                                 conformidadePO: 'N/A',
                                 qualidadeEmbalagem: 'N/A',
                                 integridadeProdutos: 'N/A',
-                                documentacaoEmbarque: 'N/A', // Default to N/A if not explicitly set
                                 condicoesCarregamento: 'N/A'
                             };
                         }
                     });
                 } else {
-                    // If no productLines, ensure productInspections is an empty array
                     order.inspectionReport.productInspections = [];
                 }
 
-                // Ensure client details are present for the report
                 if (!order.clienteEndereco) order.clienteEndereco = 'Endereço Padrão';
                 if (!order.clienteTelefone) order.clienteTelefone = '(XX) XXXX-XXXX';
                 if (!order.clienteCnpj) order.clienteCnpj = 'XX.XXX.XXX/XXXX-XX';
@@ -3631,7 +3518,6 @@
                 });
             });
 
-            // Save the potentially updated dimpexOrders back to localStorage
             localStorage.setItem('dimpexOrders', JSON.stringify(dimpexOrders));
             showCentralPage();
         });
