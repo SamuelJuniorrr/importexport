@@ -19,8 +19,8 @@
             --red-alert: #dc3545;
             --green-success: #28a745;
             --orange-warning: #ffc107;
-            --colombia-bg: #e6f7ff; /* Light blue for Colombia */
-            --hongkong-bg: #fff3e0; /* Light orange for Hong Kong */
+            --colombia-bg: #e6f7ff;
+            --hongkong-bg: #fff3e0;
             --colombia-border: #90cdf4;
             --hongkong-border: #ffcc80;
         }
@@ -51,6 +51,10 @@
         .page.active {
             display: flex;
             flex-direction: column;
+        }
+
+        .hidden {
+            display: none !important;
         }
 
         .header {
@@ -269,8 +273,8 @@
         .icon-question::before { content: '?'; }
 
         .container {
-            max-width: 1200px; /* Largura fixa para todas as telas */
-            margin: 20px auto; /* Centraliza o contêiner */
+            max-width: 1200px;
+            margin: 20px auto;
             padding: 20px;
             background-color: #fff;
             border-radius: 8px;
@@ -291,10 +295,10 @@
 
         .filter-group {
             display: flex;
-            flex-direction: column; /* Labels above inputs */
-            gap: 5px; /* Space between label and input */
-            flex-grow: 1; /* Allow groups to grow */
-            min-width: 150px; /* Minimum width for filter groups */
+            flex-direction: column;
+            gap: 5px;
+            flex-grow: 1;
+            min-width: 150px;
         }
 
         .filter-group label {
@@ -309,16 +313,16 @@
             padding: 8px 10px;
             border: 1px solid var(--border-color);
             border-radius: 5px;
-            font-size: 14px; /* Increased font size for better readability */
+            font-size: 14px;
             min-width: 120px;
         }
 
         .search-group {
-            flex-grow: 2; /* Allow search to take more space */
+            flex-grow: 2;
             display: flex;
-            flex-direction: column; /* Label above input */
+            flex-direction: column;
             gap: 5px;
-            min-width: 250px; /* Minimum width for search group */
+            min-width: 250px;
         }
 
         .search-input-wrapper {
@@ -366,7 +370,7 @@
             color: #555;
             text-transform: uppercase;
             border-bottom: 1px solid var(--border-color);
-            white-space: nowrap; /* Ensure headers don't wrap */
+            white-space: nowrap;
         }
 
         table tbody td {
@@ -374,7 +378,7 @@
             border-bottom: 1px solid #f0f0f0;
             font-size: 13px;
             vertical-align: middle;
-            white-space: nowrap; /* Prevent content from wrapping */
+            white-space: nowrap;
         }
 
         table tbody tr:hover {
@@ -623,8 +627,6 @@
         #addedProductsTable {
             width: 100%;
             margin-top: 15px;
-            /* Remove table-layout: fixed to allow content to dictate width */
-            /* table-layout: fixed; */
         }
 
         #addedProductsTable th,
@@ -633,7 +635,7 @@
             text-align: left;
             border: 1px solid #eee;
             font-size: 12px;
-            word-wrap: break-word; /* Allow text to wrap if needed within cells */
+            word-wrap: break-word;
         }
 
         #addedProductsTable th {
@@ -641,10 +643,6 @@
             font-weight: 600;
             text-transform: uppercase;
         }
-
-        /* Adjusted widths for new columns */
-        /* These widths are now managed by the colgroup in the HTML */
-        /* #addedProductsTable th:nth-child(1), #addedProductsTable td:nth-child(1) { width: 8%; } */
 
         #addedProductsTable .remove-item-btn {
             background-color: var(--red-alert);
@@ -692,7 +690,6 @@
         .status-warning { color: var(--orange-warning); font-weight: bold; }
         .status-error { color: var(--red-alert); font-weight: bold; }
 
-        /* Status Indicator Styles */
         .status-indicator {
             display: inline-block;
             width: 10px;
@@ -705,11 +702,11 @@
         .status-indicator.red { background-color: var(--red-alert); }
         .status-indicator.blue { background-color: var(--primary-color); }
         .status-indicator.gray { background-color: var(--secondary-color); }
-        .status-indicator.purple { background-color: #800080; } /* Added for 'Negociado' */
+        .status-indicator.purple { background-color: #800080; }
 
 
         .modal-overlay {
-            display: none; /* Hidden by default */
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
@@ -721,7 +718,6 @@
             z-index: 1000;
         }
 
-        /* New rule to make modal visible when active */
         .modal-overlay.active {
             display: flex;
         }
@@ -770,7 +766,6 @@
             text-align: right;
         }
 
-        /* Styles for Product Catalog Modal */
         #productCatalogModal .modal-content {
             max-width: 800px;
         }
@@ -819,13 +814,11 @@
             cursor: pointer;
         }
 
-        /* New style for rows that need review */
         .needs-review {
-            background-color: #fff3cd !important; /* Light yellow background */
-            border: 1px solid #ffc107 !important; /* Orange border */
+            background-color: #fff3cd !important;
+            border: 1px solid #ffc107 !important;
         }
 
-        /* Styles for Unified Summary Screen */
         .summary-section {
             margin-bottom: 30px;
             padding-bottom: 20px;
@@ -872,12 +865,11 @@
             font-weight: bold;
         }
 
-        /* Styles for Order Details Screen - New Layout */
         .details-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px 20px; /* Row gap, column gap */
-            background-color: #f8f9fa; /* Light gray background */
+            gap: 10px 20px;
+            background-color: #f8f9fa;
             padding: 20px;
             border-radius: 8px;
             border: 1px solid var(--border-color);
@@ -888,7 +880,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 5px 0;
-            border-bottom: 1px dashed #e9ecef; /* Dashed line separator */
+            border-bottom: 1px dashed #e9ecef;
         }
 
         .detail-row:last-child {
@@ -898,39 +890,38 @@
         .detail-label {
             font-weight: 500;
             color: #555;
-            flex-basis: 40%; /* Adjust as needed */
+            flex-basis: 40%;
             text-align: left;
         }
 
         .detail-value {
             font-weight: 600;
             color: #333;
-            flex-basis: 60%; /* Adjust as needed */
+            flex-basis: 60%;
             text-align: right;
             display: flex;
-            justify-content: flex-end; /* Align content to the right */
+            justify-content: flex-end;
             align-items: center;
         }
 
-        /* Tracking Flow Styles for Order Details */
         .tracking-steps {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start; /* Align items to the start to prevent stretching */
+            align-items: flex-start;
             padding: 20px 0;
             position: relative;
             background-color: #fff;
             border-radius: 8px;
             box-shadow: var(--shadow);
-            overflow-x: auto; /* Enable horizontal scrolling for many steps */
-            white-space: nowrap; /* Prevent wrapping of steps */
-            min-height: 120px; /* Ensure enough height for content */
+            overflow-x: auto;
+            white-space: nowrap;
+            min-height: 120px;
         }
 
         .tracking-steps::before {
             content: '';
             position: absolute;
-            top: 40px; /* Aligns with the middle of the circle */
+            top: 40px;
             left: 20px;
             right: 20px;
             height: 2px;
@@ -942,11 +933,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            flex: 1; /* Distribute space evenly */
-            min-width: 100px; /* Minimum width for each step to prevent squishing */
+            flex: 1;
+            min-width: 100px;
             position: relative;
             z-index: 2;
-            padding: 0 10px; /* Add some padding for spacing */
+            padding: 0 10px;
         }
 
         .tracking-step .circle {
@@ -960,18 +951,17 @@
             font-weight: bold;
             color: #666;
             margin-bottom: 10px;
-            flex-shrink: 0; /* Prevent shrinking */
+            flex-shrink: 0;
         }
 
         .tracking-step span {
             font-size: 12px;
             text-align: center;
             color: #666;
-            word-wrap: break-word; /* Allow text to wrap within step */
-            white-space: normal; /* Allow text to wrap */
+            word-wrap: break-word;
+            white-space: normal;
         }
 
-        /* Status-specific styles for tracking steps */
         .tracking-step.completed .circle {
             background-color: var(--green-success);
             color: #fff;
@@ -1029,7 +1019,6 @@
             font-weight: bold;
         }
 
-        /* Styles for coloring columns by branch */
         .colombia-col {
             background-color: var(--colombia-bg);
             border-left: 1px solid var(--colombia-border);
@@ -1042,7 +1031,6 @@
             border-right: 1px solid var(--hongkong-border);
         }
 
-        /* Styles for Cubage Table */
         .cubage-table {
             width: 100%;
             border-collapse: collapse;
@@ -1053,9 +1041,9 @@
         .cubage-table th,
         .cubage-table td {
             border: 1px solid var(--border-color);
-            padding: 3px 5px; /* Further reduced padding */
+            padding: 3px 5px;
             text-align: left;
-            font-size: 11px; /* Further reduced font size */
+            font-size: 11px;
         }
 
         .cubage-table th {
@@ -1091,7 +1079,6 @@
         </div>
     </div>
 
-    <!-- Nova tela para o usuário DIMPEX -->
     <div id="dimpex-page" class="page">
         <iframe id="dimpexFrame" src="dimpex.html" style="width:100%; height:100%; border:none;"></iframe>
     </div>
@@ -1177,7 +1164,6 @@
         </div>
     </div>
 
-    <!-- Order Details Screen -->
     <div id="orderDetailsScreen" class="page">
         <header class="header">
             <div class="header-left">
@@ -1229,7 +1215,6 @@
             <div class="form-section">
                 <h2 class="text-xl font-semibold mb-4">Status de Rastreamento</h2>
                 <div id="orderTrackingSection" class="relative flex justify-between items-center my-8 p-4 bg-gray-50 rounded-lg shadow-inner">
-                    <!-- Tracking steps will be rendered here -->
                 </div>
             </div>
 
@@ -1247,7 +1232,6 @@
                             </tr>
                         </thead>
                         <tbody id="orderDetailsProductsTableBody">
-                            <!-- Products will be rendered here -->
                         </tbody>
                     </table>
                 </div>
@@ -1259,7 +1243,6 @@
         </div>
     </div>
 
-    <!-- Nova Solicitação de Compra Unified Page -->
     <div id="newOrderFormScreen" class="page">
         <header class="header">
             <div class="header-left">
@@ -1330,7 +1313,6 @@
                     <div class="input-group search-input">
                         <label for="clientProductCode">Cód Prod Cliente:</label>
                         <input type="text" id="clientProductCode" placeholder="Cód Cliente" oninput="updateProductDetailsOnClientCodeChange()">
-                        <!-- Magnifying glass button to open product catalog -->
                         <button class="btn-secondary" onclick="openProductCatalogModal()"><i class="icon-search"></i></button>
                     </div>
                     <div class="input-group">
@@ -1346,7 +1328,6 @@
                         <input type="number" id="productQuantity" value="1" min="1" oninput="handleQuantityChange()">
                         <div id="validationFeedback" class="text-xs mt-1"></div>
                     </div>
-                    <!-- Removed Filial selection from here -->
                     <div class="input-group" id="productValueGroup">
                         <label for="productValueDisplay">Valor Unit.:</label>
                         <input type="text" id="productValueDisplay" readonly value="R$ 0,00">
@@ -1372,7 +1353,6 @@
 
             <div class="products-added-section">
                 <div id="productList">
-                    <!-- Products added will be rendered here -->
                 </div>
             </div>
 
@@ -1383,7 +1363,6 @@
         </div>
     </div>
 
-    <!-- Unified Summary Screen -->
     <div id="summaryScreen" class="page">
         <header class="header">
             <div class="header-left">
@@ -1396,7 +1375,6 @@
         </header>
         <div class="container">
             <div id="unifiedSummaryContent">
-                <!-- Summary content will be rendered here -->
             </div>
             <div class="form-actions">
                 <button class="btn-secondary" onclick="backToProductEntry()">Voltar e Ajustar</button>
@@ -1405,7 +1383,6 @@
         </div>
     </div>
 
-    <!-- Purchase Order Screen -->
     <div id="purchaseOrderScreen" class="page">
         <header class="header">
             <div class="header-left">
@@ -1420,7 +1397,6 @@
             <div class="form-section">
                 <h2 class="text-xl font-semibold mb-4">Detalhes da Ordem de Compra (PO)</h2>
                 <div id="poDetails" class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <!-- PO details will be rendered here -->
                 </div>
             </div>
             <div class="form-actions">
@@ -1429,7 +1405,6 @@
         </div>
     </div>
 
-    <!-- Purchasing Center Screen -->
     <div id="purchasingCenterScreen" class="page">
         <header class="header">
             <div class="header-left">
@@ -1456,15 +1431,15 @@
                             <tr>
                                 <th>ID SOLICITAÇÃO PRINCIPAL</th>
                                 <th>Nº PO</th>
-                                <th>FORNECEDOR</th>
-                                <th>VALOR TOTAL (EST.)</th>
-                                <th>DATA SOLICITAÇÃO</th>
+                                <th>CLIENTE (NOME)</th>
+                                <th>FORNECEDOR (NOME)</th>
+                                <th>VALOR TOTAL</th>
+                                <th>ÚLTIMA ATUALIZAÇÃO</th>
                                 <th>STATUS</th>
                                 <th>AÇÃO</th>
                             </tr>
                         </thead>
                         <tbody id="negotiationTable">
-                            <!-- New POs will be rendered here -->
                         </tbody>
                     </table>
                 </div>
@@ -1478,15 +1453,15 @@
                             <tr>
                                 <th>ID SOLICITAÇÃO PRINCIPAL</th>
                                 <th>Nº PO</th>
-                                <th>FORNECEDOR</th>
-                                <th>VALOR TOTAL (NEG.)</th>
+                                <th>CLIENTE (NOME)</th>
+                                <th>FORNECEDOR (NOME)</th>
+                                <th>VALOR TOTAL</th>
                                 <th>ÚLTIMA ATUALIZAÇÃO</th>
                                 <th>STATUS</th>
                                 <th>AÇÃO</th>
                             </tr>
                         </thead>
                         <tbody id="negotiationInProgressTable">
-                            <!-- In-progress POs will be rendered here -->
                         </tbody>
                     </table>
                 </div>
@@ -1500,16 +1475,15 @@
                             <tr>
                                 <th>ID SOLICITAÇÃO PRINCIPAL</th>
                                 <th>Nº PO</th>
-                                <th>CLIENTE</th>
-                                <th>FORNECEDOR</th>
-                                <th>VALOR TOTAL (NEG.)</th>
-                                <th>DATA SOLICITAÇÃO</th>
+                                <th>CLIENTE (NOME)</th>
+                                <th>FORNECEDOR (NOME)</th>
+                                <th>VALOR TOTAL</th>
                                 <th>ÚLTIMA ATUALIZAÇÃO</th>
+                                <th>STATUS</th>
                                 <th>AÇÃO</th>
                             </tr>
                         </thead>
                         <tbody id="pendenteGerenciaTable">
-                            <!-- POs for Renato's action will be rendered here -->
                         </tbody>
                     </table>
                 </div>
@@ -1523,15 +1497,15 @@
                             <tr>
                                 <th>ID SOLICITAÇÃO PRINCIPAL</th>
                                 <th>Nº PO</th>
-                                <th>FORNECEDOR</th>
-                                <th>VALOR TOTAL (APROVADO)</th>
+                                <th>CLIENTE (NOME)</th>
+                                <th>FORNECEDOR (NOME)</th>
+                                <th>VALOR TOTAL</th>
                                 <th>ÚLTIMA ATUALIZAÇÃO</th>
                                 <th>STATUS</th>
                                 <th>AÇÃO</th>
                             </tr>
                         </thead>
                         <tbody id="aprovadoGerenciaTable">
-                            <!-- Approved POs will be rendered here -->
                         </tbody>
                     </table>
                 </div>
@@ -1539,7 +1513,6 @@
         </div>
     </div>
 
-    <!-- Purchasing Order Details Screen -->
     <div id="purchasingOrderDetailsScreen" class="page">
         <header class="header">
             <div class="header-left">
@@ -1593,7 +1566,6 @@
                             </tr>
                         </thead>
                         <tbody id="purchasingOrderProductsTableBody">
-                            <!-- Products will be rendered here with editable new supplier price -->
                         </tbody>
                     </table>
                 </div>
@@ -1607,7 +1579,6 @@
         </div>
     </div>
 
-    <!-- Renato Approval Screen -->
     <div id="renatoApprovalScreen" class="page">
         <header class="header">
             <div class="header-left">
@@ -1627,16 +1598,15 @@
                             <tr>
                                 <th>ID SOLICITAÇÃO PRINCIPAL</th>
                                 <th>Nº PO</th>
-                                <th>CLIENTE</th>
-                                <th>FORNECEDOR</th>
-                                <th>VALOR TOTAL (NEG.)</th>
-                                <th>DATA SOLICITAÇÃO</th>
+                                <th>CLIENTE (NOME)</th>
+                                <th>FORNECEDOR (NOME)</th>
+                                <th>VALOR TOTAL</th>
                                 <th>ÚLTIMA ATUALIZAÇÃO</th>
+                                <th>STATUS</th>
                                 <th>AÇÃO</th>
                             </tr>
                         </thead>
                         <tbody id="pendingOrdersTableBody">
-                            <!-- Pending POs for Renato will be rendered here -->
                         </tbody>
                     </table>
                 </div>
@@ -1645,7 +1615,6 @@
             <div id="detailedApprovalView" class="hidden">
                 <h2 class="text-xl font-semibold mb-4">Análise Detalhada da PO: <span id="currentDetailedParentOrderIdDisplay"></span></h2>
                 <div id="supplierApprovalCards">
-                    <!-- Supplier approval cards will be rendered here -->
                 </div>
                 <div id="globalDifferenceSummary" class="bg-blue-50 p-4 rounded-lg border border-blue-200 mt-6 hidden">
                     <h3 class="font-semibold text-lg text-blue-800 mb-2">Resumo Geral das Diferenças:</h3>
@@ -1667,7 +1636,6 @@
         </div>
     </div>
 
-    <!-- Hong Kong Final Screen (after Renato's approval) -->
     <div id="hongKongFinalScreen" class="page">
         <header class="header">
             <div class="header-left">
@@ -1682,7 +1650,6 @@
             <div class="form-section">
                 <h2 class="text-xl font-semibold mb-4">Detalhes da Aprovação</h2>
                 <div id="finalDetailsHK" class="bg-gray-50 p-4 rounded-lg border border-gray-200">
-                    <!-- Final details based on approval status -->
                 </div>
             </div>
             <div class="form-actions">
@@ -1691,7 +1658,6 @@
         </div>
     </div>
 
-    <!-- Modals -->
     <div id="summaryModal" class="modal-overlay">
         <div class="modal-content">
             <button class="modal-close-btn" onclick="document.getElementById('summaryModal').classList.remove('active');">&times;</button>
@@ -1725,7 +1691,6 @@
             </div>
             <div class="product-catalog-table-container">
                 <div id="productCatalogList">
-                    <!-- Product catalog will be loaded here -->
                 </div>
             </div>
             <div class="modal-actions">
@@ -1757,25 +1722,23 @@
     </div>
 
     <script>
-        // 1. Global Variable Declarations (all 'let' or 'const' here, once)
         let currentScreen = 'loginScreen';
         let productsInCurrentOrder = [];
         let userRole = 'guest';
-        let simulatedSupplierOrders = {}; // Initial empty object for Hong Kong POs
-        let simulatedColombiaOrder = null; // New global variable for Colombia NF-e
+        let simulatedSupplierOrders = {};
+        let simulatedColombiaOrder = null;
         let currentOrderDetails = null;
         let currentUserClientName = "Cliente Prototipo";
-        let nextParentRequestCounter = 1; // Initial value
-        let nextPurchaseOrderIdCounter = 0; // Initial value for PED-XXX
-        let nextSapOrderIdCounter = 1; // New counter for SAP-XXX orders
-        let currentParentOrderId = null; // Initial value
-        let currentViewingPO = null; // For Renato's approval screen
-        let currentPurchasingPO = null; // For Purchasing Order Details
+        let nextParentRequestCounter = 1;
+        let nextPurchaseOrderIdCounter = 0;
+        let nextSapOrderIdCounter = 1;
+        let currentParentOrderId = null;
+        let currentViewingPO = null;
+        let currentPurchasingPO = null;
 
         const MAX_CUBAGE_20HC = 37.4;
         const MAX_CUBAGE_40HC = 76.0;
 
-        // Updated productDatabase with originCountry for each product
         const productDatabase = {
             "PROD001": { code: "PROD001", clientCode: "SKU-001", description: "Smartphone Premium X1", moq: 3, unitPrice: 150.00, tableValue: 160.00, cubageUnit: 0.005, simulatedStock: 100, productLine: "Eletrônicos", supplier: "Fornecedor A", originCountry: "Hong Kong" },
             "PROD002": { code: "PROD002", clientCode: "SKU-002", description: "Tablet Pro Z", moq: 2, unitPrice: 250.00, tableValue: 265.00, cubageUnit: 0.008, simulatedStock: 50, productLine: "Eletrônicos", supplier: "Fornecedor B", originCountry: "Hong Kong" },
@@ -1910,9 +1873,7 @@
             }
         ];
 
-        // Define the initial state of generatedPurchaseOrders once
         const initialGeneratedPurchaseOrders = [
-            // Novas Solicitações (Pendente)
             {
                 parentOrderId: 'SOL-001', id: 'PED-001', supplier: 'Fornecedor A', supplierCode: '22', date: '2025-06-20',
                 products: [
@@ -1929,7 +1890,6 @@
                 newSupplierPriceTotal: (20 * 42).toFixed(2), currentInternalPriceTotal: (20 * 48).toFixed(2), overallApprovalStatus: 'Pendente',
                 totalCubage: (20 * 0.001).toFixed(2)
             },
-            // Negociações em Andamento (Negociado)
             {
                 parentOrderId: 'SOL-003', id: 'PED-005', supplier: 'Fornecedor B', supplierCode: '33', date: '2025-06-24',
                 products: [
@@ -1947,7 +1907,6 @@
                 newSupplierPriceTotal: (5 * 82).toFixed(2), currentInternalPriceTotal: (5 * 85).toFixed(2), overallApprovalStatus: 'Negociado',
                 totalCubage: (5 * 0.002).toFixed(2)
             },
-            // Pendente Gerência (Aguardando Aprovação / Rejeitado)
             {
                 parentOrderId: 'SOL-008', id: 'PED-015', supplier: 'Fornecedor A', supplierCode: '22', date: '2025-06-29',
                 products: [
@@ -1980,7 +1939,6 @@
                 newSupplierPriceTotal: (3 * 88).toFixed(2), currentInternalPriceTotal: (3 * 85).toFixed(2), overallApprovalStatus: 'Rejeitado',
                 totalCubage: (3 * 0.002).toFixed(2)
             },
-            // Aprovado Gerência (Aprovado)
             {
                 parentOrderId: 'SOL-005', id: 'PED-010', supplier: 'Fornecedor C', supplierCode: '44', date: '2025-06-26',
                 products: [
@@ -1997,7 +1955,6 @@
                 newSupplierPriceTotal: (2 * 600).toFixed(2), currentInternalPriceTotal: (2 * 630).toFixed(2), overallApprovalStatus: 'Aprovado',
                 totalCubage: (2 * 0.15).toFixed(2)
             },
-            // Finalizado (não aparece nas abas de compras, mas está na lista principal de pedidos)
             {
                 parentOrderId: 'SOL-017', id: 'PED-020', supplier: 'Fornecedor A', supplierCode: '22', date: '2025-06-25',
                 products: [
@@ -2010,7 +1967,6 @@
 
         let generatedPurchaseOrders = JSON.parse(JSON.stringify(initialGeneratedPurchaseOrders));
 
-        // 2. Function Definitions
         function getOrGenerateSupplierCode(supplierName) {
             if (!supplierCodeMap[supplierName]) {
                 supplierCodeMap[supplierName] = String(nextSupplierCode);
@@ -2172,16 +2128,16 @@
             { name: 'Pendente', class: 'pending', description: 'Pedido criado, aguardando Compras Internacionais iniciar o processo.' },
             { name: 'Em Negociação', class: 'negotiation', description: 'Pedido enviado ao fornecedor, aguardando negociação' },
             { name: 'Aguardando Aprovação', class: 'waiting-approval', description: 'Pedido recebido, Aguardando aprovação da Gerencia' },
-            { name: 'Rejeitado', class: 'rejected', description: 'Pedido Rejeitado', isFinal: true }, 
-            { name: 'Cancelado', class: 'cancelled', description: 'Pedido Cancelado', isFinal: true },
+            { name: 'Rejeitado', class: 'rejected', isFinal: true }, 
+            { name: 'Cancelado', class: 'cancelled', isFinal: true },
             { name: 'Aprovado', class: 'approved', description: 'Pedido Aprovado (via retorno da Gerência)' },
             { name: 'Em Produção', class: 'production', description: 'Pedido Aprovado, em produção pelo fornecedor' },
             { name: 'Carga Pronta', class: 'ready-cargo', description: 'Mercadoria pronta para embarque' },
             { name: 'Saída do Porto de Embarque (ATD)', class: 'atd', description: 'Pedido embarcado' },
             { name: 'Documentação Pendente', class: 'pending-doc', description: 'Providenciando documentação de embarque (CI, PL, TELEX RELEASE, COO, Serial Numbers, conforme necessidade do cliente)' },
             { name: 'Documentação OK', class: 'doc-ok', description: 'Toda documentação de embarque ok, processo finalizado no DIMPEX' },
-            { name: 'Chegada no Porto de Destino (ATA)', class: 'ata', description: 'Navio atracado no porto de destino', isFinal: true },
-            { name: 'Finalizado', class: 'finished', description: 'Processo de Compras finalizado, aguardando faturamento.', isFinal: true }
+            { name: 'Chegada no Porto de Destino (ATA)', class: 'ata', isFinal: true },
+            { name: 'Finalizado', class: 'finished', isFinal: true }
         ];
 
         const colombiaTrackingFlow = [
@@ -2266,20 +2222,18 @@
             } else if (username === 'compras' && password === 'compras') {
                 userRole = 'compras';
                 showScreen('purchasingCenterScreen');
-                // Defer the call to switchPurchasingTab to ensure DOM is ready
                 setTimeout(() => {
                     switchPurchasingTab('novasSolicitacoes');
-                }, 0); // Small delay to allow DOM to update
+                }, 0);
             }
              else if (username === 'gestor' && password === 'gestor') {
                 userRole = 'gestor';
                 showScreen('renatoApprovalScreen');
                 renderPendingRenatoApprovalList();
             }
-            // Adição do usuário DIMPEX
             else if (username === 'dimpex' && password === 'dimpex') {
                 userRole = 'dimpex';
-                window.location.href = 'dimpex.html'; // Redireciona para dimpex.html
+                window.location.href = 'dimpex.html';
             }
             else {
                 showMessage('Erro de Login', 'Utilizador ou palavra-passe inválidos.', 'error');
@@ -2316,16 +2270,11 @@
             switchOrderFormTab('easy');
         }
 
-        // This function is no longer directly tied to a select input on the manual form
-        // It's kept for potential future use or if a visual indicator is needed
         function updateManualProductFieldsVisibility(productBranch) {
             const totalM3Group = document.getElementById('totalM3Group');
             const valorTotalGroup = document.getElementById('valorTotalGroup');
             const productStockGroup = document.getElementById('productStockGroup');
 
-            // For the manual add form, we will just show the default values from the product's origin.
-            // The user will make the final decision in the table below.
-            // So, these fields will show based on the product's default origin.
             if (productBranch === 'Hong Kong') {
                 totalM3Group.style.display = 'block';
                 valorTotalGroup.style.display = 'none';
@@ -2359,7 +2308,6 @@
             } else if (tabType === 'manual') {
                 manualTabContent.classList.add('active');
                 tabButtonsContainer.children[1].classList.add('active');
-                // When switching to manual, update fields based on current product code input
                 updateProductDetailsOnClientCodeChange();
             }
         }
@@ -2367,14 +2315,14 @@
         function switchPurchasingTab(tabType) {
             const novasSolicitacoesTab = document.getElementById('novasSolicitacoesTab');
             const negociacoesEmAndamentoTab = document.getElementById('negociacoesEmAndamentoTab');
-            const pendenteGerenciaTab = document.getElementById('pendenteGerenciaTab'); // Changed ID
+            const pendenteGerenciaTab = document.getElementById('pendenteGerenciaTab');
             const aprovadoGerenciaTab = document.getElementById('aprovadoGerenciaTab');
 
             const tabButtonsContainer = document.getElementById('purchasingTabButtons');
 
             novasSolicitacoesTab.classList.remove('active');
             negociacoesEmAndamentoTab.classList.remove('active');
-            pendenteGerenciaTab.classList.remove('active'); // Changed ID
+            pendenteGerenciaTab.classList.remove('active');
             aprovadoGerenciaTab.classList.remove('active');
 
             Array.from(tabButtonsContainer.children).forEach(button => {
@@ -2388,8 +2336,8 @@
                 negociacoesEmAndamentoTab.classList.add('active');
                 tabButtonsContainer.children[1].classList.add('active');
             }
-            else if (tabType === 'pendenteGerencia') { // Changed tabType
-                pendenteGerenciaTab.classList.add('active'); // Changed ID
+            else if (tabType === 'pendenteGerencia') {
+                pendenteGerenciaTab.classList.add('active');
                 tabButtonsContainer.children[2].classList.add('active');
             } else if (tabType === 'aprovadoGerencia') {
                 aprovadoGerenciaTab.classList.add('active');
@@ -2426,7 +2374,6 @@
         function logout() {
             productsInCurrentOrder = [];
             userRole = 'guest';
-            // Reset generatedPurchaseOrders to its initial state
             generatedPurchaseOrders = JSON.parse(JSON.stringify(initialGeneratedPurchaseOrders));
             simulatedSupplierOrders = {};
             simulatedColombiaOrder = null;
@@ -2434,7 +2381,6 @@
             currentViewingPO = null;
             currentPurchasingPO = null;
             
-            // Recalculate max IDs from initial `orders` array after reset
             const maxSolId = orders.reduce((max, order) => {
                 const solNum = order.parentOrderId && typeof order.parentOrderId === 'string'
                                ? parseInt(order.parentOrderId.replace('SOL-', ''))
@@ -2521,7 +2467,7 @@
             const orderSearchQuery = document.getElementById('search').value.toLowerCase();
 
             const getFlagImage = (country) => {
-                if (country === undefined || country === null || typeof country !== 'string') {
+                if (!country || typeof country !== 'string') {
                     return '<span class="flag-icon">🚩</span>';
                 }
                 switch(country.toLowerCase()) {
@@ -2550,6 +2496,11 @@
                 const idB = (b.parentOrderId && typeof b.parentOrderId === 'string') ? parseInt(b.parentOrderId.replace('SOL-', '')) : 0;
                 return idA - idB;
             });
+
+            if (filteredOrders.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="9" class="text-center py-4 text-gray-500">Nenhum pedido encontrado com os filtros aplicados.</td></tr>`;
+                return;
+            }
 
             filteredOrders.forEach(order => {
                 const row = document.createElement('tr');
@@ -2594,7 +2545,7 @@
                     : (order.supplier || 'N/A');
 
                 row.innerHTML = `
-                    <td>${order.parentOrderId ? order.parentOrderId : 'N/A'}</td>
+                    <td>${order.parentOrderId || 'N/A'}</td>
                     <td><a href="#" class="pedido-link" onclick="viewOrderDetails('${order.orderId}')">${order.orderId}</a></td>
                     <td>${flagImageHtml}</td>
                     <td>${order.originCountry}</td>
@@ -2617,10 +2568,10 @@
 
             document.getElementById('currentOrderId').innerText = currentOrderDetails.orderId;
             document.getElementById('detailOrderId').innerText = currentOrderDetails.orderId;
-            document.getElementById('detailParentOrderId').innerText = currentOrderDetails.parentOrderId ? currentOrderDetails.parentOrderId : 'N/A';
+            document.getElementById('detailParentOrderId').innerText = currentOrderDetails.parentOrderId || 'N/A';
 
             const getFlagImageForDetails = (country) => {
-                if (country === undefined || country === null || typeof country !== 'string') {
+                if (!country || typeof country !== 'string') {
                     return '<span class="mr-2 flag-icon">🚩</span>';
                 }
                 switch(country.toLowerCase()) {
@@ -2758,9 +2709,8 @@
                 mappedProductCodeDisplay.value = productCode;
                 productDescriptionDisplay.value = productInfo.description;
                 productDescriptionDisplay.style.color = '#374151';
-                productValueDisplay.value = `R$ ${productInfo.tableValue.toFixed(2).replace('.', ',')}`; // Displaying Colombia price by default
+                productValueDisplay.value = `R$ ${productInfo.tableValue.toFixed(2).replace('.', ',')}`;
 
-                // Show relevant fields based on product's default origin
                 updateManualProductFieldsVisibility(productInfo.originCountry);
 
                 if (productInfo.originCountry === 'Hong Kong') {
@@ -2771,11 +2721,10 @@
                     valorTotalDisplay.value = `R$ ${(productInfo.tableValue * parseInt(productQuantityInput.value || 1)).toFixed(2).replace('.', ',')}`;
                 }
 
-                handleQuantityChange(); // Recalculate based on new product info
+                handleQuantityChange();
             } else {
                 productDescriptionDisplay.value = 'Cód Prod Cliente não encontrado.';
                 productDescriptionDisplay.style.color = '#dc2626';
-                // Hide all specific fields if product not found
                 document.getElementById('totalM3Group').style.display = 'none';
                 document.getElementById('valorTotalGroup').style.display = 'none';
                 document.getElementById('productStockGroup').style.display = 'none';
@@ -2808,7 +2757,6 @@
                 return;
             }
 
-            // Display feedback based on product's default origin for immediate input
             if (productInfo.originCountry === 'Hong Kong') {
                 const totalM3 = productInfo.cubageUnit * quantity;
                 totalM3Display.value = `${totalM3.toFixed(2).replace('.', ',')} m³`;
@@ -2821,7 +2769,7 @@
                 }
             } else if (productInfo.originCountry === 'Colômbia') {
                 const total = productInfo.tableValue * quantity;
-                valorTotalDisplay.value = `R$ ${(total).toFixed(2).replace('.', ',')}`; // Ensure it's a number before toFixed
+                valorTotalDisplay.value = `R$ ${(total).toFixed(2).replace('.', ',')}`;
                 if (quantity > productInfo.simulatedStock) {
                     validationFeedbackDiv.innerText = `🚫 Quantidade (${quantity}) excede o estoque disponível (${productInfo.simulatedStock}) na Colômbia.`;
                     validationFeedbackDiv.className = 'validation-message status-error';
@@ -2864,15 +2812,15 @@
                     name: productInfo.description,
                     quantity: quantity,
                     moq: productInfo.moq,
-                    unitPrice: productInfo.unitPrice, // HK unit price
-                    tableValue: productInfo.tableValue, // Colombia unit price
+                    unitPrice: productInfo.unitPrice,
+                    tableValue: productInfo.tableValue,
                     cubageUnit: productInfo.cubageUnit,
-                    totalM3: totalM3, // Initial total M3 based on HK price
-                    totalValue: totalValue, // Initial total value based on Colombia price
+                    totalM3: totalM3,
+                    totalValue: totalValue,
                     supplier: productInfo.supplier,
                     simulatedStock: productInfo.simulatedStock,
-                    originCountry: productInfo.originCountry, // Product's original country
-                    selectedBranch: productInfo.originCountry // Default selected branch, can be changed in table
+                    originCountry: productInfo.originCountry,
+                    selectedBranch: productInfo.originCountry
                 });
                 displayAddProductMessage(`"${productInfo.description}" adicionado com sucesso.`, 'success');
             }
@@ -2888,27 +2836,22 @@
             document.getElementById('productStockDisplay').value = '--';
             document.getElementById('validationFeedback').innerText = '';
             document.getElementById('productStockDisplay').style.color = '';
-            updateManualProductFieldsVisibility(''); // Reset visibility of product details section
+            updateManualProductFieldsVisibility('');
         }
 
         function removeProduct(index) {
-            console.log('removeProduct called with index:', index);
-            console.log('productsInCurrentOrder BEFORE splice:', JSON.parse(JSON.stringify(productsInCurrentOrder)));
-
             if (index >= 0 && index < productsInCurrentOrder.length) {
                 productsInCurrentOrder.splice(index, 1);
-                console.log('productsInCurrentOrder AFTER splice:', JSON.parse(JSON.stringify(productsInCurrentOrder)));
                 renderProductList();
                 displayAddProductMessage('Produto removido.', 'info');
             } else {
-                console.error('Invalid index for removeProduct:', index);
                 displayAddProductMessage('Erro: Não foi possível remover o produto. Índice inválido.', 'error');
             }
         }
 
         function updateProductSelectedBranch(index, newBranch) {
             productsInCurrentOrder[index].selectedBranch = newBranch;
-            renderProductList(); // Re-render to update highlighting
+            renderProductList();
         }
 
         function renderProductList() {
@@ -2921,18 +2864,18 @@
 
             let tableHtml = `<table class="data-table" id="addedProductsTable">
                                 <colgroup>
-                                    <col style="width: 10%;"> <!-- Cód Cliente -->
-                                    <col style="width: 10%;"> <!-- Cód Produto -->
-                                    <col style="width: 20%;"> <!-- Descrição -->
-                                    <col style="width: 8%;"> <!-- Qtd. Solicitada -->
-                                    <col class="colombia-col" style="width: 10%;"> <!-- Estoque Colômbia -->
-                                    <col class="colombia-col" style="width: 10%;"> <!-- Valor Unit. Colômbia -->
-                                    <col class="colombia-col" style="width: 10%;"> <!-- Valor Total Colômbia -->
-                                    <col class="hongkong-col" style="width: 6%;"> <!-- MOQ Hong Kong -->
-                                    <col class="hongkong-col" style="width: 10%;"> <!-- Valor Unit. Hong Kong -->
-                                    <col class="hongkong-col" style="width: 10%;"> <!-- Valor Total Hong Kong -->
-                                    <col style="width: 12%;"> <!-- Filial Selecionada -->
-                                    <col style="width: 8%;"> <!-- Ação -->
+                                    <col style="width: 10%;">
+                                    <col style="width: 10%;">
+                                    <col style="width: 20%;">
+                                    <col style="width: 8%;">
+                                    <col class="colombia-col" style="width: 10%;">
+                                    <col class="colombia-col" style="width: 10%;">
+                                    <col class="colombia-col" style="width: 10%;">
+                                    <col class="hongkong-col" style="width: 6%;">
+                                    <col class="hongkong-col" style="width: 10%;">
+                                    <col class="hongkong-col" style="width: 10%;">
+                                    <col style="width: 12%;">
+                                    <col style="width: 8%;">
                                 </colgroup>
                                 <thead>
                                     <tr>
@@ -2959,18 +2902,15 @@
             productsInCurrentOrder.forEach((product, index) => {
                 const productInfoFromDB = productDatabase[product.code];
 
-                // Colombia related values
                 const columbiaStockStatus = productInfoFromDB.simulatedStock > 0 ? 'Sim' : 'Não';
                 const columbiaStockColor = productInfoFromDB.simulatedStock > 0 ? 'var(--green-success)' : 'var(--red-alert)';
                 const columbiaUnitPrice = productInfoFromDB.tableValue;
                 const columbiaTotalPrice = (columbiaUnitPrice * product.quantity);
 
-                // Hong Kong related values
                 const hongKongMOQ = productInfoFromDB.moq;
                 const hongKongUnitPrice = productInfoFromDB.unitPrice;
                 const hongKongTotalPrice = (hongKongUnitPrice * product.quantity);
 
-                // Determine if row needs highlighting based on selected branch
                 let rowClass = '';
                 if (product.selectedBranch === 'Hong Kong' && product.quantity < hongKongMOQ) {
                     rowClass = 'needs-review';
@@ -3005,9 +2945,7 @@
         }
 
         function submitOrderForm() {
-            console.log('submitOrderForm called.');
             if (productsInCurrentOrder.length === 0) {
-                console.log('No products in current order.');
                 showMessage('Erro', 'Por favor, adicione pelo menos um produto antes de enviar a solicitação.', 'error');
                 return;
             }
@@ -3027,12 +2965,10 @@
             });
 
             if (validationErrors.length > 0) {
-                console.log('Validation errors found:', validationErrors);
                 showMessage('Erros de Validação', validationErrors.join('<br>'), 'error');
-                renderProductList(); // Re-render to show highlighting
-                return; // Stop submission if there are validation errors
+                renderProductList();
+                return;
             }
-            console.log('No validation errors. Proceeding with submission logic.');
 
             currentParentOrderId = `SOL-${nextParentRequestCounter.toString().padStart(3, '0')}`;
             nextParentRequestCounter++;
@@ -3045,7 +2981,6 @@
                 return acc;
             }, {});
 
-            // Clear previous simulated orders for a fresh submission
             simulatedSupplierOrders = {};
             simulatedColombiaOrder = null;
 
@@ -3058,17 +2993,14 @@
                 }
             }
             
-            // Always show the unified summary screen
             showScreen('summaryScreen');
             renderUnifiedSummary();
 
-            productsInCurrentOrder = []; // Clear current order after processing
-            synchronizeOrdersAndPOs(); // Update main order list
+            productsInCurrentOrder = [];
+            synchronizeOrdersAndPOs();
         }
 
         function submitHongKongFormLogic(productsForHongKong) {
-            // This function now only prepares the data for the summary screen, not directly renders it.
-            // MOQ validation messages will be generated here and passed to renderUnifiedSummary.
             let moqMessages = [];
             let validProductsAfterMoq = [];
             
@@ -3082,12 +3014,11 @@
 
             if (validProductsAfterMoq.length === 0) {
                 if (moqMessages.length > 0) {
-                    simulatedSupplierOrders['MOQ_FAILED'] = { messages: moqMessages }; // Store messages for display
+                    simulatedSupplierOrders['MOQ_FAILED'] = { messages: moqMessages };
                 }
                 return;
             }
 
-            // Group valid products by supplier
             const productsBySupplier = validProductsAfterMoq.reduce((acc, product) => {
                 if (!acc[product.supplier]) {
                     acc[product.supplier] = [];
@@ -3111,9 +3042,9 @@
                     products: [],
                     newSupplierPriceTotal: 0,
                     currentInternalPriceTotal: 0,
-                    overallApprovalStatus: 'Pendente', // Initial status for new POs
-                    originCountry: 'Hong Kong', // Explicitly set origin for PO
-                    totalCubage: 0 // Initialize total cubage for this PO
+                    overallApprovalStatus: 'Pendente',
+                    originCountry: 'Hong Kong',
+                    totalCubage: 0
                 };
 
                 productsForThisSupplier.forEach(product => {
@@ -3125,11 +3056,11 @@
                     newPO.products.push(productWithSimulatedPrices);
                     newPO.newSupplierPriceTotal = (parseFloat(newPO.newSupplierPriceTotal) + (parseFloat(productWithSimulatedPrices.newSupplierUnitPrice) * product.quantity)).toFixed(2);
                     newPO.currentInternalPriceTotal = (parseFloat(newPO.currentInternalPriceTotal) + (parseFloat(productWithSimulatedPrices.currentInternalUnitPrice) * product.quantity)).toFixed(2);
-                    newPO.totalCubage = (parseFloat(newPO.totalCubage) + (product.cubageUnit * product.quantity)); // Sum cubage
+                    newPO.totalCubage = (parseFloat(newPO.totalCubage) + (product.cubageUnit * product.quantity));
                 });
-                newPO.totalCubage = newPO.totalCubage.toFixed(2); // Format cubage
+                newPO.totalCubage = newPO.totalCubage.toFixed(2);
 
-                simulatedSupplierOrders[supplierName] = newPO; // Store for summary display
+                simulatedSupplierOrders[supplierName] = newPO;
             }
             if (moqMessages.length > 0) {
                 simulatedSupplierOrders['MOQ_INFO'] = { messages: moqMessages };
@@ -3138,10 +3069,9 @@
 
         function submitColombiaFormLogic(productsForColombia) {
             const totalValue = productsForColombia.reduce((sum, product) => sum + (product.tableValue * product.quantity), 0);
-            const clientOrderNumber = document.getElementById('clientOrderNumber').value.trim();
 
-            const newOrderId = `SAP-${nextSapOrderIdCounter.toString().padStart(3, '0')}`; // Changed to SAP-XXX
-            nextSapOrderIdCounter++; // Increment new SAP counter
+            const newOrderId = `SAP-${nextSapOrderIdCounter.toString().padStart(3, '0')}`;
+            nextSapOrderIdCounter++;
 
             simulatedColombiaOrder = {
                 orderId: newOrderId,
@@ -3149,27 +3079,25 @@
                 clientFlag: currentUserClientName,
                 originCountry: 'Colômbia',
                 totalValue: totalValue,
-                status: 'Em Separação', // Initial status for Colombia orders
+                status: 'Em Separação',
                 requestDate: new Date().toISOString().slice(0, 10),
                 lastUpdateDate: new Date().toISOString().slice(0, 10),
-                supplier: productsForColombia[0].supplier, // Assuming one supplier per Colombia order for simplicity
+                supplier: productsForColombia[0].supplier,
                 products: productsForColombia.map(p => ({
                     code: p.code,
                     description: p.name,
                     quantity: p.quantity,
-                    unitPrice: p.tableValue, // Use tableValue for Colombia products
+                    unitPrice: p.tableValue,
                     cubageUnit: p.cubageUnit,
                     totalValue: (p.tableValue * p.quantity).toFixed(2)
                 }))
             };
-            // Removed NFE content generation as per new requirements
         }
 
         function renderUnifiedSummary() {
             const unifiedSummaryContentDiv = document.getElementById('unifiedSummaryContent');
-            unifiedSummaryContentDiv.innerHTML = ''; // Clear previous content
+            unifiedSummaryContentDiv.innerHTML = '';
 
-            // 1. Render Hong Kong Section
             if (Object.keys(simulatedSupplierOrders).length > 0) {
                 const hongKongSection = document.createElement('div');
                 hongKongSection.className = 'summary-section';
@@ -3177,7 +3105,6 @@
                     <h2 class="text-xl font-semibold mb-4">Pedidos para Hong Kong</h2>
                 `;
 
-                // Display MOQ validation messages if any
                 if (simulatedSupplierOrders['MOQ_INFO'] && simulatedSupplierOrders['MOQ_INFO'].messages.length > 0) {
                     const moqValidationDiv = document.createElement('div');
                     moqValidationDiv.className = 'bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4';
@@ -3194,7 +3121,7 @@
                 hongKongSection.innerHTML += `<h3 class="font-semibold text-gray-700 mb-3">Divisão por Fornecedor (Requisições de Compra - POs):</h3>`;
 
                 for (const supplierName in simulatedSupplierOrders) {
-                    if (supplierName === 'MOQ_INFO' || supplierName === 'MOQ_FAILED') continue; // Skip info messages
+                    if (supplierName === 'MOQ_INFO' || supplierName === 'MOQ_FAILED') continue;
 
                     const po = simulatedSupplierOrders[supplierName];
                     const poDiv = document.createElement('div');
@@ -3284,7 +3211,6 @@
                 unifiedSummaryContentDiv.appendChild(hongKongSection);
             }
 
-            // 2. Render Colombia Section
             if (simulatedColombiaOrder) {
                 const colombiaSection = document.createElement('div');
                 colombiaSection.className = 'summary-section';
@@ -3331,7 +3257,6 @@
         }
 
         function generateUnifiedOrders() {
-            // Add Hong Kong POs to generatedPurchaseOrders and orders
             for (const supplierName in simulatedSupplierOrders) {
                 if (supplierName === 'MOQ_INFO' || supplierName === 'MOQ_FAILED') continue;
                 const po = simulatedSupplierOrders[supplierName];
@@ -3339,10 +3264,9 @@
                 if (existingPoIndex === -1) {
                     generatedPurchaseOrders.push(po);
                 } else {
-                    generatedPurchaseOrders[existingPoIndex] = po; // Update existing
+                    generatedPurchaseOrders[existingPoIndex] = po;
                 }
 
-                // Add to main orders list if not already there or update status
                 const orderInMainList = orders.find(o => o.orderId === po.id);
                 if (!orderInMainList) {
                     orders.push({
@@ -3369,7 +3293,6 @@
                 }
             }
 
-            // Add Colombia Order to generatedPurchaseOrders and orders
             if (simulatedColombiaOrder) {
                 const existingColombiaOrderIndex = generatedPurchaseOrders.findIndex(existingPo => existingPo.id === simulatedColombiaOrder.orderId);
                 if (existingColombiaOrderIndex === -1) {
@@ -3389,15 +3312,12 @@
 
             showMessage('Solicitação Enviada', 'Sua solicitação foi processada e os pedidos foram gerados. Você pode acompanhar o status na Central de Pedidos.', 'success', () => backToOrderCenter());
 
-            // Clear temporary simulated data
             simulatedSupplierOrders = {};
             simulatedColombiaOrder = null;
             synchronizeOrdersAndPOs();
         }
 
         function showNfePdfUnified() {
-            // This function is no longer needed as the NFE PDF button is removed.
-            // Keeping it as a placeholder in case it's re-added or for debugging.
             if (simulatedColombiaOrder && simulatedColombiaOrder.nfeContent) {
                 document.getElementById('nfePdfContent').innerText = simulatedColombiaOrder.nfeContent;
                 document.getElementById('nfePdfViewer').classList.add('active');
@@ -3406,159 +3326,85 @@
             }
         }
 
-        function renderPurchasingCenterTables() {
-            console.log('[DEBUG - Compras] Iniciando renderPurchasingCenterTables().');
-            console.log('[DEBUG - Compras] generatedPurchaseOrders (antes da filtragem):', JSON.parse(JSON.stringify(generatedPurchaseOrders)));
+        function renderPOTable(tbodyId, filteredPOs, actionButtonText, actionButtonFunction) {
+            const tbody = document.getElementById(tbodyId);
+            if (!tbody) {
+                console.error(`Error: tbody with ID '${tbodyId}' not found.`);
+                return;
+            }
+            tbody.innerHTML = '';
 
-            // Corrected selectors to directly get the tbody elements
-            const negotiationTbody = document.getElementById('negotiationTable');
-            const negotiationInProgressTbody = document.getElementById('negotiationInProgressTable');
-            const pendenteGerenciaTbody = document.getElementById('pendenteGerenciaTable');
-            const aprovadoGerenciaTbody = document.getElementById('aprovadoGerenciaTable');
-
-            // Defensive checks before setting innerHTML
-            if (negotiationTbody) negotiationTbody.innerHTML = '';
-            if (negotiationInProgressTbody) negotiationInProgressTbody.innerHTML = '';
-            if (pendenteGerenciaTbody) pendenteGerenciaTbody.innerHTML = '';
-            if (aprovadoGerenciaTbody) aprovadoGerenciaTbody.innerHTML = '';
-
-            const novasSolicitacoesPOs = generatedPurchaseOrders.filter(po => po.overallApprovalStatus === 'Pendente');
-            console.log('[DEBUG - Compras] Novas Solicitações (Pendente):', novasSolicitacoesPOs.length, 'pedidos encontrados.');
-
-            if (novasSolicitacoesPOs.length === 0) {
-                if (negotiationTbody) {
-                    negotiationTbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-gray-500">Nenhuma nova solicitação de compra no momento.</td></tr>`;
-                }
-            } else {
-                novasSolicitacoesPOs.forEach(po => {
-                    const row = document.createElement('tr');
-                    const displaySupplierInfo = getOrGenerateSupplierCode(po.supplier);
-                    const orderInMainList = orders.find(o => o.orderId === po.id);
-                    const creationDate = orderInMainList ? orderInMainList.requestDate : po.date;
-                    let statusIndicatorClass = 'yellow';
-
-                    row.innerHTML = `
-                        <td>${po.parentOrderId ? po.parentOrderId : 'N/A'}</td>
-                        <td>${po.id}</td>
-                        <td>${displaySupplierInfo}</td>
-                        <td>R$ ${parseFloat(po.newSupplierPriceTotal).toFixed(2).replace('.', ',')}</td>
-                        <td>${creationDate}</td>
-                        <td><span class="status-indicator ${statusIndicatorClass}"></span>${po.overallApprovalStatus}</td>
-                        <td>
-                            <button onclick="viewPurchasingOrderDetails('${po.id}', 'novasSolicitacoes')" class="btn btn-primary btn-sm">Iniciar Negociação</button>
-                        </td>
-                    `;
-                    if (negotiationTbody) negotiationTbody.appendChild(row);
-                });
+            if (filteredPOs.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-gray-500">Nenhum pedido encontrado.</td></tr>`;
+                return;
             }
 
+            filteredPOs.forEach(po => {
+                const row = document.createElement('tr');
+                const orderInMainList = orders.find(o => o.orderId === po.id);
+                const clientName = orderInMainList ? orderInMainList.clientFlag : 'N/A';
+                const supplierName = po.supplier || 'N/A';
+                const lastUpdateDate = orderInMainList ? orderInMainList.lastUpdateDate : po.date;
+                
+                let statusIndicatorClass = '';
+                switch (po.overallApprovalStatus) {
+                    case 'Pendente':
+                    case 'Aguardando Aprovação':
+                    case 'Em Negociação':
+                        statusIndicatorClass = 'yellow';
+                        break;
+                    case 'Aprovado':
+                    case 'Finalizado':
+                        statusIndicatorClass = 'green';
+                        break;
+                    case 'Rejeitado':
+                        statusIndicatorClass = 'red';
+                        break;
+                    case 'Negociado':
+                        statusIndicatorClass = 'purple';
+                        break;
+                    default:
+                        statusIndicatorClass = 'gray';
+                }
+
+                let actionButtonHtml = '';
+                if (actionButtonFunction) {
+                    actionButtonHtml = `<button onclick="${actionButtonFunction}('${po.id}')" class="btn btn-primary btn-sm">${actionButtonText}</button>`;
+                }
+
+                row.innerHTML = `
+                    <td>${po.parentOrderId || 'N/A'}</td>
+                    <td>${po.id}</td>
+                    <td>${clientName}</td>
+                    <td>${supplierName}</td>
+                    <td>R$ ${parseFloat(po.newSupplierPriceTotal).toFixed(2).replace('.', ',')}</td>
+                    <td>${lastUpdateDate}</td>
+                    <td><span class="status-indicator ${statusIndicatorClass}"></span>${po.overallApprovalStatus}</td>
+                    <td>${actionButtonHtml}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function renderPurchasingCenterTables() {
+            const novasSolicitacoesPOs = generatedPurchaseOrders.filter(po => po.overallApprovalStatus === 'Pendente');
+            renderPOTable('negotiationTable', novasSolicitacoesPOs, 'Visualizar', 'viewPurchasingOrderDetails');
 
             const negotiationInProgressPOs = generatedPurchaseOrders.filter(po => po.overallApprovalStatus === 'Negociado');
-            console.log('[DEBUG - Compras] Negociações em Andamento (Negociado):', negotiationInProgressPOs.length, 'pedidos encontrados.');
-
-            if (negotiationInProgressPOs.length === 0) {
-                if (negotiationInProgressTbody) {
-                    negotiationInProgressTbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-gray-500">Nenhuma negociação em andamento no momento.</td></tr>`;
-                }
-            } else {
-                negotiationInProgressPOs.forEach(po => {
-                    const row = document.createElement('tr');
-                    const displaySupplierInfo = getOrGenerateSupplierCode(po.supplier);
-                    const orderInMainList = orders.find(o => o.orderId === po.id);
-                    const lastUpdateDate = orderInMainList ? orderInMainList.lastUpdateDate : po.date;
-                    let statusIndicatorClass = 'purple';
-
-                    row.innerHTML = `
-                        <td>${po.parentOrderId ? po.parentOrderId : 'N/A'}</td>
-                        <td>${po.id}</td>
-                        <td>${displaySupplierInfo}</td>
-                        <td>R$ ${parseFloat(po.newSupplierPriceTotal).toFixed(2).replace('.', ',')}</td>
-                        <td>${lastUpdateDate}</td>
-                        <td><span class="status-indicator ${statusIndicatorClass}"></span>${po.overallApprovalStatus}</td>
-                        <td>
-                            <button onclick="viewPurchasingOrderDetails('${po.id}', 'negociacoesEmAndamento')" class="btn btn-primary btn-sm">Continuar Negociação</button>
-                        </td>
-                    `;
-                    if (negotiationInProgressTbody) negotiationInProgressTbody.appendChild(row);
-                });
-            }
-
+            renderPOTable('negotiationInProgressTable', negotiationInProgressPOs, 'Visualizar', 'viewPurchasingOrderDetails');
 
             const pendenteGerenciaPOs = generatedPurchaseOrders.filter(po =>
                 po.overallApprovalStatus === 'Aguardando Aprovação' || po.overallApprovalStatus === 'Rejeitado'
             );
-            console.log('[DEBUG - Compras] Pendente Gerência (Aguardando Aprovação/Rejeitado):', pendenteGerenciaPOs.length, 'pedidos encontrados.');
-
-            if (pendenteGerenciaPOs.length === 0) {
-                if (pendenteGerenciaTbody) {
-                    pendenteGerenciaTbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-gray-500">Nenhum pedido aguardando ação da Gerência.</td></tr>`;
-                }
-            } else {
-                pendenteGerenciaPOs.forEach(po => {
-                    const row = document.createElement('tr');
-                    const displaySupplierInfo = getOrGenerateSupplierCode(po.supplier);
-                    const orderInMainList = orders.find(o => o.orderId === po.id);
-                    const clientName = orderInMainList ? orderInMainList.clientFlag : 'N/A';
-                    const lastUpdateDate = orderInMainList ? orderInMainList.lastUpdateDate : po.date;
-
-                    let statusIndicatorClass = '';
-                    if (po.overallApprovalStatus === 'Rejeitado') statusIndicatorClass = 'red';
-                    else if (po.overallApprovalStatus === 'Aguardando Aprovação') statusIndicatorClass = 'yellow';
-                    else statusIndicatorClass = 'blue';
-
-                    row.innerHTML = `
-                        <td>${po.parentOrderId ? po.parentOrderId : 'N/A'}</td>
-                        <td>${po.id}</td>
-                        <td>${clientName}</td>
-                        <td>${displaySupplierInfo}</td>
-                        <td>R$ ${parseFloat(po.newSupplierPriceTotal).toFixed(2).replace('.', ',')}</td>
-                        <td>${po.date}</td>
-                        <td>${lastUpdateDate}</td>
-                        <td>
-                            <button onclick="viewDetailedApproval('${po.id}')" class="btn btn-primary btn-sm">Analisar</button>
-                        </td>
-                    `;
-                    if (pendenteGerenciaTbody) pendenteGerenciaTbody.appendChild(row);
-                });
-            }
-
+            renderPOTable('pendenteGerenciaTable', pendenteGerenciaPOs, 'Visualizar', 'viewPurchasingOrderDetails');
 
             const aprovadoGerenciaPOs = generatedPurchaseOrders.filter(po =>
-                po.overallApprovalStatus === 'Aprovado'
+                po.overallApprovalStatus === 'Aprovado' || po.overallApprovalStatus === 'Finalizado'
             );
-            console.log('[DEBUG - Compras] Aprovado Gerência (Aprovado):', aprovadoGerenciaPOs.length, 'pedidos encontrados.');
-
-            if (aprovadoGerenciaPOs.length === 0) {
-                if (aprovadoGerenciaTbody) {
-                    aprovadoGerenciaTbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-gray-500">Nenhum pedido aprovado pela gerência aguardando finalização de Compras no momento.</td></tr>`;
-                }
-            } else {
-                aprovadoGerenciaPOs.forEach(po => {
-                    const row = document.createElement('tr');
-                    const displaySupplierInfo = getOrGenerateSupplierCode(po.supplier);
-                    const orderInMainList = orders.find(o => o.orderId === po.id);
-                    const lastUpdateDate = orderInMainList ? orderInMainList.lastUpdateDate : po.date;
-
-                    let statusIndicatorClass = 'green';
-
-                    row.innerHTML = `
-                        <td>${po.parentOrderId ? po.parentOrderId : 'N/A'}</td>
-                        <td>${po.id}</td>
-                        <td>${displaySupplierInfo}</td>
-                        <td>R$ ${parseFloat(po.newSupplierPriceTotal).toFixed(2).replace('.', ',')}</td>
-                        <td>${lastUpdateDate}</td>
-                        <td><span class="status-indicator ${statusIndicatorClass}"></span>${po.overallApprovalStatus}</td>
-                        <td>
-                            <button onclick="viewPurchasingOrderDetails('${po.id}', 'aprovadoGerencia')" class="btn btn-primary btn-sm">Finalizar Processo</button>
-                        </td>
-                    `;
-                    if (aprovadoGerenciaTbody) aprovadoGerenciaTbody.appendChild(row);
-                });
-            }
-            console.log('[DEBUG - Compras] renderPurchasingCenterTables() concluído.');
+            renderPOTable('aprovadoGerenciaTable', aprovadoGerenciaPOs, 'Visualizar', 'viewPurchasingOrderDetails');
         }
 
-        function viewPurchasingOrderDetails(poId, sourceTab) {
+        function viewPurchasingOrderDetails(poId) {
             currentPurchasingPO = generatedPurchaseOrders.find(po => po.id === poId);
             if (!currentPurchasingPO) {
                 showMessage('Erro', 'Detalhes do pedido de compra não encontrados.', 'error');
@@ -3567,7 +3413,7 @@
 
             document.getElementById('purchasingCurrentOrderId').innerText = currentPurchasingPO.id;
             document.getElementById('purchasingDetailOrderId').innerText = currentPurchasingPO.id;
-            document.getElementById('purchasingDetailParentOrderId').innerText = currentPurchasingPO.parentOrderId ? currentPurchasingPO.parentOrderId : 'N/A';
+            document.getElementById('purchasingDetailParentOrderId').innerText = currentPurchasingPO.parentOrderId || 'N/A';
             document.getElementById('purchasingDetailSupplier').innerText = `${currentPurchasingPO.supplierCode} - ${currentPurchasingPO.supplier}`;
             document.getElementById('purchasingDetailStatus').innerText = currentPurchasingPO.overallApprovalStatus;
             document.getElementById('purchasingDetailDate').innerText = currentPurchasingPO.date;
@@ -3634,7 +3480,7 @@
                 showMessage('Sucesso', `Negociação para o pedido ${currentPurchasingPO.id} salva com sucesso! O pedido está agora em "Negociações em Andamento".`, 'success');
             } else if (currentAction === 'Solicitar Aprovação') {
                 currentPurchasingPO.overallApprovalStatus = 'Aguardando Aprovação';
-                showMessage('Sucesso', `Solicitação de aprovação para o pedido ${currentPurchasingPO.id} enviada à Gerência.`, 'success'); // Changed text
+                showMessage('Sucesso', `Solicitação de aprovação para o pedido ${currentPurchasingPO.id} enviada à Gerência.`, 'success');
             } else if (currentAction === 'Finalizar Processo') {
                 currentPurchasingPO.overallApprovalStatus = 'Finalizado';
                 showMessage('Sucesso', `Processo para o pedido ${currentPurchasingPO.id} finalizado por Compras.`, 'success');
@@ -3701,9 +3547,6 @@
         }
 
         function renderPendingRenatoApprovalList() {
-            const tbody = document.getElementById('pendingOrdersTableBody');
-            tbody.innerHTML = '';
-
             const pendingForRenato = generatedPurchaseOrders.filter(po =>
                 po.overallApprovalStatus === 'Aguardando Aprovação' || po.overallApprovalStatus === 'Rejeitado'
             ).sort((a, b) => {
@@ -3711,38 +3554,7 @@
                 if (a.date < b.date) return -1;
                 return a.id.localeCompare(b.id);
             });
-
-            if (pendingForRenato.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-gray-500">Nenhum pedido aguardando aprovação gerencial.</td></tr>`;
-                return;
-            }
-
-            pendingForRenato.forEach(po => {
-                const row = document.createElement('tr');
-                const displaySupplierInfo = getOrGenerateSupplierCode(po.supplier);
-                const orderInMainList = orders.find(o => o.orderId === po.id);
-                const clientName = orderInMainList ? orderInMainList.clientFlag : 'N/A';
-                const lastUpdateDate = orderInMainList ? orderInMainList.lastUpdateDate : po.date;
-
-                let statusIndicatorClass = '';
-                if (po.overallApprovalStatus === 'Rejeitado') statusIndicatorClass = 'red';
-                else if (po.overallApprovalStatus === 'Aguardando Aprovação') statusIndicatorClass = 'yellow';
-                else statusIndicatorClass = 'blue';
-
-                row.innerHTML = `
-                    <td>${po.parentOrderId ? po.parentOrderId : 'N/A'}</td>
-                    <td>${po.id}</td>
-                    <td>${clientName}</td>
-                    <td>${displaySupplierInfo}</td>
-                    <td>R$ ${parseFloat(po.newSupplierPriceTotal).toFixed(2).replace('.', ',')}</td>
-                    <td>${po.date}</td>
-                    <td>${lastUpdateDate}</td>
-                    <td>
-                        <button onclick="viewDetailedApproval('${po.id}')" class="btn btn-primary btn-sm">Analisar</button>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
+            renderPOTable('pendingOrdersTableBody', pendingForRenato, 'Visualizar', 'viewDetailedApproval');
         }
 
         function viewDetailedApproval(poId) {
@@ -3757,9 +3569,18 @@
                     return;
                 }
 
+                const pendingOrdersListDiv = document.getElementById('pendingOrdersList');
+                const detailedApprovalViewDiv = document.getElementById('detailedApprovalView');
+
+                if (pendingOrdersListDiv) {
+                    pendingOrdersListDiv.classList.add('hidden');
+                }
+
+                if (detailedApprovalViewDiv) {
+                    detailedApprovalViewDiv.classList.remove('hidden');
+                }
+
                 document.getElementById('currentDetailedParentOrderIdDisplay').innerText = currentViewingPO.parentOrderId || currentViewingPO.id;
-                document.getElementById('pendingOrdersList').classList.add('hidden');
-                document.getElementById('detailedApprovalView').classList.remove('hidden');
 
                 renderSupplierApprovalCards();
                 updateGlobalDifferenceSummary();
@@ -4068,7 +3889,7 @@
         function toggleCollapsible(headerElement, contentId) {
             const content = document.getElementById(contentId);
             const arrow = headerElement.querySelector('.arrow');
-            if (content.classList.contains('active')) { // Changed from 'hidden' to 'active' for consistency
+            if (content.classList.contains('active')) {
                 content.classList.remove('active');
                 headerElement.classList.remove('active');
                 if (arrow) arrow.style.transform = 'rotate(0deg)';
@@ -4105,7 +3926,6 @@
                     ? product.tableValue.toFixed(2).replace('.', ',')
                     : 'N/A';
 
-                // Display stock as 'Sim' or 'Não' in catalog for clients
                 const stockDisplay = product.simulatedStock > 0 ? 'Sim' : 'Não';
                 const stockColor = product.simulatedStock > 0 ? 'var(--green-success)' : 'var(--red-alert)';
 
@@ -4138,7 +3958,7 @@
                 const clientCode = row.children[0].innerText.toLowerCase();
                 const productCode = row.children[1].innerText.toLowerCase();
                 const description = row.children[2].innerText.toLowerCase();
-                const branch = row.children[3].innerText.toLowerCase(); // Get branch from table cell
+                const branch = row.children[3].innerText.toLowerCase();
 
                 if (clientCode.includes(searchTerm) || productCode.includes(searchTerm) || description.includes(searchTerm) || branch.includes(searchTerm)) {
                     row.style.display = '';
@@ -4154,15 +3974,11 @@
             closeProductCatalogModal();
         }
 
-        /**
-         * Handles the file upload process.
-         * Validates file type and size, then simulates a successful upload.
-         */
         function handleFileUpload() {
             const fileInput = document.getElementById('fileUpload');
             const fileNameDisplay = document.getElementById('fileNameDisplay');
             const file = fileInput.files[0];
-            const maxFileSize = 5 * 1024 * 1024; // 5MB
+            const maxFileSize = 5 * 1024 * 1024;
 
             if (!file) {
                 displayAddProductMessage('Por favor, selecione um arquivo para upload.', 'error');
@@ -4172,23 +3988,18 @@
             const allowedTypes = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel', 'text/csv'];
             if (!allowedTypes.includes(file.type)) {
                 displayAddProductMessage('Tipo de arquivo inválido. Por favor, selecione um arquivo Excel (.xlsx, .xls) ou CSV.', 'error');
-                fileInput.value = ''; // Clear the input
+                fileInput.value = '';
                 fileNameDisplay.innerText = 'Nenhum arquivo selecionado';
                 return;
             }
 
             if (file.size > maxFileSize) {
                 displayAddProductMessage('O arquivo excede o tamanho máximo permitido de 5MB.', 'error');
-                fileInput.value = ''; // Clear the input
+                fileInput.value = '';
                 fileNameDisplay.innerText = 'Nenhum arquivo selecionado';
                 return;
             }
-
-            // Simulate file processing and adding products
-            // In a real application, you would parse the file here (e.g., using a library like SheetJS)
-            // For this prototype, we'll add some dummy products or a success message.
             
-            // Example: Add a few dummy products if the file is "uploaded"
             const dummyProducts = [
                 { clientCode: "SKU-001", quantity: 5 },
                 { clientCode: "SKU-003", quantity: 10 },
@@ -4240,7 +4051,7 @@
             });
 
             renderProductList();
-            fileInput.value = ''; // Clear the input after processing
+            fileInput.value = '';
             fileNameDisplay.innerText = 'Nenhum arquivo selecionado';
 
             let finalMessage = `Upload de "${file.name}" concluído! ${productsAddedCount} produto(s) adicionado(s).`;
@@ -4250,11 +4061,6 @@
             displayAddProductMessage(messages.join('<br>') || finalMessage, productsSkippedCount > 0 ? 'warning' : 'success');
         }
 
-        /**
-         * Displays the selected file name next to the file input.
-         * @param {string} inputId The ID of the file input element.
-         * @param {string} displayId The ID of the span element to display the file name.
-         */
         function displayFileName(inputId, displayId) {
             const fileInput = document.getElementById(inputId);
             const fileNameDisplay = document.getElementById(displayId);
@@ -4265,10 +4071,6 @@
             }
         }
 
-        /**
-         * Processes codes pasted into the textarea.
-         * Expects format: COD1,10;COD2,5 or COD1,10\nCOD2,5
-         */
         function processPastedCodes() {
             const pasteCodesTextarea = document.getElementById('pasteCodes');
             const pastedText = pasteCodesTextarea.value.trim();
@@ -4278,7 +4080,6 @@
                 return;
             }
 
-            // Replace newlines with semicolons to unify separators, then split by semicolon
             const normalizedText = pastedText.replace(/\n/g, ';');
             const items = normalizedText.split(';').map(item => item.trim()).filter(item => item !== '');
             
@@ -4336,7 +4137,7 @@
             });
 
             renderProductList();
-            pasteCodesTextarea.value = ''; // Clear textarea after processing
+            pasteCodesTextarea.value = '';
 
             let finalMessage = `${productsAddedCount} produto(s) processado(s) com sucesso.`;
             if (productsSkippedCount > 0) {
@@ -4345,24 +4146,19 @@
             displayAddProductMessage(messages.join('<br>') || finalMessage, productsSkippedCount > 0 ? 'warning' : 'success');
         }
 
-        /**
-         * Simulates downloading a spreadsheet model.
-         */
         function downloadSpreadsheetModel() {
             const csvContent = "data:text/csv;charset=utf-8,CodigoCliente,Quantidade\nSKU-001,10\nSKU-003,5\n";
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
             link.setAttribute("href", encodedUri);
             link.setAttribute("download", "modelo_planilha_fluig.csv");
-            document.body.appendChild(link); // Required for Firefox
+            document.body.appendChild(link);
             link.click();
-            document.body.removeChild(link); // Clean up
+            document.body.removeChild(link);
             displayAddProductMessage('Modelo de planilha baixado com sucesso!', 'success');
         }
 
-        // 3. DOMContentLoaded Listener (for initial setup after DOM is ready)
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize/recalculate counters based on initial data
             orders.forEach(order => {
                 if (order.supplier) {
                     getOrGenerateSupplierCode(order.supplier);
@@ -4392,12 +4188,10 @@
             }, 0);
             nextSapOrderIdCounter = maxSapId + 1;
             
-            // Clear inputs and show login page
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
             showScreen('login-page');
 
-            // Add event listeners
             const loginButton = document.getElementById('loginButton');
             if (loginButton) {
                 loginButton.addEventListener('click', login);
