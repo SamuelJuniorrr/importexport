@@ -271,6 +271,8 @@
         .icon-search::before { content: '🔍'; }
         .icon-plus::before { content: '➕'; }
         .icon-question::before { content: '?'; }
+        .icon-flow::before { content: '!'; } /* Ícone para o botão Fluxo */
+
 
         .container {
             max-width: 1200px;
@@ -1099,6 +1101,69 @@
             box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.3);
         }
 
+        /* Styles for Flowchart Modal */
+        #flowchartModal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1001; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+        }
+
+        #flowchartModal.active {
+            display: flex;
+        }
+
+        #flowchartModal .modal-content {
+            margin: auto;
+            display: block;
+            width: 90%;
+            height: 90%;
+            max-width: 1200px; /* Adjust as needed */
+            max-height: 800px; /* Adjust as needed */
+            background-color: #fff; /* White background for the image */
+            padding: 20px;
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #flowchartModal .modal-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ensures the image fits within the modal without cropping */
+        }
+
+        #flowchartModal .modal-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            color: #333; /* Darker color for visibility on white background */
+            font-size: 35px;
+            font-weight: bold;
+            transition: 0.3s;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 1002; /* Ensure close button is above image */
+        }
+
+        #flowchartModal .modal-close-btn:hover,
+        #flowchartModal .modal-close-btn:focus {
+            color: #999;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
@@ -1139,6 +1204,7 @@
             <div class="header-right">
                 <button class="btn-primary" id="novaSolicitacao"><i class="icon-plus"></i> Nova Solicitação</button>
                 <span class="header-icon" onclick="showScreenInfo()"><i class="icon-question"></i></span>
+                <span class="header-icon" onclick="openFlowchartModal()"><i class="icon-flow"></i></span> <!-- Botão Fluxo -->
                 <button class="btn-secondary" id="logoutButton">Sair (Logout)</button>
             </div>
         </header>
@@ -1218,6 +1284,7 @@
             </div>
             <div class="header-right">
                 <span class="header-icon" onclick="showScreenInfo()"><i class="icon-question"></i></span>
+                <span class="header-icon" onclick="openFlowchartModal()"><i class="icon-flow"></i></span> <!-- Botão Fluxo -->
             </div>
         </header>
         <div class="container">
@@ -1298,6 +1365,7 @@
             </div>
             <div class="header-right">
                 <span class="header-icon" onclick="showScreenInfo()"><i class="icon-question"></i></span>
+                <span class="header-icon" onclick="openFlowchartModal()"><i class="icon-flow"></i></span> <!-- Botão Fluxo -->
             </div>
         </header>
 
@@ -1418,6 +1486,7 @@
             </div>
             <div class="header-right">
                 <span class="header-icon" onclick="showScreenInfo()"><i class="icon-question"></i></span>
+                <span class="header-icon" onclick="openFlowchartModal()"><i class="icon-flow"></i></span> <!-- Botão Fluxo -->
             </div>
         </header>
         <div class="container">
@@ -1438,6 +1507,7 @@
             </div>
             <div class="header-right">
                 <span class="header-icon" onclick="showScreenInfo()"><i class="icon-question"></i></span>
+                <span class="header-icon" onclick="openFlowchartModal()"><i class="icon-flow"></i></span> <!-- Botão Fluxo -->
             </div>
         </header>
         <div class="container">
@@ -1460,6 +1530,7 @@
             </div>
             <div class="header-right">
                 <span class="header-icon" onclick="showScreenInfo()"><i class="icon-question"></i></span>
+                <span class="header-icon" onclick="openFlowchartModal()"><i class="icon-flow"></i></span> <!-- Botão Fluxo -->
                 <button class="btn-secondary" id="purchasingLogoutButton">Sair (Logout)</button>
             </div>
         </header>
@@ -1569,6 +1640,7 @@
             </div>
             <div class="header-right">
                 <span class="header-icon" onclick="showScreenInfo()"><i class="icon-question"></i></span>
+                <span class="header-icon" onclick="openFlowchartModal()"><i class="icon-flow"></i></span> <!-- Botão Fluxo -->
             </div>
         </header>
         <div class="container">
@@ -1635,6 +1707,7 @@
             </div>
             <div class="header-right">
                 <span class="header-icon" onclick="showScreenInfo()"><i class="icon-question"></i></span>
+                <span class="header-icon" onclick="openFlowchartModal()"><i class="icon-flow"></i></span> <!-- Botão Fluxo -->
                 <button class="btn-secondary" id="renatoLogoutButton">Sair (Logout)</button>
             </div>
         </header>
@@ -1721,6 +1794,7 @@
             </div>
             <div class="header-right">
                 <span class="header-icon" onclick="showScreenInfo()"><i class="icon-question"></i></span>
+                <span class="header-icon" onclick="openFlowchartModal()"><i class="icon-flow"></i></span> <!-- Botão Fluxo -->
             </div>
         </header>
         <div class="container">
@@ -1795,6 +1869,14 @@
             <div class="modal-actions">
                 <button class="btn-primary" onclick="document.getElementById('poPdfViewer').classList.remove('active');">Fechar</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Flowchart Modal Structure -->
+    <div id="flowchartModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close-btn" onclick="closeFlowchartModal()">&times;</span>
+            <img id="flowchartImage" src="https://raw.githubusercontent.com/SamuelJuniorrr/importexport/refs/heads/main/fluxograma.png" alt="Fluxograma do Processo">
         </div>
     </div>
 
@@ -3257,7 +3339,7 @@
                     } else if (po.overallApprovalStatus === 'Rejeitado') {
                         cardStatusEmoji = '🔴';
                     } else if (po.overallApprovalStatus === 'Negociado') {
-                        cardStatusEmoji = '🟣';
+                        cardStatusEmoji = '�';
                     } else if (po.overallApprovalStatus === 'Finalizado') {
                         cardStatusEmoji = '✅';
                     }
@@ -4312,6 +4394,16 @@
             link.click();
             document.body.removeChild(link);
             displayAddProductMessage('Modelo de planilha baixado com sucesso!', 'success');
+        }
+
+        // Function to open the flowchart modal
+        function openFlowchartModal() {
+            document.getElementById('flowchartModal').classList.add('active');
+        }
+
+        // Function to close the flowchart modal
+        function closeFlowchartModal() {
+            document.getElementById('flowchartModal').classList.remove('active');
         }
 
         document.addEventListener('DOMContentLoaded', () => {
