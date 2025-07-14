@@ -1079,7 +1079,7 @@
             modal.classList.remove('show');
         }
 
-        // MESSAGE MODAL FUNCTIONS
+        // MESSAGE MODAL FUNCTIONS (kept for other potential messages, but not used by navigation buttons anymore)
         function showMessage(title, message, type = 'info', callback = null) {
             const modalOverlay = document.getElementById('messageModalOverlay');
             const modalHeader = document.getElementById('messageModalHeader');
@@ -1108,21 +1108,15 @@
             }
         }
 
-        // BUTTON ACTIONS
+        // BUTTON ACTIONS - UPDATED FOR NAVIGATION
         function logout() {
-            showMessage('Sair', 'Você foi desconectado com sucesso!', 'info', () => {
-                // In a real application, this would redirect to a login page
-                console.log('User logged out.');
-                // window.location.href = '/login'; // Example redirection
-            });
+            // Redirects to index.html
+            window.location.href = 'index.html';
         }
 
         function returnToCentralDimpex() {
-            showMessage('Retornar', 'Redirecionando para a tela central Dimpex...', 'info', () => {
-                // In a real application, this would redirect to the main Dimpex page
-                console.log('Returning to central Dimpex page.');
-                // window.location.href = '/dimpex-central'; // Example redirection
-            });
+            // Redirects to dimpex.html
+            window.location.href = 'dimpex.html';
         }
 
 
