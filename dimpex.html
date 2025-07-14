@@ -190,6 +190,33 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
+        /* Novo estilo para o botão de fluxo */
+        .flow-button {
+            background-color: #e0e0e0; /* Cinza claro */
+            border: 1px solid #ccc;
+            padding: 5px 9px;
+            border-radius: 50%; /* Torna-o redondo */
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            color: #555;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px; /* Largura e altura fixas para ser um círculo */
+            height: 28px;
+            transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .flow-button:hover {
+            background-color: #d0d0d0;
+            border-color: #a0a0a0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Ícone para o botão Fluxo */
+        .icon-flow::before { content: '!'; }
+
         .input-group {
             margin-bottom: 15px;
         }
@@ -1046,6 +1073,69 @@
                 min-width: 300px;
             }
         }
+
+        /* Styles for Flowchart Modal */
+        #flowchartModal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1001; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+        }
+
+        #flowchartModal.active {
+            display: flex;
+        }
+
+        #flowchartModal .modal-content {
+            margin: auto;
+            display: block;
+            width: 90%;
+            height: 90%;
+            max-width: 1200px; /* Adjust as needed */
+            max-height: 800px; /* Adjust as needed */
+            background-color: #fff; /* White background for the image */
+            padding: 20px;
+            border-radius: 8px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #flowchartModal .modal-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Ensures the image fits within the modal without cropping */
+        }
+
+        #flowchartModal .modal-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            color: #333; /* Darker color for visibility on white background */
+            font-size: 35px;
+            font-weight: bold;
+            transition: 0.3s;
+            background: none;
+            border: none;
+            cursor: pointer;
+            z-index: 1002; /* Ensure close button is above image */
+        }
+
+        #flowchartModal .modal-close-btn:hover,
+        #flowchartModal .modal-close-btn:focus {
+            color: #999;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -1058,6 +1148,7 @@
             </div>
             <div class="header-right">
                 <button class="info-button" onclick="showInfoModal('dimpexCentral')">?</button>
+                <button class="flow-button" onclick="openFlowchartModal()"><i class="icon-flow"></i></button> <!-- Botão Fluxo -->
                 <button class="btn-secondary" onclick="showEngineeringCentralPage()">Central de Engenharia</button>
                 <button class="btn-secondary" onclick="window.location.href='dash.html'">Dash</button>
                 <button class="btn-secondary" onclick="logout()">Sair</button>
@@ -1136,6 +1227,7 @@
             </div>
             <div class="header-right">
                 <button class="info-button" onclick="showInfoModal('dimpexDetail')">?</button>
+                <button class="flow-button" onclick="openFlowchartModal()"><i class="icon-flow"></i></button> <!-- Botão Fluxo -->
                 <button class="btn-secondary" onclick="showDimpexCentralPage()">Voltar para Central Dimpex</button>
             </div>
         </header>
@@ -1460,6 +1552,7 @@
             </div>
             <div class="header-right">
                 <button class="info-button" onclick="showInfoModal('engineeringCentral')">?</button>
+                <button class="flow-button" onclick="openFlowchartModal()"><i class="icon-flow"></i></button> <!-- Botão Fluxo -->
                 <button class="btn-secondary" onclick="showDimpexCentralPage()">Central Dimpex</button>
                 <button class="btn-secondary" onclick="logout()">Sair (Logout)</button>
             </div>
@@ -1613,6 +1706,14 @@
             <div class="modal-actions">
                 <button class="btn-primary" onclick="closeInfoModal()">OK</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Flowchart Modal Structure -->
+    <div id="flowchartModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close-btn" onclick="closeFlowchartModal()">&times;</span>
+            <img id="flowchartImage" src="https://raw.githubusercontent.com/SamuelJuniorrr/importexport/refs/heads/main/fluxograma.png" alt="Fluxograma do Processo">
         </div>
     </div>
 
@@ -3920,6 +4021,16 @@
                 () => {
                 }
             );
+        }
+
+        // Function to open the flowchart modal
+        function openFlowchartModal() {
+            document.getElementById('flowchartModal').classList.add('active');
+        }
+
+        // Function to close the flowchart modal
+        function closeFlowchartModal() {
+            document.getElementById('flowchartModal').classList.remove('active');
         }
 
         document.addEventListener('DOMContentLoaded', () => {
