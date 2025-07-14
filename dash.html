@@ -8,12 +8,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #ffffff; /* White background */
-            color: #333; /* Dark text for contrast on white */
+            background-color: #f0f2f5; /* Soft light gray background */
+            color: #333; /* Dark text for contrast */
             line-height: 1.6;
         }
         .container {
@@ -22,30 +24,31 @@
             padding: 1.5rem;
         }
         .card {
-            background-color: #fdfdfd; /* Very light card background */
-            border-radius: 0.75rem; /* Rounded corners */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* Lighter shadow */
-            padding: 1.5rem;
-            transition: transform 0.2s ease-in-out;
+            background-color: #ffffff; /* White card background */
+            border-radius: 1rem; /* More rounded corners */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08); /* Slightly stronger, softer shadow */
+            padding: 1.75rem;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             border: 1px solid #e2e8f0; /* Subtle border */
         }
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
         .kpi-value {
-            font-size: 2.5rem;
+            font-size: 2.8rem; /* Larger KPI values */
             font-weight: 700;
-            color: #63b3ed; /* Primary blue color (unchanged) */
+            color: #4a90e2; /* A more vibrant blue */
+            margin-bottom: 0.25rem;
         }
         .kpi-label {
-            font-size: 0.9rem;
-            color: #666; /* Darker gray text for visibility */
+            font-size: 1rem; /* Slightly larger label */
+            color: #555; /* Darker gray text for visibility */
             font-weight: 500;
         }
         .chart-container {
             position: relative;
-            height: 300px;
+            height: 320px; /* Slightly taller charts */
             width: 100%;
         }
         canvas {
@@ -53,71 +56,188 @@
             height: auto;
         }
         .table-header {
-            background-color: #e2e8f0; /* Light gray table header */
-            color: #4a5568; /* Darker text for header */
+            background-color: #ebf4ff; /* Lighter blue table header */
+            color: #2a4365; /* Darker blue text for header */
+            font-weight: 600;
         }
         .table-row:nth-child(even) {
-            background-color: #f8f9fa; /* Lighter alternating row */
+            background-color: #f7fafc; /* Very light alternating row */
         }
         .table-row:nth-child(odd) {
             background-color: #ffffff; /* White alternating row */
         }
         .table-row:hover {
-            background-color: #e2e8f0; /* Hover effect */
+            background-color: #e2f0ff; /* Lighter hover effect */
         }
         .status-badge {
-            padding: 0.25rem 0.75rem;
+            padding: 0.3rem 0.8rem; /* Slightly larger padding */
             border-radius: 9999px; /* Pill shape */
-            font-size: 0.75rem;
+            font-size: 0.8rem; /* Slightly larger font */
             font-weight: 600;
             text-transform: uppercase;
-            color: #fff; /* White text for badges (unchanged) */
+            color: #fff; /* White text for badges */
+            display: inline-block; /* Ensure it wraps correctly */
         }
-        /* Specific status colors (unchanged) */
-        .status-aprovado { background-color: #48bb78; } /* Green */
-        .status-em-producao { background-color: #ecc94b; } /* Yellow */
-        .status-carga-pronta { background-color: #ed8936; } /* Orange */
-        .status-booking { background-color: #9f7aea; } /* Purple */
-        .status-atd { background-color: #4299e1; } /* Blue */
+        /* Specific status colors (updated for better contrast/vibrancy) */
+        .status-aprovado { background-color: #38a169; } /* Green */
+        .status-em-producao { background-color: #d69e2e; } /* Orange-Yellow */
+        .status-carga-pronta { background-color: #dd6b20; } /* Dark Orange */
+        .status-booking { background-color: #805ad5; } /* Deeper Purple */
+        .status-atd { background-color: #3182ce; } /* Stronger Blue */
         .status-documentacao-pendente { background-color: #e53e3e; } /* Red */
         .status-documentacao-ok { background-color: #38b2ac; } /* Teal */
-        .status-em-transito { background-color: #3182ce; } /* Stronger Blue */
-        .status-ata { background-color: #805ad5; } /* Darker Purple */
-        .status-entrega-ao-cliente { background-color: #38a169; } /* Darker Green */
+        .status-em-transito { background-color: #2c5282; } /* Dark Blue */
+        .status-ata { background-color: #6b46c1; } /* Richer Purple */
+        .status-entrega-ao-cliente { background-color: #2f855a; } /* Darker Green */
         .status-reprovado { background-color: #c53030; } /* Dark Red */
-        .status-aprovado-com-ressalvas { background-color: #d69e2e; } /* Dark Orange */
+        .status-aprovado-com-ressalvas { background-color: #b7791f; } /* Muted Orange */
         .status-solicitado { background-color: #319795; } /* Dark Teal */
-        .status-em-andamento { background-color: #d69e2e; } /* Dark Orange */
+        .status-em-andamento { background-color: #b7791f; } /* Muted Orange */
+
+        /* Inspection status colors - consistent with shipment status */
+        .inspection-status-aprovado { background-color: #38a169; }
+        .inspection-status-reprovado { background-color: #e53e3e; }
+        .inspection-status-solicitado { background-color: #d69e2e; }
+        .inspection-status-aprovado-com-ressalvas { background-color: #b7791f; }
 
         .section-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #333; /* Dark text for titles */
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid #e2e8f0; /* Lighter border */
-            padding-bottom: 0.5rem;
+            font-size: 1.8rem; /* Larger titles */
+            font-weight: 700;
+            color: #2d3748; /* Darker title color */
+            margin-bottom: 1.75rem;
+            border-bottom: 2px solid #cbd5e0; /* Softer border */
+            padding-bottom: 0.75rem;
         }
-        .insights-box {
-            background-color: #fdfdfd; /* Very light background for insights */
-            border-radius: 0.75rem;
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid for insights */
+            gap: 1.5rem;
+        }
+        .insight-card {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
             padding: 1.5rem;
-            margin-top: 2rem;
-            border: 1px solid #e2e8f0; /* Subtle border */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: flex-start;
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s ease-in-out;
         }
-        .insights-box h3 {
-            font-size: 1.25rem;
+        .insight-card:hover {
+            transform: translateY(-5px);
+        }
+        .insight-icon {
+            font-size: 2rem;
+            color: #4a90e2; /* Icon color */
+            margin-right: 1rem;
+            flex-shrink: 0; /* Prevent icon from shrinking */
+        }
+        .insight-content h3 {
+            font-size: 1.15rem;
             font-weight: 600;
-            color: #63b3ed; /* Primary blue color (unchanged) */
-            margin-bottom: 1rem;
-        }
-        .insights-box ul {
-            list-style: disc;
-            margin-left: 1.25rem;
-        }
-        .insights-box li {
+            color: #2d3748;
             margin-bottom: 0.5rem;
-            color: #444; /* Darker text for insights list */
+        }
+        .insight-content p {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        /* Critical Shipment Row Highlight */
+        .critical-row {
+            border-left: 5px solid #e53e3e; /* Red border on left for critical */
+        }
+        .critical-row:hover {
+            background-color: #fee2e2 !important; /* Lighter red hover */
+        }
+
+        /* Critical Insight Card Specific Style */
+        .critical-insight-card {
+            background-color: #fff5f5; /* Very light red background */
+            border: 2px solid #e53e3e; /* Stronger red border */
+            box-shadow: 0 8px 20px rgba(229, 62, 62, 0.2); /* Reddish shadow */
+        }
+        .critical-insight-card .insight-icon {
+            color: #e53e3e; /* Ensure icon is red */
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Darker overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background-color: #ffffff;
+            padding: 2.5rem; /* More padding */
+            border-radius: 1rem; /* More rounded corners */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+            max-width: 90%;
+            width: 750px; /* Slightly wider modal */
+            max-height: 90%;
+            overflow-y: auto;
+            position: relative;
+            color: #333;
+        }
+        .modal-close-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.8rem; /* Larger close button */
+            cursor: pointer;
+            color: #888;
+            transition: color 0.2s ease-in-out;
+        }
+        .modal-close-button:hover {
+            color: #333;
+        }
+        .modal-detail-item {
+            margin-bottom: 0.9rem; /* Increased spacing */
+        }
+        .modal-detail-label {
+            font-weight: 600;
+            color: #4a5568;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+        .modal-detail-value {
+            color: #333;
+            word-wrap: break-word;
+            font-size: 0.95rem;
+        }
+        .modal-detail-list {
+            list-style: none; /* Remove default disc */
+            padding-left: 0;
+            margin-top: 0.5rem;
+        }
+        .modal-detail-list li {
+            margin-bottom: 0.4rem;
+            color: #444;
+            display: flex;
+            align-items: center;
+        }
+        .modal-detail-list li::before {
+            content: "•"; /* Custom bullet point */
+            color: #4a90e2; /* Blue bullet */
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
         }
     </style>
 </head>
@@ -189,31 +309,27 @@
         </section>
 
         <!-- Insights and Strategies Section -->
-        <section class="insights-box">
+        <section class="card mb-8">
             <h2 class="section-title">Insights e Estratégias</h2>
-            <div id="insightsContent">
-                <h3>Análise Geral:</h3>
-                <ul>
-                    <li>O volume total de embarques está em <span id="totalShipmentsInsight"></span>.</li>
-                    <li>A maioria dos embarques está atualmente em fase de <span id="mostCommonStatusInsight"></span>, indicando um gargalo potencial ou uma fase de alta atividade.</li>
-                    <li><span id="criticalShipmentsCountInsight"></span> embarques estão em status crítico ou atrasado, necessitando de atenção imediata.</li>
-                </ul>
-
-                <h3>Recomendações Estratégicas:</h3>
-                <ul>
-                    <li>**Otimização de Documentação:** Se "Documentação Pendente" for um status comum, revise os processos de coleta e aprovação de documentos para acelerar o fluxo.</li>
-                    <li>**Monitoramento Proativo:** Para embarques em "Em Trânsito" e "Chegada no Porto de Destino (ATA)", utilize ferramentas de rastreamento em tempo real e mantenha comunicação constante com agentes de carga para antecipar problemas.</li>
-                    <li>**Análise de Atrasos:** Investigue as causas raiz dos atrasos nos embarques críticos para implementar medidas corretivas e preventivas. Considere a performance de fornecedores e agentes.</li>
-                    <li>**Gestão de Estoque:** Alinhe as projeções de chegada dos embarques com o planejamento de estoque para evitar rupturas ou excessos.</li>
-                    <li>**Comunicação com o Cliente:** Mantenha os clientes informados sobre o status de seus embarques, especialmente em casos de atraso, para gerenciar expectativas.</li>
-                </ul>
+            <div class="insights-grid" id="insightsContent">
+                <!-- Insights will be rendered here by JavaScript -->
             </div>
         </section>
     </div>
 
+    <!-- Shipment Details Modal -->
+    <div id="shipmentDetailsModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-button" onclick="closeShipmentDetailsModal()">&times;</button>
+            <h2 class="text-2xl font-bold mb-4 text-gray-800" id="modalShipmentName"></h2>
+            <div id="modalShipmentDetails" class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 text-sm">
+                <!-- Details will be populated here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
     <script>
         // Sample data (replace with actual data from your backend or localStorage)
-        // This data structure should ideally mimic what you have in your main application
         const dimpexOrders = [
             {
                 id: 'PED-015',
@@ -242,8 +358,8 @@
                 containerLCL: '0',
                 followUp: 'Primeira reserva de espaço confirmada. Aguardando coleta da carga.',
                 incoterm: 'FOB',
-                documents: [],
-                productLines: [],
+                documents: ['Fatura Comercial', 'Packing List', 'Certificado de Origem'],
+                productLines: ['Produto A (1000 un)', 'Produto B (500 un)'],
                 inspectionReport: { status: 'Aprovado' }
             },
             {
@@ -273,8 +389,8 @@
                 containerLCL: '0',
                 followUp: 'Coleta agendada para amanhã. Documentos iniciais recebidos.',
                 incoterm: 'CIF',
-                documents: [],
-                productLines: [],
+                documents: ['AWB', 'Fatura Comercial'],
+                productLines: ['Peça X (200 un)', 'Componente Y (100 un)'],
                 inspectionReport: { status: 'Solicitado' }
             },
             {
@@ -295,7 +411,7 @@
                 dtBooking: '2025-06-28',
                 dtETA: '2025-08-20',
                 dtETAUpdated: '2025-08-20',
-                dtDesembaraco: '',
+                dtDesembaraco: '2025-08-15',
                 cargoAgent: 'TransOceanic',
                 paymentBeforeBL: true,
                 container20: '0',
@@ -304,8 +420,8 @@
                 containerLCL: '1',
                 followUp: 'Carga embarcada com sucesso. BL e documentos principais recebidos.',
                 incoterm: 'EXW',
-                documents: [],
-                productLines: [],
+                documents: ['BL Original', 'Fatura Comercial', 'Packing List'],
+                productLines: ['Motor Z (50 un)'],
                 inspectionReport: { status: 'Aprovado' }
             },
             {
@@ -335,8 +451,8 @@
                 containerLCL: '0',
                 followUp: 'Navio a caminho. Monitorando a ETA.',
                 incoterm: 'FOB',
-                documents: [],
-                productLines: [],
+                documents: ['Fatura Comercial', 'Packing List'],
+                productLines: ['Bateria (2000 un)', 'Cabo de Força (3000 un)'],
                 inspectionReport: { status: 'Aprovado com Ressalvas' }
             },
             {
@@ -366,40 +482,9 @@
                 containerLCL: '1',
                 followUp: 'Carga chegou ao porto. Aguardando início do desembaraço.',
                 incoterm: 'CFR',
-                documents: [],
-                productLines: [],
+                documents: ['BL Original', 'Fatura Comercial'],
+                productLines: ['Ferramenta Manual (500 un)'],
                 inspectionReport: { status: 'Solicitado' }
-            },
-            {
-                id: 'PED-027',
-                poCliente: '6060PQR',
-                fornecedor: 'Fornecedor XY',
-                fornecedorLoja: '02',
-                cliente: 'Cliente I',
-                aprovacaoDate: '2025-07-07',
-                statusDimpex: 'Chegada no Porto de Destino (ATA)',
-                shipmentName: 'EMB-006-CLII',
-                toyNumber: 'TOY1250006',
-                blNumber: 'BL-HKG-005',
-                blDate: '2025-07-18',
-                pol: 'Guangzhou',
-                pod: 'Fortaleza',
-                prevEmbarque: '2025-07-16',
-                dtBooking: '2025-07-14',
-                dtETA: '2025-11-01',
-                dtETAUpdated: '2025-11-01',
-                dtDesembaraco: '2025-07-25',
-                cargoAgent: 'Porto Forte',
-                paymentBeforeBL: false,
-                container20: '1',
-                container40: '0',
-                container40HQ: '0',
-                containerLCL: '0',
-                followUp: 'Documentos entregues ao despachante. Desembaraço em andamento.',
-                incoterm: 'DAP',
-                documents: [],
-                productLines: [],
-                inspectionReport: { status: 'Aprovado' }
             },
             {
                 id: 'PED-028',
@@ -428,8 +513,8 @@
                 containerLCL: '0',
                 followUp: 'Carga liberada pela alfândega. Aguardando agendamento de transporte final.',
                 incoterm: 'DDP',
-                documents: [],
-                productLines: [],
+                documents: ['Fatura Comercial', 'Packing List', 'Certificado Sanitário'],
+                productLines: ['Alimento Processado (3000 kg)'],
                 inspectionReport: { status: 'Reprovado' }
             },
             {
@@ -459,9 +544,40 @@
                 containerLCL: '1',
                 followUp: 'Carga entregue com sucesso ao cliente. Processo finalizado.',
                 incoterm: 'FOB',
-                documents: [],
-                productLines: [],
+                documents: ['Comprovante de Entrega'],
+                productLines: ['Eletrônico (100 un)', 'Acessório (200 un)'],
                 inspectionReport: { status: 'Aprovado' }
+            },
+            {
+                id: 'PED-030',
+                poCliente: '9090ABC',
+                fornecedor: 'Fornecedor Z',
+                fornecedorLoja: '03',
+                cliente: 'Cliente L',
+                aprovacaoDate: '2025-07-10',
+                statusDimpex: 'Documentação Pendente',
+                shipmentName: 'EMB-009-CLIL',
+                toyNumber: 'TOY1250009',
+                blNumber: '',
+                blDate: '',
+                pol: 'Hamburg',
+                pod: 'Rio de Janeiro',
+                prevEmbarque: '2025-07-25',
+                dtBooking: '2025-07-15',
+                dtETA: '2025-12-01',
+                dtETAUpdated: '2025-12-01',
+                dtDesembaraco: '',
+                cargoAgent: 'Euro Cargo',
+                paymentBeforeBL: false,
+                container20: '1',
+                container40: '0',
+                container40HQ: '0',
+                containerLCL: '0',
+                followUp: 'Aguardando envio de documentos de exportação pelo fornecedor.',
+                incoterm: 'EXW',
+                documents: [], // Intentionally empty for demonstration
+                productLines: ['Máquina Industrial (1 un)'],
+                inspectionReport: { status: 'Solicitado' }
             }
         ];
 
@@ -485,6 +601,29 @@
             return diffDays;
         }
 
+        // Function to get the correct CSS class for a given status
+        function getStatusClass(status) {
+            const statusMap = {
+                'Reserva de Espaço (Booking)': 'booking',
+                'Em Trânsito': 'em-transito',
+                'Entrega ao Cliente': 'entrega-ao-cliente',
+                'Chegada no Porto de Destino (ATA)': 'ata',
+                'Documentação Pendente': 'documentacao-pendente',
+                'Documentação OK': 'documentacao-ok',
+                'Carga Pronta': 'carga-pronta',
+                'Em Produção': 'em-producao',
+                'Aprovado': 'aprovado',
+                'Aprovado com Ressalvas': 'aprovado-com-ressalvas',
+                'Reprovado': 'reprovado',
+                'Solicitado': 'solicitado',
+                'Em Andamento': 'em-andamento',
+                // Add any other statuses you might have
+            };
+            // Fallback to a generic class if not explicitly mapped
+            return statusMap[status] || status.toLowerCase().replace(/ /g, '-').replace(/\//g, '-').replace(/\(|\)/g, '');
+        }
+
+
         // Render KPIs
         function renderKPIs() {
             const totalShipments = dimpexOrders.length;
@@ -496,9 +635,6 @@
             document.getElementById('inTransitShipmentsKPI').innerText = inTransitShipments;
             document.getElementById('customsClearanceShipmentsKPI').innerText = customsClearanceShipments;
             document.getElementById('deliveredShipmentsKPI').innerText = deliveredShipments;
-
-            // Update insights
-            document.getElementById('totalShipmentsInsight').innerText = totalShipments;
         }
 
         // Render Shipment Status Chart (Pie Chart)
@@ -512,8 +648,8 @@
             const data = Object.values(statusCounts);
 
             const backgroundColors = [
-                '#63b3ed', '#48bb78', '#ecc94b', '#ed8936', '#9f7aea', '#e53e3e',
-                '#38b2ac', '#3182ce', '#805ad5', '#38a169'
+                '#4a90e2', '#38a169', '#d69e2e', '#dd6b20', '#805ad5', '#e53e3e',
+                '#38b2ac', '#2c5282', '#6b46c1', '#2f855a', '#c53030', '#b7791f', '#319795'
             ];
 
             const ctx = document.getElementById('shipmentStatusChart').getContext('2d');
@@ -533,7 +669,7 @@
                     plugins: {
                         legend: {
                             labels: {
-                                color: '#4a5568' /* Darker color for labels on white background */
+                                color: '#4a5568'
                             }
                         },
                         title: {
@@ -544,10 +680,6 @@
                     }
                 }
             });
-
-            // Update insights
-            const mostCommonStatus = labels[data.indexOf(Math.max(...data))];
-            document.getElementById('mostCommonStatusInsight').innerText = mostCommonStatus;
         }
 
         // Render Shipment Trend Chart (Line Chart)
@@ -581,8 +713,8 @@
                     datasets: [{
                         label: 'Número de Embarques',
                         data: data,
-                        borderColor: '#63b3ed',
-                        backgroundColor: 'rgba(99, 179, 237, 0.2)',
+                        borderColor: '#4a90e2',
+                        backgroundColor: 'rgba(74, 144, 226, 0.2)',
                         fill: true,
                         tension: 0.4
                     }]
@@ -593,7 +725,7 @@
                     plugins: {
                         legend: {
                             labels: {
-                                color: '#4a5568' /* Darker color for labels on white background */
+                                color: '#4a5568'
                             }
                         },
                         title: {
@@ -605,19 +737,19 @@
                     scales: {
                         x: {
                             grid: {
-                                color: '#cbd5e0' /* Lighter grid lines */
+                                color: '#cbd5e0'
                             },
                             ticks: {
-                                color: '#4a5568' /* Darker ticks */
+                                color: '#4a5568'
                             }
                         },
                         y: {
                             beginAtZero: true,
                             grid: {
-                                color: '#cbd5e0' /* Lighter grid lines */
+                                color: '#cbd5e0'
                             },
                             ticks: {
-                                color: '#4a5568', /* Darker ticks */
+                                color: '#4a5568',
                                 precision: 0
                             }
                         }
@@ -636,14 +768,12 @@
             const criticalShipments = dimpexOrders.filter(order => {
                 if (order.dtETAUpdated) {
                     const etaUpdated = new Date(order.dtETAUpdated);
-                    // Consider critical if ETA is in the past and not yet delivered, or if dtETAUpdated is significantly later than dtETA
-                    const isDelayed = order.dtETA && new Date(order.dtETAUpdated) > new Date(order.dtETA);
+                    const isDelayed = order.dtETA && (new Date(order.dtETAUpdated) > new Date(order.dtETA));
                     
                     return (etaUpdated < today && order.statusDimpex !== 'Entrega ao Cliente') || isDelayed;
                 }
                 return false;
             }).sort((a, b) => {
-                // Sort by most delayed first
                 const delayA = a.dtETAUpdated ? getDaysDifference(a.dtETA, a.dtETAUpdated) : 0;
                 const delayB = b.dtETAUpdated ? getDaysDifference(b.dtETA, b.dtETAUpdated) : 0;
                 return delayB - delayA;
@@ -651,7 +781,12 @@
 
             if (criticalShipments.length === 0) {
                 tableBody.innerHTML = `<tr><td colspan="6" class="px-6 py-4 whitespace-nowrap text-center text-gray-600">Nenhum embarque crítico ou atrasado encontrado.</td></tr>`;
-                document.getElementById('criticalShipmentsCountInsight').innerText = '0';
+                // Ensure critical insight card is removed or shows 0
+                const insightsContainer = document.getElementById('insightsContent');
+                let criticalInsightCard = insightsContainer.querySelector('#criticalShipmentsInsightCard');
+                if (criticalInsightCard) {
+                    criticalInsightCard.remove();
+                }
                 return;
             }
 
@@ -661,10 +796,11 @@
                 const etaUpdated = formatDate(order.dtETAUpdated);
                 const daysDelayed = order.dtETAUpdated ? getDaysDifference(order.dtETA, order.dtETAUpdated) : 0;
 
-                const statusClass = order.statusDimpex.toLowerCase().replace(/ /g, '-').replace(/\//g, '-');
+                // Use the new getStatusClass function
+                const statusClass = getStatusClass(order.statusDimpex);
 
                 const row = document.createElement('tr');
-                row.className = 'table-row';
+                row.className = `table-row ${daysDelayed > 0 ? 'critical-row' : ''}`; // Add critical-row class
                 row.innerHTML = `
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">${order.shipmentName}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
@@ -674,13 +810,204 @@
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${etaUpdated}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-red-600 font-bold">${daysDelayed > 0 ? daysDelayed : 0} dias</td>
                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a href="#" class="text-indigo-600 hover:text-indigo-800">Ver Detalhes</a>
+                        <a href="#" class="text-indigo-600 hover:text-indigo-800" onclick="showShipmentDetailsModal('${order.id}')">Ver Detalhes</a>
                     </td>
                 `;
                 tableBody.appendChild(row);
             });
 
-            document.getElementById('criticalShipmentsCountInsight').innerText = criticalCount;
+            // Update insight for critical shipments count
+            const totalCriticalShipments = criticalShipments.length;
+            const insightsContainer = document.getElementById('insightsContent');
+            let criticalInsightCard = insightsContainer.querySelector('#criticalShipmentsInsightCard');
+            if (!criticalInsightCard) {
+                criticalInsightCard = document.createElement('div');
+                criticalInsightCard.id = 'criticalShipmentsInsightCard';
+                insightsContainer.appendChild(criticalInsightCard);
+            }
+            // Add the specific critical-insight-card class here
+            criticalInsightCard.className = 'insight-card critical-insight-card';
+            criticalInsightCard.innerHTML = `
+                <i class="fas fa-exclamation-triangle insight-icon text-red-500"></i>
+                <div class="insight-content">
+                    <h3>Atenção Urgente!</h3>
+                    <p><span class="font-bold text-red-600">${totalCriticalShipments}</span> embarques estão em status crítico ou atrasado, necessitando de atenção imediata.</p>
+                </div>
+            `;
+        }
+
+        // Render Insights and Strategies
+        function renderInsights() {
+            const insightsContainer = document.getElementById('insightsContent');
+            insightsContainer.innerHTML = ''; // Clear previous insights
+
+            // General Analysis Insights
+            const totalShipments = dimpexOrders.length;
+            const statusCounts = {};
+            dimpexOrders.forEach(order => {
+                statusCounts[order.statusDimpex] = (statusCounts[order.statusDimpex] || 0) + 1;
+            });
+            const labels = Object.keys(statusCounts);
+            const data = Object.values(statusCounts);
+            const mostCommonStatus = labels[data.indexOf(Math.max(...data))];
+
+            const generalAnalysisCard = document.createElement('div');
+            generalAnalysisCard.className = 'insight-card';
+            generalAnalysisCard.innerHTML = `
+                <i class="fas fa-chart-line insight-icon"></i>
+                <div class="insight-content">
+                    <h3>Análise Geral</h3>
+                    <p>O volume total de embarques é de <span class="font-bold">${totalShipments}</span>. A maioria está em fase de <span class="font-bold">${mostCommonStatus}</span>.</p>
+                </div>
+            `;
+            insightsContainer.appendChild(generalAnalysisCard);
+
+            // Placeholder for Critical Shipments Insight. This will be updated by renderCriticalShipmentsTable
+            const criticalShipmentsPlaceholder = document.createElement('div');
+            criticalShipmentsPlaceholder.id = 'criticalShipmentsInsightCard';
+            insightsContainer.appendChild(criticalShipmentsPlaceholder);
+
+
+            // Strategic Recommendations
+            const recommendations = [
+                {
+                    icon: 'fas fa-file-alt',
+                    title: 'Otimização de Documentação',
+                    description: 'Revise processos de coleta e aprovação de documentos para acelerar o fluxo, especialmente se "Documentação Pendente" for comum.'
+                },
+                {
+                    icon: 'fas fa-map-marked-alt',
+                    title: 'Monitoramento Proativo',
+                    description: 'Utilize rastreamento em tempo real e comunicação constante com agentes para antecipar problemas em embarques "Em Trânsito" e "ATA".'
+                },
+                {
+                    icon: 'fas fa-hourglass-half',
+                    title: 'Análise de Atrasos',
+                    description: 'Investigue as causas raiz dos atrasos para implementar medidas corretivas e preventivas, avaliando fornecedores e agentes.'
+                },
+                {
+                    icon: 'fas fa-warehouse',
+                    title: 'Gestão de Estoque',
+                    description: 'Alinhe as projeções de chegada dos embarques com o planejamento de estoque para evitar rupturas ou excessos.'
+                },
+                {
+                    icon: 'fas fa-comments',
+                    title: 'Comunicação com o Cliente',
+                    description: 'Mantenha os clientes informados sobre o status de seus embarques, principalmente em casos de atraso, para gerenciar expectativas.'
+                }
+            ];
+
+            recommendations.forEach(rec => {
+                const recCard = document.createElement('div');
+                recCard.className = 'insight-card';
+                recCard.innerHTML = `
+                    <i class="${rec.icon} insight-icon"></i>
+                    <div class="insight-content">
+                        <h3>${rec.title}</h3>
+                        <p>${rec.description}</p>
+                    </div>
+                `;
+                insightsContainer.appendChild(recCard);
+            });
+        }
+
+
+        // MODAL FUNCTIONS
+        function showShipmentDetailsModal(shipmentId) {
+            const modal = document.getElementById('shipmentDetailsModal');
+            const modalShipmentName = document.getElementById('modalShipmentName');
+            const modalShipmentDetails = document.getElementById('modalShipmentDetails');
+
+            const shipment = dimpexOrders.find(order => order.id === shipmentId);
+
+            if (shipment) {
+                modalShipmentName.innerText = `Detalhes do Embarque: ${shipment.shipmentName}`;
+                modalShipmentDetails.innerHTML = ''; // Clear previous details
+
+                // Define the order of keys to display
+                const displayOrder = [
+                    'id', 'poCliente', 'fornecedor', 'fornecedorLoja', 'cliente', 'aprovacaoDate',
+                    'statusDimpex', 'shipmentName', 'toyNumber', 'blNumber', 'blDate', 'pol', 'pod',
+                    'prevEmbarque', 'dtBooking', 'dtETA', 'dtETAUpdated', 'dtDesembaraco',
+                    'cargoAgent', 'paymentBeforeBL', 'container20', 'container40', 'container40HQ',
+                    'containerLCL', 'incoterm', 'followUp', 'documents', 'productLines', 'inspectionReport'
+                ];
+
+                displayOrder.forEach(key => {
+                    if (shipment.hasOwnProperty(key)) {
+                        let value = shipment[key];
+                        // Map internal keys to user-friendly labels
+                        let labelMap = {
+                            id: 'ID do Pedido',
+                            poCliente: 'PO do Cliente',
+                            fornecedor: 'Fornecedor',
+                            fornecedorLoja: 'Loja do Fornecedor',
+                            cliente: 'Cliente',
+                            aprovacaoDate: 'Data de Aprovação',
+                            statusDimpex: 'Status Dimpex',
+                            shipmentName: 'Nome do Embarque',
+                            toyNumber: 'Número TOY',
+                            blNumber: 'Número BL',
+                            blDate: 'Data BL',
+                            pol: 'Porto de Origem (POL)',
+                            pod: 'Porto de Destino (POD)',
+                            prevEmbarque: 'Previsão de Embarque',
+                            dtBooking: 'Data de Booking',
+                            dtETA: 'ETA Original',
+                            dtETAUpdated: 'ETA Atualizada',
+                            dtDesembaraco: 'Data de Desembaraço',
+                            cargoAgent: 'Agente de Carga',
+                            paymentBeforeBL: 'Pagamento Antes do BL',
+                            container20: 'Container 20\'',
+                            container40: 'Container 40\'',
+                            container40HQ: 'Container 40\' HQ',
+                            containerLCL: 'Container LCL',
+                            followUp: 'Acompanhamento',
+                            incoterm: 'Incoterm',
+                            documents: 'Documentos',
+                            productLines: 'Linhas de Produto',
+                            inspectionReport: 'Relatório de Inspeção'
+                        };
+                        let label = labelMap[key] || key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+
+                        const detailItem = document.createElement('div');
+                        detailItem.className = 'modal-detail-item';
+
+                        if (key.startsWith('dt') || key.endsWith('Date')) {
+                            value = formatDate(value);
+                            detailItem.innerHTML = `<span class="modal-detail-label">${label}:</span> <span class="modal-detail-value">${value || 'Não informado'}</span>`;
+                        } else if (typeof value === 'boolean') {
+                            value = value ? 'Sim' : 'Não';
+                            detailItem.innerHTML = `<span class="modal-detail-label">${label}:</span> <span class="modal-detail-value">${value}</span>`;
+                        } else if (key === 'documents' || key === 'productLines') {
+                            if (Array.isArray(value) && value.length > 0) {
+                                let listItems = value.map(item => `<li>${item}</li>`).join('');
+                                detailItem.innerHTML = `<span class="modal-detail-label">${label}:</span><ul class="modal-detail-list">${listItems}</ul>`;
+                            } else {
+                                detailItem.innerHTML = `<span class="modal-detail-label">${label}:</span> <span class="modal-detail-value">Nenhum(a) ${label.toLowerCase()} informado(a).</span>`;
+                            }
+                        } else if (key === 'inspectionReport' && typeof value === 'object' && value !== null && value.status) {
+                            const inspectionStatusClass = `inspection-status-${value.status.toLowerCase().replace(/ /g, '-')}`;
+                            detailItem.innerHTML = `
+                                <span class="modal-detail-label">Relatório de Inspeção:</span>
+                                <span class="status-badge ${inspectionStatusClass}">${value.status}</span>
+                            `;
+                        } else {
+                            detailItem.innerHTML = `<span class="modal-detail-label">${label}:</span> <span class="modal-detail-value">${value || 'Não informado'}</span>`;
+                        }
+                        modalShipmentDetails.appendChild(detailItem);
+                    }
+                });
+
+                modal.classList.add('show');
+            } else {
+                console.error('Embarque não encontrado:', shipmentId);
+            }
+        }
+
+        function closeShipmentDetailsModal() {
+            const modal = document.getElementById('shipmentDetailsModal');
+            modal.classList.remove('show');
         }
 
         // Initialize Dashboard
@@ -692,7 +1019,8 @@
             renderKPIs();
             renderShipmentStatusChart();
             renderShipmentTrendChart();
-            renderCriticalShipmentsTable();
+            renderInsights(); // Render insights first
+            renderCriticalShipmentsTable(); // Then render critical shipments to update the insight card
         });
     </script>
 </body>
