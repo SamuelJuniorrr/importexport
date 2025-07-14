@@ -239,14 +239,67 @@
             width: 1em;
             margin-left: -1em;
         }
+
+        /* Message Modal Specific Styles */
+        .message-modal-content {
+            padding: 0; /* Remove padding from content itself */
+        }
+        .message-modal-header {
+            padding: 1rem 1.5rem;
+            border-top-left-radius: 1rem;
+            border-top-right-radius: 1rem;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .message-modal-body {
+            padding: 1.5rem;
+            color: #333;
+            font-size: 1rem;
+        }
+        .message-modal-footer {
+            padding: 1rem 1.5rem;
+            border-bottom-left-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+            text-align: right;
+            background-color: #f7fafc;
+            border-top: 1px solid #e2e8f0;
+        }
+        .message-modal-close-btn {
+            background-color: #4a90e2;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        .message-modal-close-btn:hover {
+            background-color: #357ABD;
+        }
+        .message-modal-header.success { background-color: #28a745; }
+        .message-modal-header.error { background-color: #dc3545; }
+        .message-modal-header.info { background-color: #17a2b8; }
+        .message-modal-header.warning { background-color: #ffc107; color: #333;} /* Warning text usually dark */
     </style>
 </head>
 <body>
     <div class="container">
         <header class="flex flex-col sm:flex-row justify-between items-center mb-8">
             <h1 class="text-3xl font-bold text-gray-800 mb-4 sm:mb-0">Dashboard de Embarques</h1>
-            <div class="text-sm text-gray-600">
-                Data de Referência: <span id="currentDate"></span>
+            <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <div class="text-sm text-gray-600">
+                    Data de Referência: <span id="currentDate"></span>
+                </div>
+                <!-- Updated button styles to match the provided image -->
+                <button onclick="returnToCentralDimpex()" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-200 ease-in-out">
+                    <i class="fas fa-home mr-2"></i>Tela Central
+                </button>
+                <button onclick="logout()" class="bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-200 ease-in-out">
+                    <i class="fas fa-sign-out-alt mr-2"></i>Sair
+                </button>
             </div>
         </header>
 
@@ -324,6 +377,20 @@
             <h2 class="text-2xl font-bold mb-4 text-gray-800" id="modalShipmentName"></h2>
             <div id="modalShipmentDetails" class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 text-sm">
                 <!-- Details will be populated here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Modal -->
+    <div id="messageModalOverlay" class="modal-overlay">
+        <div class="modal-content message-modal-content">
+            <div id="messageModalHeader" class="message-modal-header">
+                <h3 id="messageModalTitle"></h3>
+                <button class="modal-close-button" onclick="closeMessageModal()">&times;</button>
+            </div>
+            <div id="messageModalBody" class="message-modal-body"></div>
+            <div class="message-modal-footer">
+                <button class="message-modal-close-btn" onclick="closeMessageModal()">OK</button>
             </div>
         </div>
     </div>
@@ -580,6 +647,8 @@
                 inspectionReport: { status: 'Solicitado' }
             }
         ];
+
+        let messageModalCallback = null; // To store callback for message modal
 
         // Function to format date to DD/MM/YYYY
         function formatDate(dateString) {
@@ -1009,6 +1078,53 @@
             const modal = document.getElementById('shipmentDetailsModal');
             modal.classList.remove('show');
         }
+
+        // MESSAGE MODAL FUNCTIONS
+        function showMessage(title, message, type = 'info', callback = null) {
+            const modalOverlay = document.getElementById('messageModalOverlay');
+            const modalHeader = document.getElementById('messageModalHeader');
+            const modalTitle = document.getElementById('messageModalTitle');
+            const modalBody = document.getElementById('messageModalBody');
+
+            // Clear previous type classes
+            modalHeader.classList.remove('success', 'error', 'info', 'warning');
+
+            // Apply new type class
+            modalHeader.classList.add(type);
+
+            modalTitle.innerText = title;
+            modalBody.innerText = message;
+            messageModalCallback = callback; // Store the callback
+
+            modalOverlay.classList.add('show');
+        }
+
+        function closeMessageModal() {
+            const modalOverlay = document.getElementById('messageModalOverlay');
+            modalOverlay.classList.remove('show');
+            if (messageModalCallback) {
+                messageModalCallback(); // Execute callback if it exists
+                messageModalCallback = null; // Clear callback after execution
+            }
+        }
+
+        // BUTTON ACTIONS
+        function logout() {
+            showMessage('Sair', 'Você foi desconectado com sucesso!', 'info', () => {
+                // In a real application, this would redirect to a login page
+                console.log('User logged out.');
+                // window.location.href = '/login'; // Example redirection
+            });
+        }
+
+        function returnToCentralDimpex() {
+            showMessage('Retornar', 'Redirecionando para a tela central Dimpex...', 'info', () => {
+                // In a real application, this would redirect to the main Dimpex page
+                console.log('Returning to central Dimpex page.');
+                // window.location.href = '/dimpex-central'; // Example redirection
+            });
+        }
+
 
         // Initialize Dashboard
         document.addEventListener('DOMContentLoaded', () => {
