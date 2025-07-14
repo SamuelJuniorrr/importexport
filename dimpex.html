@@ -30,7 +30,8 @@
             font-size: 14px;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
+            min-height: 10vh;
+            margin: 0;
         }
         .page {
             display: none;
@@ -163,6 +164,30 @@
             background-color: #e9ecef;
             border-color: #e9ecef;
             color: #888;
+        }
+
+        /* Estilo para o botão de informação */
+        .info-button {
+            background-color: #e0e0e0; /* Cinza claro */
+            border: 1px solid #ccc;
+            padding: 5px 9px;
+            border-radius: 50%; /* Torna-o redondo */
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            color: #555;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px; /* Largura e altura fixas para ser um círculo */
+            height: 28px;
+            transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .info-button:hover {
+            background-color: #d0d0d0;
+            border-color: #a0a0a0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
         .input-group {
@@ -324,6 +349,48 @@
             margin-top: 25px;
             text-align: right;
         }
+
+        /* Estilos para o Modal de Informações da Tela */
+        #infoModal .modal-content {
+            max-width: 600px;
+            padding: 25px;
+        }
+        #infoModal .modal-content h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: var(--primary-color);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        #infoModal .info-section {
+            margin-bottom: 15px;
+        }
+        #infoModal .info-section h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+        }
+        #infoModal .info-section ul {
+            list-style: disc inside;
+            padding-left: 15px;
+            margin-bottom: 10px;
+        }
+        #infoModal .info-section ul li {
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #444;
+        }
+        #infoModal .info-section p {
+            font-size: 13px;
+            color: #777;
+            font-style: italic;
+            margin-top: 10px;
+        }
+
 
         .form-section {
             margin-bottom: 25px;
@@ -605,7 +672,7 @@
         #pdfContentContainer {
             display: none;
             width: 190mm;
-            min-height: 160mm;
+            min-height: 270mm;
             background-color: #fff;
             padding: 10mm;
             box-sizing: border-box;
@@ -990,6 +1057,7 @@
                 <p>Gerencie e acompanhe os embarques de Hong Kong.</p>
             </div>
             <div class="header-right">
+                <button class="info-button" onclick="showInfoModal('dimpexCentral')">?</button>
                 <button class="btn-secondary" onclick="showEngineeringCentralPage()">Central de Engenharia</button>
                 <button class="btn-secondary" onclick="logout()">Sair (Logout)</button>
             </div>
@@ -1066,6 +1134,7 @@
                 <p>Informações completas e acompanhamento do processo de importação.</p>
             </div>
             <div class="header-right">
+                <button class="info-button" onclick="showInfoModal('dimpexDetail')">?</button>
                 <button class="btn-secondary" onclick="showDimpexCentralPage()">Voltar para Central Dimpex</button>
             </div>
         </header>
@@ -1212,15 +1281,15 @@
                     <div class="detail-grid">
                         <div class="detail-item">
                             <div class="detail-label">Status Inspeção:</div>
-                            <div class="detail-value" id="inspectionStatus">N/A</div>
+                            <div class="detail-value" id="inspectionStatus"></div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">Aprovado por:</div>
-                            <div class="detail-value" id="inspectionApprovedBy">N/A</div>
+                            <div class="detail-value" id="inspectionApprovedBy"></div>
                         </div>
                         <div class="detail-item">
                             <div class="detail-label">Data Aprovação:</div>
-                            <div class="detail-value" id="inspectionApprovalDate">N/A</div>
+                            <div class="detail-value" id="inspectionApprovalDate"></div>
                         </div>
                         <div class="detail-item span-all-columns">
                             <button class="btn-primary" id="requestInspectionBtn" onclick="requestInspection()">Solicitar Inspeção</button>
@@ -1389,6 +1458,7 @@
                 <p>Gerencie e realize as inspeções de embarques.</p>
             </div>
             <div class="header-right">
+                <button class="info-button" onclick="showInfoModal('engineeringCentral')">?</button>
                 <button class="btn-secondary" onclick="showDimpexCentralPage()">Central Dimpex</button>
                 <button class="btn-secondary" onclick="logout()">Sair (Logout)</button>
             </div>
@@ -1397,34 +1467,30 @@
         <div class="container">
             <div class="form-section">
                 <h2 class="section-title">Embarques para Inspeção</h2>
-                <div class="filters">
-                    <div class="filter-group">
-                        <label for="inspectionStatusFilter">Filtrar por Status de Inspeção:</label>
-                        <select id="inspectionStatusFilter" onchange="renderEngineeringInspectionTable()">
-                            <option value="Todos">Todos</option>
-                            <option value="Solicitado">Solicitado</option>
-                            <option value="Em Andamento">Em Andamento</option>
-                            <option value="Aprovado">Aprovado</option>
-                            <option value="Aprovado com Ressalvas">Aprovado com Ressalvas</option>
-                            <option value="Reprovado">Reprovado</option>
-                        </select>
-                    </div>
+                <!-- Abas de navegação para status de inspeção -->
+                <div class="tabs-container">
+                    <button class="tab-button active" onclick="openEngineeringTab(event, 'Pendente')">Pendentes</button>
+                    <button class="tab-button" onclick="openEngineeringTab(event, 'Reprovados')">Reprovados</button>
+                    <button class="tab-button" onclick="openEngineeringTab(event, 'Aprovados')">Aprovados</button>
                 </div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Embarque</th>
-                                <th>Fornecedor</th>
-                                <th>Status Inspeção</th>
-                                <th>Solicitado em</th>
-                                <th>Responsável</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="engineeringInspectionTableBody">
-                        </tbody>
-                    </table>
+
+                <div id="engineeringTabContent" class="tab-content active">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Embarque</th>
+                                    <th>Fornecedor</th>
+                                    <th>Status Inspeção</th>
+                                    <th>Solicitado em</th>
+                                    <th>Responsável</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="engineeringInspectionTableBody">
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1526,6 +1592,25 @@
                 <button class="btn-primary" id="saveInspectionReportBtn">Salvar Relatório</button>
                 <button class="btn-danger" id="rejectInspectionBtn" style="margin-left: 10px;">Reprovar Inspeção</button>
                 <button class="btn-secondary" style="margin-left: 10px;" onclick="closeInspectionReportModal()">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Informações da Tela -->
+    <div id="infoModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="closeInfoModal()">&times;</button>
+            <h3 id="infoModalTitle">
+                Informações da Tela
+            </h3>
+            <div class="info-section">
+                <h4 id="infoModalScreenName"></h4>
+                <p id="infoModalScreenDescription"></p>
+                <ul id="infoModalContentList"></ul>
+                <p id="infoModalTip"></p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-primary" onclick="closeInfoModal()">OK</button>
             </div>
         </div>
     </div>
@@ -1743,10 +1828,10 @@
                     { name: 'PO Aprovada (PED-015)', status: 'Recebido', receivedDate: '2025-06-29', dimpexApprovalStatus: 'Pendente',
                       content: '--- Ordem de Compra Aprovada (PO-1127TYCH) ---\n\nNúmero PO: 1127TYCH\nPedido Interno: PED-015\nFornecedor: Fornecedor LONCIN (Loja 01)\nData de Aprovação: 2025-06-29\n\nItens da PO:\n- Código: PROD001\n- Descrição: Motor Diesel 10HP (Modelo MX-100)\n- Quantidade: 5 UN\n- Preço Unitário (USD): 140.00\n- Preço Unitário (BRL): 152.00\n\nCondições de Pagamento: 30 dias após data BL.\nValor Total PO: USD 700.00\n\nStatus: APROVADA\n\nGerado por: Gerência de Compras'
                     },
-                    { name: 'Bill of Lading (BL)', status: 'Pendente', receivedDate: '', dimpexApprovalStatus: 'N/A', content: '--- Bill of Lading (BL) ---\n\nEste é um documento BL simulado. Conteúdo real seria o BL.' },
-                    { name: 'Commercial Invoice', status: 'Pendente', receivedDate: '', dimpexApprovalStatus: 'N/A', content: '--- Commercial Invoice ---\n\nEste é um documento de Commercial Invoice simulado. Conteúdo real seria a fatura comercial.' },
-                    { name: 'Packing List', status: 'Pendente', receivedDate: '', dimpexApprovalStatus: 'N/A', content: '--- Packing List ---\n\nEste é um documento de Packing List simulado. Conteúdo real seria a lista de embalagem.' },
-                    { name: 'Certificado de Origem', status: 'Pendente', receivedDate: '', dimpexApprovalStatus: 'N/A', content: '--- Certificado de Origem ---\n\nEste é um documento de Certificado de Origem simulado. Conteúdo real seria o certificado.' }
+                    { name: 'Bill of Lading (BL)', status: 'Pendente', receivedDate: '', dimpexApprovalStatus: 'Não aplicável', content: '--- Bill of Lading (BL) ---\n\nEste é um documento BL simulado. Conteúdo real seria o BL.' },
+                    { name: 'Commercial Invoice', status: 'Pendente', receivedDate: '', dimpexApprovalStatus: 'Não aplicável', content: '--- Commercial Invoice ---\n\nEste é um documento de Commercial Invoice simulado. Conteúdo real seria a fatura comercial.' },
+                    { name: 'Packing List', status: 'Pendente', receivedDate: '', dimpexApprovalStatus: 'Não aplicável', content: '--- Packing List ---\n\nEste é um documento de Packing List simulado. Conteúdo real seria a lista de embalagem.' },
+                    { name: 'Certificado de Origem', status: 'Pendente', receivedDate: '', dimpexApprovalStatus: 'Não aplicável', content: '--- Certificado de Origem ---\n\nEste é um documento de Certificado de Origem simulado. Conteúdo real seria o certificado.' }
                 ],
                 productLines: [
                     {
@@ -1788,7 +1873,7 @@
                 dtPgSalCR: '2025-09-01',
                 dtFinalizado: '2025-08-25',
                 inspectionReport: { 
-                    status: 'N/A', // Status inicial para embarques que não precisam de inspeção
+                    status: 'Não informado', // Status inicial para embarques que não precisam de inspeção
                     dataInicio: '', 
                     dataFim: '', 
                     responsavel: '', 
@@ -1833,10 +1918,10 @@
                     { name: 'PO Aprovada (PED-019)', status: 'Recebido', receivedDate: '2025-06-30', dimpexApprovalStatus: 'Pendente',
                       content: '--- Ordem de Compra Aprovada (PED-019) ---\n\nDetalhes da PO aprovada para Cliente B.\n\nConteúdo de exemplo para visualização.'
                     },
-                    { name: 'Bill of Lading (BL)', status: 'Pendente', receivedDate: '', dimpexApprovalStatus: 'N/A', content: '--- Bill of Lading (BL) ---\n\nEste é um documento BL simulado. Conteúdo real seria o BL.' },
-                    { name: 'Commercial Invoice', status: 'Pendente', receivedDate: '', dimpexApprovalStatus: 'N/A', content: '--- Commercial Invoice ---\n\nEste é um documento de Commercial Invoice simulado. Conteúdo real seria a fatura comercial.' },
-                    { name: 'Packing List', status: 'Pendente', receivedDate: '', dimpexApprovalStatus: 'N/A', content: '--- Packing List ---\n\nEste é um documento de Packing List simulado. Conteúdo real seria a lista de embalagem.' },
-                    { name: 'Licença de Importação', status: 'Pendente', receivedDate: '', dimpexApprovalStatus: 'N/A', content: '--- Licença de Importação ---\n\nEste é um documento de Licença de Importação simulado. Conteúdo real seria a licença.' }
+                    { name: 'Bill of Lading (BL)', status: 'Pendente', receivedDate: '', dimpexApprovalStatus: 'Não aplicável', content: '--- Bill of Lading (BL) ---\n\nEste é um documento BL simulado. Conteúdo real seria o BL.' },
+                    { name: 'Commercial Invoice', status: 'Pendente', receivedDate: '', dimpexApprovalStatus: 'Não aplicável', content: '--- Commercial Invoice ---\n\nEste é um documento de Commercial Invoice simulado. Conteúdo real seria a fatura comercial.' },
+                    { name: 'Packing List', status: 'Pendente', receivedDate: '', dimpexApprovalStatus: 'Não aplicável', content: '--- Packing List ---\n\nEste é um documento de Packing List simulado. Conteúdo real seria a lista de embalagem.' },
+                    { name: 'Licença de Importação', status: 'Pendente', receivedDate: '', dimpexApprovalStatus: 'Não aplicável', content: '--- Licença de Importação ---\n\nEste é um documento de Licença de Importação simulado. Conteúdo real seria a licença.' }
                 ],
                 productLines: [
                     {
@@ -1878,7 +1963,7 @@
                 dtPgSalCR: '2025-09-15',
                 dtFinalizado: '',
                 inspectionReport: { 
-                    status: 'N/A', // Status inicial para embarques que não precisam de inspeção
+                    status: 'Não informado', // Status inicial para embarques que não precisam de inspeção
                     dataInicio: '', 
                     dataFim: '', 
                     responsavel: '', 
@@ -1973,7 +2058,7 @@
                             productCode: 'PROD003',
                             description: 'Mini Bomba D\'água',
                             conformidadePO: 'Conforme',
-                            qualidadeEmbalagem: 'Conforme',
+                            qualidadeEmbalagem: 'Nao Conforme',
                             integridadeProdutos: 'Conforme',
                             condicoesCarregamento: 'Conforme'
                         }
@@ -2057,7 +2142,7 @@
                 dtPgSalCR: '2025-10-05',
                 dtFinalizado: '',
                 inspectionReport: {
-                    status: 'Aprovado', // Este embarque está aprovado, não deve aparecer na Central de Engenharia
+                    status: 'Aprovado com Ressalvas', // Este embarque deve aparecer na Central de Engenharia
                     dataInicio: '2025-07-10',
                     dataFim: '2025-07-10',
                     responsavel: 'Ana Costa',
@@ -2195,7 +2280,7 @@
                     { name: 'Bill of Lading (BL)', status: 'Recebido', receivedDate: '2025-07-18', dimpexApprovalStatus: 'Pendente', content: '--- Bill of Lading (BL) ---\n\nEste é um documento BL simulado. Conteúdo real seria o BL.' },
                     { name: 'Commercial Invoice', status: 'Recebido', receivedDate: '2025-07-18', dimpexApprovalStatus: 'Pendente', content: '--- Commercial Invoice ---\n\nEste é um documento de Commercial Invoice simulado. Conteúdo real seria a fatura comercial.' },
                     { name: 'Packing List', status: 'Pendente', receivedDate: '2025-07-18', dimpexApprovalStatus: 'Pendente', content: '--- Packing List ---\n\nEste é um documento de Packing List simulado. Conteúdo real seria a lista de embalagem.' },
-                    { name: 'Certificado de Conformidade', status: 'Pendente', receivedDate: '', dimpexApprovalStatus: 'N/A', content: '--- Certificado de Conformidade ---\n\nEste é um documento de Certificado de Conformidade simulado. Conteúdo real seria o certificado.' }
+                    { name: 'Certificado de Conformidade', status: 'Pendente', receivedDate: '', dimpexApprovalStatus: 'Não aplicável', content: '--- Certificado de Conformidade ---\n\nEste é um documento de Certificado de Conformidade simulado. Conteúdo real seria o certificado.' }
                 ],
                 productLines: [
                     {
@@ -2237,7 +2322,7 @@
                 dtPgSalCR: '2025-10-20',
                 dtFinalizado: '',
                 inspectionReport: {
-                    status: 'N/A', // Este embarque não precisa de inspeção, não deve aparecer na Central de Engenharia
+                    status: 'Não informado', // Este embarque não precisa de inspeção, não deve aparecer na Central de Engenharia
                     dataInicio: '', 
                     dataFim: '', 
                     responsavel: '', 
@@ -2335,7 +2420,7 @@
                             conformidadePO: 'Nao Conforme',
                             qualidadeEmbalagem: 'Conforme',
                             integridadeProdutos: 'Nao Conforme',
-                            condicoesCarregamento: 'N/A'
+                            condicoesCarregamento: 'Não aplicável'
                         }
                     ]
                 }
@@ -2454,18 +2539,56 @@
             { name: 'Entrega ao Cliente', class: 'delivered', description: 'Mercadoria entregue ao cliente.' }
         ];
 
+        // Conteúdo das informações de cada tela
+        const screenInfoContent = {
+            dimpexCentral: {
+                screenName: "Central Dimpex de Embarques",
+                screenDescription: "Área exclusiva para o time Dimpex.",
+                contentList: [
+                    "Visualize e gerencie todos os embarques de Hong Kong.",
+                    "Acompanhe o status de cada etapa do processo de importação.",
+                    "Acesse detalhes completos, documentos e informações financeiras de cada embarque.",
+                    "Atualize o status de rastreamento dos embarques."
+                ],
+                tip: "Utilize os filtros para encontrar rapidamente os embarques desejados."
+            },
+            dimpexDetail: {
+                screenName: "Detalhes do Embarque",
+                screenDescription: "Visão aprofundada de um embarque específico.",
+                contentList: [
+                    "Edite informações gerais do embarque, como INCOTERM, portos e agentes de carga.",
+                    "Acompanhe o status de rastreamento detalhado do embarque.",
+                    "Gerencie e visualize documentos relacionados ao embarque.",
+                    "Acesse dados financeiros e envie para o Protheus.",
+                    "Solicite e acompanhe o status da inspeção da engenharia."
+                ],
+                tip: "Use as abas \"Geral\", \"Documentos\" e \"Financeiro\" para navegar pelas informações."
+            },
+            engineeringCentral: {
+                screenName: "Central de Inspeção da Engenharia",
+                screenDescription: "Área dedicada à equipe de Engenharia para inspeções.",
+                contentList: [
+                    "Visualize apenas os embarques que necessitam de inspeção da engenharia.",
+                    "Inicie e gerencie relatórios de inspeção.",
+                    "Registre a conformidade de produtos, embalagens, integridade e condições de carregamento.",
+                    "Aprove ou reprove inspeções, com observações detalhadas."
+                ],
+                tip: "Utilize o filtro de status para focar nas inspeções pendentes ou em andamento."
+            }
+        };
+
         /**
          * Formata uma string de data (YYYY-MM-DD) para o formato DD/MM/YYYY.
          * @param {string} dateString - A string de data no formato YYYY-MM-DD.
-         * @returns {string} A data formatada ou 'N/A' se a string for vazia/nula.
+         * @returns {string} A data formatada ou uma string vazia se a string for vazia/nula.
          */
         function formatDate(dateString) {
-            if (!dateString) return 'N/A';
+            if (!dateString) return '';
             const [year, month, day] = dateString.split('-');
             if (year && month && day) {
                 return `${day}/${month}/${year}`;
             }
-            return dateString;
+            return '';
         }
 
         /**
@@ -2491,19 +2614,51 @@
             cancelBtn.onclick = () => { if (onCancel) onCancel(); modal.classList.remove('active'); };
             closeBtn.onclick = () => modal.classList.remove('active');
 
-            // Gerencia a visibilidade dos botões de ação
             confirmBtn.classList.add('hidden');
             cancelBtn.classList.add('hidden');
-            closeBtn.classList.remove('hidden'); // Botão de fechar sempre visível por padrão
+            closeBtn.classList.remove('hidden');
 
             if (onConfirm || onCancel) {
-                closeBtn.classList.add('hidden'); // Esconde o 'X' se houver botões de ação
+                closeBtn.classList.add('hidden');
                 confirmBtn.classList.remove('hidden');
                 if (onCancel) {
                     cancelBtn.classList.remove('hidden');
                 }
             }
             modal.classList.add('active');
+        }
+
+        /**
+         * Exibe o modal de informações da tela.
+         * @param {string} screenKey - Chave para o conteúdo da tela em `screenInfoContent`.
+         */
+        function showInfoModal(screenKey) {
+            const info = screenInfoContent[screenKey];
+            if (!info) {
+                showMessage('Erro', 'Informações da tela não encontradas.', 'error');
+                return;
+            }
+
+            document.getElementById('infoModalScreenName').innerText = info.screenName;
+            document.getElementById('infoModalScreenDescription').innerText = info.screenDescription;
+            
+            const contentList = document.getElementById('infoModalContentList');
+            contentList.innerHTML = '';
+            info.contentList.forEach(item => {
+                const li = document.createElement('li');
+                li.innerText = item;
+                contentList.appendChild(li);
+            });
+
+            document.getElementById('infoModalTip').innerText = `Dica: ${info.tip}`;
+            document.getElementById('infoModal').classList.add('active');
+        }
+
+        /**
+         * Fecha o modal de informações da tela.
+         */
+        function closeInfoModal() {
+            document.getElementById('infoModal').classList.remove('active');
         }
 
         /**
@@ -2524,7 +2679,7 @@
             document.getElementById('dimpex-central-page').classList.remove('active');
             document.getElementById('dimpex-detail-page').classList.remove('active');
             document.getElementById('engineering-central-page').classList.add('active');
-            renderEngineeringInspectionTable();
+            openEngineeringTab(null, 'Pendente'); // Abre a aba "Pendentes" por padrão
         }
 
         /**
@@ -2575,11 +2730,11 @@
                 
                 row.innerHTML = `
                     <td>${formatDate(order.aprovacaoDate)}</td>
-                    <td>${order.shipmentName || 'N/A'}</td>
-                    <td>${order.fornecedor || 'N/A'}</td>
-                    <td>${order.blNumber || 'N/A'}</td>
+                    <td>${order.shipmentName || 'Não informado'}</td>
+                    <td>${order.fornecedor || 'Não informado'}</td>
+                    <td>${order.blNumber || 'Não informado'}</td>
                     <td>${formatDate(order.blDate)}</td>
-                    <td>${order.fornecedorLoja || 'N/A'}</td>
+                    <td>${order.fornecedorLoja || 'Não informado'}</td>
                     <td>${order.paymentBeforeBL ? 'Sim' : 'Não'}</td>
                     <td><span class="status-indicator ${statusClass}"></span>${order.statusDimpex}</td>
                 `;
@@ -2628,7 +2783,7 @@
             const safeSetText = (id, text) => {
                 const element = document.getElementById(id);
                 if (element) {
-                    element.innerText = text !== undefined && text !== null ? text : 'N/A';
+                    element.innerText = text !== undefined && text !== null && text !== '' ? text : 'Não informado';
                 }
             };
 
@@ -2671,16 +2826,15 @@
             const requestInspectionBtn = document.getElementById('requestInspectionBtn');
 
             if (currentDimpexOrder.inspectionReport) {
-                inspectionStatusElement.innerText = currentDimpexOrder.inspectionReport.status;
-                const normalizedStatus = currentDimpexOrder.inspectionReport.status.toLowerCase().replace(/ /g, '-').replace(/\//g, '-');
+                inspectionStatusElement.innerText = currentDimpexOrder.inspectionReport.status || 'Não informado';
+                const normalizedStatus = (currentDimpexOrder.inspectionReport.status || '').toLowerCase().replace(/ /g, '-').replace(/\//g, '-');
                 inspectionStatusElement.className = `detail-value status-indicator ${normalizedStatus}-inspection`;
                 
-                inspectionApprovedByElement.innerText = currentDimpexOrder.inspectionReport.approvedBy || 'N/A';
+                inspectionApprovedByElement.innerText = currentDimpexOrder.inspectionReport.approvedBy || 'Não informado';
                 inspectionApprovalDateElement.innerText = formatDate(currentDimpexOrder.inspectionReport.approvalDate);
 
-                // Lógica para habilitar/desabilitar o botão de solicitação de inspeção
                 const canRequestInspection = currentDimpexOrder.statusDimpex === 'Carga Pronta' && 
-                                             (currentDimpexOrder.inspectionReport.status === 'N/A' || 
+                                             (currentDimpexOrder.inspectionReport.status === 'Não informado' || 
                                               currentDimpexOrder.inspectionReport.status === 'Reprovado');
 
                 if (canRequestInspection) {
@@ -2690,18 +2844,17 @@
                     requestInspectionBtn.classList.add('btn-primary');
                 } else {
                     requestInspectionBtn.disabled = true;
-                    requestInspectionBtn.innerText = `Inspeção: ${currentDimpexOrder.inspectionReport.status}`;
+                    requestInspectionBtn.innerText = `Inspeção: ${currentDimpexOrder.inspectionReport.status || 'Não informado'}`;
                     requestInspectionBtn.classList.remove('btn-primary');
                     requestInspectionBtn.classList.add('btn-secondary');
                 }
             } else {
-                // Caso não haja relatório de inspeção
-                inspectionStatusElement.innerText = 'N/A';
+                inspectionStatusElement.innerText = 'Não informado';
                 inspectionStatusElement.className = 'detail-value status-indicator n-a-inspection';
-                inspectionApprovedByElement.innerText = 'N/A';
-                inspectionApprovalDateElement.innerText = 'N/A';
+                inspectionApprovedByElement.innerText = 'Não informado';
+                inspectionApprovalDateElement.innerText = 'Não informado';
                 requestInspectionBtn.disabled = true;
-                requestInspectionBtn.innerText = 'Relatório de Inspeção (Não Aplicável)';
+                requestInspectionBtn.innerText = 'Relatório de Inspeção (Não aplicável)';
                 requestInspectionBtn.classList.remove('btn-primary');
                 requestInspectionBtn.classList.add('btn-secondary');
             }
@@ -2850,9 +3003,9 @@
                 'warning',
                 () => {
                     currentDimpexOrder.statusDimpex = 'Aprovado';
-                    // Ao estornar para compras, a inspeção é resetada para N/A
+                    // Ao estornar para compras, a inspeção é resetada para "Não informado"
                     currentDimpexOrder.inspectionReport = { 
-                        status: 'N/A', 
+                        status: 'Não informado', 
                         dataInicio: '', 
                         dataFim: '', 
                         responsavel: '', 
@@ -2886,23 +3039,21 @@
 
             if (doc && doc.content) {
                 documentViewerTitle.innerText = doc.name;
-                documentViewerContent.innerHTML = ''; // Limpa o conteúdo anterior
+                documentViewerContent.innerHTML = '';
 
                 const lines = doc.content.split('\n');
-                let currentList = null; // Para lidar com listas de itens
+                let currentList = null;
 
                 lines.forEach(line => {
                     line = line.trim();
                     if (line.startsWith('---') && line.endsWith('---')) {
-                        // Títulos de seção
                         const title = line.replace(/---/g, '').trim();
                         const h4 = document.createElement('h4');
                         h4.style.cssText = 'font-size: 16px; font-weight: 600; color: var(--primary-color); margin-top: 20px; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px;';
                         h4.innerText = title;
                         documentViewerContent.appendChild(h4);
-                        currentList = null; // Reseta a lista ao encontrar um novo título
+                        currentList = null;
                     } else if (line.includes(':') && !line.startsWith('-')) {
-                        // Linhas de chave-valor
                         const parts = line.split(':', 2);
                         const label = parts[0].trim();
                         const value = parts[1] ? parts[1].trim() : '';
@@ -2923,7 +3074,6 @@
                         documentViewerContent.appendChild(itemDiv);
                         currentList = null;
                     } else if (line.startsWith('-')) {
-                        // Itens de lista
                         if (!currentList) {
                             currentList = document.createElement('ul');
                             currentList.style.cssText = 'list-style: disc inside; margin-left: 20px; margin-bottom: 10px;';
@@ -2935,7 +3085,6 @@
                         currentList.appendChild(listItem);
                     }
                     else if (line) {
-                        // Parágrafos de texto livre
                         const p = document.createElement('p');
                         p.style.cssText = 'margin-bottom: 10px; color: #444;';
                         p.innerText = line;
@@ -2963,7 +3112,6 @@
             const tbody = document.getElementById('documentsTableBody');
             tbody.innerHTML = '';
 
-            // Recarrega os dados do localStorage para garantir que estão atualizados
             const storedAllOrders = localStorage.getItem('dimpexOrders');
             if (storedAllOrders) {
                 dimpexOrders = JSON.parse(storedAllOrders);
@@ -2974,7 +3122,6 @@
                 return;
             }
 
-            // Garante que currentDimpexOrder está atualizado com a versão do localStorage
             const updatedCurrentOrder = dimpexOrders.find(o => o.id === currentDimpexOrder.id);
             currentDimpexOrder = updatedCurrentOrder;
 
@@ -2984,7 +3131,6 @@
                 let viewAttachmentButtonHtml = '';
                 let dimpexApprovalHtml = '';
 
-                // Botão de Receber Documento
                 if (doc.status === 'Pendente') {
                     receiveButtonHtml = `<button class="icon-button primary" onclick="receiveDocument('${doc.name.replace(/'/g, "\\'")}', ${index})" title="Receber Documento">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/></svg>
@@ -2995,7 +3141,6 @@
                                         </button>`;
                 }
 
-                // Botão de Visualizar Anexo
                 if (doc.status === 'Recebido' && doc.content) {
                     viewAttachmentButtonHtml = `<button class="icon-button" onclick="viewAttachedFile('${currentDimpexOrder.id}', '${doc.name.replace(/'/g, "\\'")}')" title="Visualizar Anexo">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/><path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/></svg>
@@ -3006,7 +3151,6 @@
                                                 </button>`;
                 }
 
-                // Status de Aprovação Dimpex
                 if (doc.status === 'Recebido') {
                     if (doc.dimpexApprovalStatus === 'Pendente') {
                         dimpexApprovalHtml += `<button class="icon-button primary" style="margin-right: 5px;" onclick="acceptDocument('${doc.name.replace(/'/g, "\\'")}', ${index})" title="Aceitar Documento">
@@ -3019,6 +3163,8 @@
                         dimpexApprovalHtml += `<span class="status-indicator accepted"></span>Aceito`;
                     } else if (doc.dimpexApprovalStatus === 'Recusado') {
                         dimpexApprovalHtml += `<span class="status-indicator rejected"></span>Recusado`;
+                    } else if (doc.dimpexApprovalStatus === 'Não aplicável') {
+                        dimpexApprovalHtml += `Não aplicável`;
                     }
                 } else {
                     dimpexApprovalHtml += `<span class="status-indicator pending-approval"></span>Aguardando Recebimento`;
@@ -3046,7 +3192,7 @@
 
             currentDimpexOrder.documents[index].status = 'Recebido';
             currentDimpexOrder.documents[index].receivedDate = new Date().toISOString().slice(0, 10);
-            currentDimpexOrder.documents[index].dimpexApprovalStatus = 'Pendente'; // Define como pendente para aprovação Dimpex
+            currentDimpexOrder.documents[index].dimpexApprovalStatus = 'Pendente';
 
             updateDimpexOrderInLocalStorage(currentDimpexOrder);
             showMessage('Sucesso', `Documento "${docName}" recebido com sucesso!`, 'success', () => {
@@ -3110,18 +3256,18 @@
             currentDimpexOrder.productLines.forEach(product => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${product.branch || 'N/A'}</td>
-                    <td>${product.boxes || 'N/A'}</td>
-                    <td>${product.description || 'N/A'}</td>
-                    <td>${product.item || 'N/A'}</td>
-                    <td>${product.serialNumber || 'N/A'}</td>
-                    <td>${(product.grossWeight !== undefined && product.grossWeight !== null) ? product.grossWeight.toFixed(2).replace('.', ',', '.') : 'N/A'}</td>
-                    <td>${(product.netWeight !== undefined && product.netWeight !== null) ? product.netWeight.toFixed(2).replace('.', ',', '.') : 'N/A'}</td>
-                    <td>${(product.productCode || 'N/A')}</td>
-                    <td>${product.quantity || 'N/A'} ${product.unitMeasure || ''}</td>
-                    <td>${(product.volumeM3 !== undefined && product.volumeM3 !== null) ? product.volumeM3.toFixed(3).replace('.', ',', '.') : 'N/A'}</td>
-                    <td>R$ ${(product.prcUnit !== undefined && product.prcUnit !== null) ? product.prcUnit.toFixed(2).replace('.', ',', '.') : 'N/A'}</td>
-                    <td>R$ ${(product.prcUnitFor !== undefined && product.prcUnitFor !== null) ? product.prcUnitFor.toFixed(2).replace('.', ',', '.') : 'N/A'}</td>
+                    <td>${product.branch || 'Não informado'}</td>
+                    <td>${product.boxes || 'Não informado'}</td>
+                    <td>${product.description || 'Não informado'}</td>
+                    <td>${product.item || 'Não informado'}</td>
+                    <td>${product.serialNumber || 'Não informado'}</td>
+                    <td>${(product.grossWeight !== undefined && product.grossWeight !== null) ? product.grossWeight.toFixed(2).replace('.', ',', '.') : 'Não informado'}</td>
+                    <td>${(product.netWeight !== undefined && product.netWeight !== null) ? product.netWeight.toFixed(2).replace('.', ',', '.') : 'Não informado'}</td>
+                    <td>${(product.productCode || 'Não informado')}</td>
+                    <td>${product.quantity || 'Não informado'} ${product.unitMeasure || ''}</td>
+                    <td>${(product.volumeM3 !== undefined && product.volumeM3 !== null) ? product.volumeM3.toFixed(3).replace('.', ',', '.') : 'Não informado'}</td>
+                    <td>R$ ${(product.prcUnit !== undefined && product.prcUnit !== null) ? product.prcUnit.toFixed(2).replace('.', ',', '.') : 'Não informado'}</td>
+                    <td>R$ ${(product.prcUnitFor !== undefined && product.prcUnitFor !== null) ? product.prcUnitFor.toFixed(2).replace('.', ',', '.') : 'Não informado'}</td>
                 `;
                 tbody.appendChild(row);
             });
@@ -3133,18 +3279,14 @@
          * @param {string} tabName - O ID da aba a ser aberta (ex: 'tabGeral').
          */
         function openTab(evt, tabName) {
-            // Esconde todas as abas e remove o estilo "active" dos botões
             document.querySelectorAll("#dimpex-detail-page .tab-content").forEach(el => el.classList.remove("active"));
             document.querySelectorAll("#dimpex-detail-page .tab-button").forEach(el => el.classList.remove("active"));
 
-            // Exibe a aba selecionada
             document.getElementById(tabName).classList.add("active");
             
-            // Adiciona o estilo "active" ao botão da aba selecionada
             if (evt) {
                 evt.currentTarget.classList.add("active");
             } else {
-                // Caso a função seja chamada sem um evento (ex: ao carregar a página)
                 const buttonText = {
                     'tabGeral': 'Geral',
                     'tabDocumentos': 'Documentos',
@@ -3166,7 +3308,6 @@
             const customsClearanceShipmentsKPI = document.getElementById('customsClearanceShipmentsKPI');
             const deliveredShipmentsKPI = document.getElementById('deliveredShipmentsKPI');
 
-            // Carrega os dados do localStorage ou usa os dados iniciais
             const storedAllOrders = localStorage.getItem('dimpexOrders');
             if (storedAllOrders) {
                 dimpexOrders = JSON.parse(storedAllOrders);
@@ -3175,13 +3316,11 @@
                 localStorage.setItem('dimpexOrders', JSON.stringify(initialDimpexOrders));
             }
 
-            // Calcula os KPIs
             const totalShipments = dimpexOrders.length;
             const inTransitShipments = dimpexOrders.filter(order => order.statusDimpex === 'Em Trânsito').length;
             const customsClearanceShipments = dimpexOrders.filter(order => order.statusDimpex === 'Chegada no Porto de Destino (ATA)').length;
             const deliveredShipments = dimpexOrders.filter(order => order.statusDimpex === 'Entrega ao Cliente').length;
 
-            // Atualiza os elementos HTML
             totalShipmentsKPI.innerText = totalShipments;
             inTransitShipmentsKPI.innerText = inTransitShipments;
             customsClearanceShipmentsKPI.innerText = customsClearanceShipments;
@@ -3201,7 +3340,6 @@
             const pdfViewerModal = document.getElementById('pdfViewerModal');
             const pdfFrame = document.getElementById('pdfFrame');
 
-            // Exibe o modal do visualizador de PDF e o container de conteúdo
             pdfViewerModal.classList.add('active');
             pdfContentContainer.style.display = 'block';
 
@@ -3213,11 +3351,10 @@
             const setText = (id, value) => {
                 const element = pdfContentContainer.querySelector(`#${id}`);
                 if (element) {
-                    element.innerText = value !== undefined && value !== null ? value : 'N/A';
+                    element.innerText = value !== undefined && value !== null && value !== '' ? value : 'Não informado';
                 }
             };
 
-            // Preenche os dados do PDF com as informações do embarque atual
             setText('pdfDocReadyDate', formatDate(currentDimpexOrder.prevEmbarque));
             setText('pdfDocTerms', currentDimpexOrder.incoterm);
             setText('pdfDocPol', currentDimpexOrder.pol);
@@ -3238,7 +3375,7 @@
             if (currentDimpexOrder.container40 && parseInt(currentDimpexOrder.container40) > 0) containerInfo.push(`${currentDimpexOrder.container40}x40'`);
             if (currentDimpexOrder.container40HQ && parseInt(currentDimpexOrder.container40HQ) > 0) containerInfo.push(`${currentDimpexOrder.container40HQ}x40'HQ`);
             if (currentDimpexOrder.containerLCL && parseInt(currentDimpexOrder.containerLCL) > 0) containerInfo.push(`LCL`);
-            setText('pdfDocContainer', containerInfo.join(', ') || 'N/A');
+            setText('pdfDocContainer', containerInfo.join(', ') || 'Não informado');
 
             setText('pdfDocSerialNumbers', currentDimpexOrder.serialNum);
             setText('pdfDocForwarder', currentDimpexOrder.cargoAgent);
@@ -3249,7 +3386,6 @@
             setText('pdfDocBl', currentDimpexOrder.blNumber);
             setText('pdfDocEta', formatDate(currentDimpexOrder.dtETA));
 
-            // Preenche a tabela de produtos no PDF
             const productsTableBody = pdfContentContainer.querySelector('#pdfProductsTableBodyDoc');
             if (productsTableBody) {
                 productsTableBody.innerHTML = '';
@@ -3257,13 +3393,13 @@
                     currentDimpexOrder.productLines.forEach(product => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                            <td>${product.productCode || 'N/A'}</td>
-                            <td>${product.description || 'N/A'}</td>
-                            <td class="qty">${product.quantity || 'N/A'}</td>
-                            <td class="pkgs">${product.boxes || 'N/A'}</td>
-                            <td class="nw">${(product.netWeight !== undefined && product.netWeight !== null) ? product.netWeight.toFixed(2).replace('.', ',', '.') : 'N/A'}</td>
-                            <td class="gw">${(product.grossWeight !== undefined && product.grossWeight !== null) ? product.grossWeight.toFixed(2).replace('.', ',', '.') : 'N/A'}</td>
-                            <td class="cbm">${(product.volumeM3 !== undefined && product.volumeM3 !== null) ? product.volumeM3.toFixed(3).replace('.', ',', '.') : 'N/A'}</td>
+                            <td>${product.productCode || 'Não informado'}</td>
+                            <td>${product.description || 'Não informado'}</td>
+                            <td class="qty">${product.quantity || 'Não informado'}</td>
+                            <td class="pkgs">${product.boxes || 'Não informado'}</td>
+                            <td class="nw">${(product.netWeight !== undefined && product.netWeight !== null) ? product.netWeight.toFixed(2).replace('.', ',', '.') : 'Não informado'}</td>
+                            <td class="gw">${(product.grossWeight !== undefined && product.grossWeight !== null) ? product.grossWeight.toFixed(2).replace('.', ',', '.') : 'Não informado'}</td>
+                            <td class="cbm">${(product.volumeM3 !== undefined && product.volumeM3 !== null) ? product.volumeM3.toFixed(3).replace('.', ',', '.') : 'Não informado'}</td>
                         `;
                         productsTableBody.appendChild(row);
                     });
@@ -3272,7 +3408,6 @@
                 }
             }
 
-            // Opções para a geração do PDF
             const options = {
                 margin: 10,
                 filename: `documento_acompanhamento_${currentDimpexOrder.id}.pdf`,
@@ -3283,13 +3418,11 @@
             };
 
             try {
-                // Gera o PDF e define a URL no iframe
                 const pdfDataUri = await html2pdf().set(options).from(pdfContentContainer).outputPdf('datauristring');
                 pdfFrame.src = pdfDataUri;
             } catch (error) {
                 showMessage('Erro', 'Ocorreu um erro ao gerar o PDF. Por favor, tente novamente.', 'error');
             } finally {
-                // Esconde o container de conteúdo do PDF após a geração
                 pdfContentContainer.style.display = 'none';
             }
         }
@@ -3299,7 +3432,7 @@
          */
         function closePdfViewerModal() {
             document.getElementById('pdfViewerModal').classList.remove('active');
-            document.getElementById('pdfFrame').src = ''; // Limpa o iframe
+            document.getElementById('pdfFrame').src = '';
         }
 
         /**
@@ -3324,7 +3457,6 @@
                 return;
             }
 
-            // Objeto com os dados financeiros a serem "enviados"
             const financialData = {
                 shipmentId: currentDimpexOrder.id,
                 desconto: currentDimpexOrder.desconto,
@@ -3352,13 +3484,11 @@
         function requestInspection() {
             if (!currentDimpexOrder) return;
 
-            // Verifica se o status do embarque é "Carga Pronta"
             if (currentDimpexOrder.statusDimpex !== 'Carga Pronta') {
                 showMessage('Atenção', 'A solicitação de inspeção só pode ser feita quando o status do embarque é "Carga Pronta".', 'info');
                 return;
             }
 
-            // Verifica se uma inspeção já foi solicitada ou está em andamento
             if (currentDimpexOrder.inspectionReport.status === 'Solicitado' || currentDimpexOrder.inspectionReport.status === 'Em Andamento') {
                 showMessage('Atenção', 'Uma inspeção já foi solicitada ou está em andamento para este embarque.', 'info');
                 return;
@@ -3369,34 +3499,31 @@
                 `Deseja solicitar a inspeção da engenharia para o embarque ${currentDimpexOrder.shipmentName}?`,
                 'info',
                 () => {
-                    // Atualiza o status da inspeção para "Solicitado"
                     currentDimpexOrder.inspectionReport.status = 'Solicitado';
-                    currentDimpexOrder.inspectionReport.dataInicio = new Date().toISOString().slice(0, 10); // Data da solicitação
-                    currentDimpexOrder.inspectionReport.responsavel = 'Dimpex'; // Quem solicitou
+                    currentDimpexOrder.inspectionReport.dataInicio = new Date().toISOString().slice(0, 10);
+                    currentDimpexOrder.inspectionReport.responsavel = 'Dimpex';
                     currentDimpexOrder.inspectionReport.observacoesGerais = `Inspeção solicitada pelo Dimpex em ${formatDate(currentDimpexOrder.inspectionReport.dataInicio)}.`;
                     
-                    // Inicializa as inspeções por produto com 'N/A' se não existirem
                     if (!currentDimpexOrder.inspectionReport.productInspections || currentDimpexOrder.inspectionReport.productInspections.length === 0) {
                         currentDimpexOrder.inspectionReport.productInspections = currentDimpexOrder.productLines.map(product => ({
                             productCode: product.productCode,
                             description: product.description,
-                            conformidadePO: 'N/A',
-                            qualidadeEmbalagem: 'N/A',
-                            integridadeProdutos: 'N/A',
-                            condicoesCarregamento: 'N/A'
+                            conformidadePO: 'Não informado',
+                            qualidadeEmbalagem: 'Não informado',
+                            integridadeProdutos: 'Não informado',
+                            condicoesCarregamento: 'Não informado'
                         }));
                     } else {
-                        // Garante que todos os produtos têm uma entrada de inspeção, adicionando se faltar
                         const existingProductCodes = new Set(currentDimpexOrder.inspectionReport.productInspections.map(pi => pi.productCode));
                         currentDimpexOrder.productLines.forEach(product => {
                             if (!existingProductCodes.has(product.productCode)) {
                                 currentDimpexOrder.inspectionReport.productInspections.push({
                                     productCode: product.productCode,
                                     description: product.description,
-                                    conformidadePO: 'N/A',
-                                    qualidadeEmbalagem: 'N/A',
-                                    integridadeProdutos: 'N/A',
-                                    condicoesCarregamento: 'N/A'
+                                    conformidadePO: 'Não informado',
+                                    qualidadeEmbalagem: 'Não informado',
+                                    integridadeProdutos: 'Não informado',
+                                    condicoesCarregamento: 'Não informado'
                                 });
                             }
                         });
@@ -3411,29 +3538,50 @@
         }
 
         /**
-         * Renderiza a tabela de inspeções na Central de Engenharia.
+         * Abre uma aba específica na Central de Engenharia.
+         * @param {Event} evt - O evento de clique (pode ser nulo se chamado programaticamente).
+         * @param {string} tabType - O tipo da aba a ser aberta ('Pendente', 'Reprovados', 'Aprovados').
          */
-        function renderEngineeringInspectionTable() {
+        function openEngineeringTab(evt, tabType) {
+            document.querySelectorAll("#engineering-central-page .tab-button").forEach(el => el.classList.remove("active"));
+            
+            if (evt) {
+                evt.currentTarget.classList.add("active");
+            } else {
+                const activeButton = Array.from(document.querySelectorAll("#engineering-central-page .tab-button")).find(button => button.innerText.includes(tabType));
+                if (activeButton) {
+                    activeButton.classList.add('active');
+                }
+            }
+            renderEngineeringInspectionTable(tabType);
+        }
+
+        /**
+         * Renderiza a tabela de inspeções na Central de Engenharia com base na aba selecionada.
+         * @param {string} filterType - O tipo de filtro a ser aplicado ('Pendente', 'Reprovados', 'Aprovados').
+         */
+        function renderEngineeringInspectionTable(filterType) {
             const tbody = document.getElementById('engineeringInspectionTableBody');
             tbody.innerHTML = '';
 
-            const statusFilterElement = document.getElementById('inspectionStatusFilter');
-            const statusFilter = statusFilterElement ? statusFilterElement.value : 'Todos';
+            let filteredOrders = [];
 
-            let filteredOrders = dimpexOrders.filter(order => {
-                const inspectionStatus = order.inspectionReport ? order.inspectionReport.status : 'N/A';
-                // **Lógica de Filtragem Importante:**
-                // A Central de Engenharia deve mostrar APENAS os embarques que precisam de ação da engenharia.
-                // Isso inclui status: 'Solicitado', 'Em Andamento', 'Reprovado', 'Aprovado com Ressalvas'.
-                // 'N/A' e 'Aprovado' (finalizado) são excluídos por padrão, a menos que o filtro 'Todos' esteja ativo e o status seja um dos relevantes.
-                const relevantStatusesForAction = ['Solicitado', 'Em Andamento', 'Reprovado', 'Aprovado com Ressalvas'];
-                
-                if (statusFilter === 'Todos') {
-                    return relevantStatusesForAction.includes(inspectionStatus);
-                } else {
-                    return inspectionStatus === statusFilter;
-                }
-            });
+            if (filterType === 'Pendente') {
+                filteredOrders = dimpexOrders.filter(order => {
+                    const status = order.inspectionReport ? order.inspectionReport.status : 'Não informado';
+                    return status === 'Solicitado' || status === 'Em Andamento';
+                });
+            } else if (filterType === 'Reprovados') {
+                filteredOrders = dimpexOrders.filter(order => {
+                    const status = order.inspectionReport ? order.inspectionReport.status : 'Não informado';
+                    return status === 'Reprovado' || status === 'Aprovado com Ressalvas';
+                });
+            } else if (filterType === 'Aprovados') {
+                filteredOrders = dimpexOrders.filter(order => {
+                    const status = order.inspectionReport ? order.inspectionReport.status : 'Não informado';
+                    return status === 'Aprovado';
+                });
+            }
 
             if (filteredOrders.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 20px;">Nenhum embarque encontrado para o status de inspeção selecionado.</td></tr>`;
@@ -3443,7 +3591,7 @@
             filteredOrders.forEach(order => {
                 const row = document.createElement('tr');
                 const inspection = order.inspectionReport;
-                const normalizedStatus = inspection.status.toLowerCase().replace(/ /g, '-').replace(/\//g, '-');
+                const normalizedStatus = (inspection.status || '').toLowerCase().replace(/ /g, '-').replace(/\//g, '-');
                 
                 let actionButtonHtml = '';
                 if (inspection.status === 'Solicitado') {
@@ -3451,18 +3599,17 @@
                 } else if (inspection.status === 'Em Andamento' || inspection.status === 'Reprovado' || inspection.status === 'Aprovado com Ressalvas') {
                     actionButtonHtml = `<button class="btn-primary" onclick="openInspectionReportModal('${order.id}')">Abrir Relatório</button>`;
                 } else if (inspection.status === 'Aprovado') {
-                    // Se o status for "Aprovado", o botão é secundário e apenas para visualização
                     actionButtonHtml = `<button class="btn-secondary" onclick="openInspectionReportModal('${order.id}')">Ver Relatório</button>`;
                 } else {
-                    actionButtonHtml = `<button class="btn-secondary" disabled>N/A</button>`;
+                    actionButtonHtml = `<button class="btn-secondary" disabled>Não aplicável</button>`;
                 }
 
                 row.innerHTML = `
-                    <td>${order.shipmentName || 'N/A'}</td>
-                    <td>${order.fornecedor || 'N/A'}</td>
-                    <td><span class="status-indicator ${normalizedStatus}-inspection"></span>${inspection.status}</td>
+                    <td>${order.shipmentName || 'Não informado'}</td>
+                    <td>${order.fornecedor || 'Não informado'}</td>
+                    <td><span class="status-indicator ${normalizedStatus}-inspection"></span>${inspection.status || 'Não informado'}</td>
                     <td>${formatDate(inspection.dataInicio)}</td>
-                    <td>${inspection.responsavel || 'N/A'}</td>
+                    <td>${inspection.responsavel || 'Não informado'}</td>
                     <td>${actionButtonHtml}</td>
                 `;
                 tbody.appendChild(row);
@@ -3483,13 +3630,12 @@
             if (order.inspectionReport.status === 'Solicitado') {
                 order.inspectionReport.status = 'Em Andamento';
                 order.inspectionReport.dataInicio = new Date().toISOString().slice(0, 10);
-                order.inspectionReport.responsavel = 'Engenharia'; // Define o responsável ao iniciar a inspeção
+                order.inspectionReport.responsavel = 'Engenharia';
                 order.inspectionReport.observacoesGerais = `Inspeção iniciada pela Engenharia em ${formatDate(order.inspectionReport.dataInicio)}.`;
                 
-                // Garante que as inspeções por produto são inicializadas com 'Conforme'
                 order.inspectionReport.productInspections = order.productLines.map(product => {
                     const existing = order.inspectionReport.productInspections.find(pi => pi.productCode === product.productCode);
-                    if (existing && Object.values(existing).some(val => val !== 'N/A')) { // Mantém os existentes se não forem todos N/A
+                    if (existing && Object.values(existing).some(val => val !== 'Não informado')) {
                         return existing;
                     } else {
                         return {
@@ -3521,45 +3667,38 @@
                 showMessage('Erro', 'Relatório de inspeção não disponível para este embarque.', 'error');
                 return;
             }
-            currentDimpexOrder = order; // Define o pedido atual para o modal
+            currentDimpexOrder = order;
 
             const report = currentDimpexOrder.inspectionReport;
 
-            // Preenche os dados do embarque no modal do relatório
-            document.getElementById('reportCliente').innerText = currentDimpexOrder.cliente || 'N/A';
-            document.getElementById('reportPedidoInterno').innerText = currentDimpexOrder.id || 'N/A';
-            document.getElementById('reportEmbarque').innerText = currentDimpexOrder.shipmentName || 'N/A';
-            document.getElementById('reportFornecedor').innerText = currentDimpexOrder.fornecedor || 'N/A';
+            document.getElementById('reportCliente').innerText = currentDimpexOrder.cliente || 'Não informado';
+            document.getElementById('reportPedidoInterno').innerText = currentDimpexOrder.id || 'Não informado';
+            document.getElementById('reportEmbarque').innerText = currentDimpexOrder.shipmentName || 'Não informado';
+            document.getElementById('reportFornecedor').innerText = currentDimpexOrder.fornecedor || 'Não informado';
 
-            // Preenche os dados da inspeção
             document.getElementById('reportDataInicioInspecao').value = report.dataInicio || '';
             document.getElementById('reportDataFimInspecao').value = report.dataFim || '';
             document.getElementById('reportResponsavel').value = report.responsavel || '';
             document.getElementById('reportObservacoesGerais').value = report.observacoesGerais || '';
 
-            renderProductInspections(); // Renderiza a tabela de inspeção por produto
+            renderProductInspections();
 
             const saveBtn = document.getElementById('saveInspectionReportBtn');
             const rejectBtn = document.getElementById('rejectInspectionBtn');
             const inputs = document.querySelectorAll('#inspectionReportModal input, #inspectionReportModal textarea');
             const iconStatuses = document.querySelectorAll('#productInspectionContainer .icon-status');
 
-            // Define se os campos são editáveis com base no status da inspeção
             const isEditable = report.status === 'Em Andamento' || report.status === 'Reprovado' || report.status === 'Aprovado com Ressalvas';
 
             saveBtn.disabled = !isEditable;
-            // O botão de reprovar é desabilitado se a inspeção já estiver reprovada
             rejectBtn.disabled = !isEditable || report.status === 'Reprovado';
 
-            // Ajusta o texto dos botões
             saveBtn.innerText = isEditable ? 'Salvar Relatório' : 'Relatório Aprovado';
             if (report.status === 'Reprovado') saveBtn.innerText = 'Revisar e Aprovar';
             
             rejectBtn.innerText = report.status === 'Reprovado' ? 'Já Reprovado' : 'Reprovar Inspeção';
 
-            // Define a propriedade readOnly para inputs e textareas
             inputs.forEach(input => input.readOnly = !isEditable);
-            // Controla a interatividade dos ícones de status
             iconStatuses.forEach(icon => {
                 if (isEditable) {
                     icon.style.pointerEvents = 'auto';
@@ -3578,7 +3717,13 @@
          */
         function closeInspectionReportModal() {
             document.getElementById('inspectionReportModal').classList.remove('active');
-            renderEngineeringInspectionTable(); // Atualiza a tabela da engenharia após fechar o modal
+            // Re-renderiza a tabela da engenharia com a aba ativa atual
+            const currentActiveTab = document.querySelector("#engineering-central-page .tab-button.active");
+            if (currentActiveTab) {
+                openEngineeringTab(null, currentActiveTab.innerText);
+            } else {
+                renderEngineeringInspectionTable('Pendente'); // Fallback para Pendente
+            }
         }
 
         /**
@@ -3614,14 +3759,13 @@
             `;
 
             currentDimpexOrder.productLines.forEach((product, index) => {
-                // Encontra a inspeção específica para este produto
                 const productInspection = currentDimpexOrder.inspectionReport.productInspections.find(pi => pi.productCode === product.productCode) || {};
 
                 tableHtml += `
                     <tr>
-                        <td>${product.productCode || 'N/A'}</td>
-                        <td>${product.description || 'N/A'}</td>
-                        <td>${product.quantity || 'N/A'}</td>
+                        <td>${product.productCode || 'Não informado'}</td>
+                        <td>${product.description || 'Não informado'}</td>
+                        <td>${product.quantity || 'Não informado'}</td>
                         ${Object.keys(criteriaMap).map(criterionKey => `
                             <td>
                                 <div class="icon-selection" data-product-index="${index}" data-criterion="${criterionKey}">
@@ -3640,10 +3784,8 @@
             `;
             container.innerHTML = tableHtml;
 
-            // Define se os ícones são editáveis com base no status da inspeção
             const isEditable = currentDimpexOrder.inspectionReport.status === 'Em Andamento' || currentDimpexOrder.inspectionReport.status === 'Reprovado' || currentDimpexOrder.inspectionReport.status === 'Aprovado com Ressalvas';
 
-            // Adiciona event listeners aos ícones de status para permitir a seleção
             container.querySelectorAll('.icon-status').forEach(icon => {
                 if (isEditable) {
                     icon.addEventListener('click', function() {
@@ -3651,19 +3793,16 @@
                         const criterion = this.closest('.icon-selection').dataset.criterion;
                         const value = this.dataset.value;
 
-                        // Remove a classe 'active' de todos os irmãos e adiciona ao clicado
                         this.closest('.icon-selection').querySelectorAll('.icon-status').forEach(sibling => {
                             sibling.classList.remove('active');
                         });
                         this.classList.add('active');
 
-                        // Atualiza o valor no objeto de dados
                         if (currentDimpexOrder && currentDimpexOrder.inspectionReport && currentDimpexOrder.inspectionReport.productInspections[productIndex]) {
                             currentDimpexOrder.inspectionReport.productInspections[productIndex][criterion] = value;
                         }
                     });
                 } else {
-                    // Desabilita a interação se não for editável
                     icon.style.pointerEvents = 'none';
                     icon.style.opacity = '0.7';
                 }
@@ -3678,7 +3817,6 @@
 
             const report = currentDimpexOrder.inspectionReport;
 
-            // Atualiza os campos gerais do relatório
             report.dataInicio = document.getElementById('reportDataInicioInspecao').value;
             report.dataFim = document.getElementById('reportDataFimInspecao').value;
             report.responsavel = document.getElementById('reportResponsavel').value;
@@ -3687,7 +3825,6 @@
             let hasNonConforme = false;
             let allConforme = true;
             
-            // Verifica o status geral da inspeção com base nas inspeções por produto
             if (report.productInspections && report.productInspections.length > 0) {
                 report.productInspections.forEach(prodInsp => {
                     const criteriaToCheck = ['conformidadePO', 'qualidadeEmbalagem', 'integridadeProdutos', 'condicoesCarregamento'];
@@ -3701,8 +3838,7 @@
                     });
                 });
             } else {
-                // Se não houver produtos para inspecionar, o status é N/A
-                report.status = 'N/A'; 
+                report.status = 'Não informado'; 
                 updateDimpexOrderInLocalStorage(currentDimpexOrder);
                 showMessage('Sucesso', `Relatório de inspeção do embarque ${currentDimpexOrder.shipmentName} salvo com status: ${report.status}!`, 'success', () => {
                     closeInspectionReportModal();
@@ -3710,7 +3846,6 @@
                 return;
             }
 
-            // Define o status final da inspeção
             if (hasNonConforme) {
                 report.status = 'Reprovado';
             } else if (allConforme) {
@@ -3780,18 +3915,14 @@
                 'Tem certeza que deseja sair?',
                 'info',
                 () => {
-                    // Redireciona para a página inicial (simulando logout)
                     window.location.href = 'index.html'; 
                 },
                 () => {
-                    // Não faz nada se o usuário cancelar
                 }
             );
         }
 
-        // Evento que é disparado quando o DOM é completamente carregado
         document.addEventListener('DOMContentLoaded', () => {
-            // Carrega os pedidos do localStorage ou inicializa com os dados de exemplo
             const storedAllOrders = localStorage.getItem('dimpexOrders');
             if (storedAllOrders) {
                 dimpexOrders = JSON.parse(storedAllOrders);
@@ -3799,11 +3930,10 @@
                 dimpexOrders = initialDimpexOrders;
             }
 
-            // Garante que todos os pedidos têm a estrutura completa de inspectionReport e productInspections
             dimpexOrders.forEach(order => {
                 if (!order.inspectionReport) {
                     order.inspectionReport = { 
-                        status: 'N/A', 
+                        status: 'Não informado', 
                         dataInicio: '', 
                         dataFim: '', 
                         responsavel: '', 
@@ -3812,7 +3942,6 @@
                     };
                 }
 
-                // Garante que os campos padrão do relatório de inspeção existem
                 const defaultReportFields = {
                     dataInicio: '', dataFim: '', responsavel: '', observacoesGerais: ''
                 };
@@ -3822,8 +3951,6 @@
                     }
                 }
 
-                // Inicializa productInspections se não existirem ou estiverem vazios,
-                // ou garante que todos os produtos tenham uma entrada de inspeção.
                 if (order.productLines && order.productLines.length > 0) {
                     const existingProductInspectionsMap = new Map();
                     if (order.inspectionReport.productInspections) {
@@ -3840,10 +3967,10 @@
                             return {
                                 productCode: product.productCode,
                                 description: product.description,
-                                conformidadePO: 'N/A',
-                                qualidadeEmbalagem: 'N/A',
-                                integridadeProdutos: 'N/A',
-                                condicoesCarregamento: 'N/A'
+                                conformidadePO: 'Não informado',
+                                qualidadeEmbalagem: 'Não informado',
+                                integridadeProdutos: 'Não informado',
+                                condicoesCarregamento: 'Não informado'
                             };
                         }
                     });
@@ -3851,15 +3978,13 @@
                     order.inspectionReport.productInspections = [];
                 }
 
-                // Preenche dados de cliente padrão se ausentes
-                if (!order.clienteEndereco) order.clienteEndereco = 'Endereço Padrão';
-                if (!order.clienteTelefone) order.clienteTelefone = '(XX) XXXX-XXXX';
-                if (!order.clienteCnpj) order.clienteCnpj = 'XX.XXX.XXX/XXXX-XX';
+                if (!order.clienteEndereco) order.clienteEndereco = 'Não informado';
+                if (!order.clienteTelefone) order.clienteTelefone = 'Não informado';
+                if (!order.clienteCnpj) order.clienteCnpj = 'Não informado';
 
-                // Garante que os documentos têm status de aprovação e conteúdo padrão
                 order.documents.forEach(doc => {
                     if (doc.dimpexApprovalStatus === undefined) {
-                        doc.dimpexApprovalStatus = doc.status === 'Recebido' ? 'Pendente' : 'N/A';
+                        doc.dimpexApprovalStatus = doc.status === 'Recebido' ? 'Pendente' : 'Não aplicável';
                     }
                     if (doc.status === 'Recebido' && !doc.content) {
                         doc.content = `--- Documento ${doc.name} ---\n\nConteúdo de exemplo para o documento ${doc.name}.\n\nEste é um placeholder para visualização.`;
@@ -3867,11 +3992,12 @@
                 });
             });
 
-            // Salva a estrutura de dados inicializada de volta no localStorage
             localStorage.setItem('dimpexOrders', JSON.stringify(dimpexOrders));
             
-            // Exibe a página inicial da Central Dimpex
             showDimpexCentralPage();
+
+            document.getElementById('saveInspectionReportBtn').addEventListener('click', saveInspectionReport);
+            document.getElementById('rejectInspectionBtn').addEventListener('click', rejectInspectionReport);
         });
     </script>
 </body>
