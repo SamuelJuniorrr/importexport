@@ -6,6 +6,7 @@
     <title>Portal Fluig - Central Dimpex de Embarques</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
+        /* Estilos CSS para o layout e componentes da aplicação */
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
         :root {
             --primary-color: #007bff;
@@ -249,6 +250,7 @@
             border-radius: 50%;
             margin-right: 5px;
         }
+        /* Cores dos indicadores de status */
         .status-indicator.approved { background-color: var(--green-success); }
         .status-indicator.in-production { background-color: var(--primary-color); }
         .status-indicator.ready-cargo { background-color: var(--orange-warning); }
@@ -265,7 +267,8 @@
         .status-indicator.accepted { background-color: var(--green-success); }
         .status-indicator.rejected { background-color: var(--red-alert); }
         .status-indicator.pending-approval { background-color: var(--orange-warning); }
-        .status-indicator.pending-inspection { background-color: var(--orange-warning); }
+        .status-indicator.solicitado-inspection { background-color: #007bff; }
+        .status-indicator.em-andamento-inspection { background-color: #ffc107; }
         .status-indicator.approved-inspection { background-color: var(--green-success); }
         .status-indicator.reprovado-inspection { background-color: var(--red-alert); }
         .status-indicator.n-a-inspection { background-color: var(--secondary-color); }
@@ -602,7 +605,7 @@
         #pdfContentContainer {
             display: none;
             width: 190mm;
-            min-height: 270mm;
+            min-height: 160mm;
             background-color: #fff;
             padding: 10mm;
             box-sizing: border-box;
@@ -748,7 +751,7 @@
             white-space: nowrap;
         }
 
-        /* Styles for Inspection Report Modal */
+        /* Estilos específicos para o Modal de Relatório de Inspeção */
         #inspectionReportModal .modal-content {
             max-width: 900px;
             width: 90%;
@@ -805,7 +808,7 @@
             resize: vertical;
         }
         
-        /* Product Inspection Specific Styles */
+        /* Estilos específicos para a Tabela de Inspeção de Produtos */
         .inspection-table-container {
             overflow-x: auto;
             margin-top: 10px;
@@ -883,6 +886,7 @@
         .icon-status.nao-conforme.active { background-color: var(--red-alert); color: #fff; }
 
 
+        /* Media Queries para Responsividade */
         @media (max-width: 1200px) {
             .detail-grid {
                 grid-template-columns: repeat(4, 1fr);
@@ -978,6 +982,7 @@
     </style>
 </head>
 <body>
+    <!-- Página da Central Dimpex (inicialmente ativa) -->
     <div id="dimpex-central-page" class="page active">
         <header class="header">
             <div class="header-left">
@@ -985,6 +990,7 @@
                 <p>Gerencie e acompanhe os embarques de Hong Kong.</p>
             </div>
             <div class="header-right">
+                <button class="btn-secondary" onclick="showEngineeringCentralPage()">Central de Engenharia</button>
                 <button class="btn-secondary" onclick="logout()">Sair (Logout)</button>
             </div>
         </header>
@@ -1052,6 +1058,7 @@
         </div>
     </div>
 
+    <!-- Página de Detalhes do Embarque Dimpex -->
     <div id="dimpex-detail-page" class="page">
         <header class="header">
             <div class="header-left">
@@ -1059,17 +1066,19 @@
                 <p>Informações completas e acompanhamento do processo de importação.</p>
             </div>
             <div class="header-right">
-                <button class="btn-secondary" onclick="showCentralPage()">Voltar para Central Dimpex</button>
+                <button class="btn-secondary" onclick="showDimpexCentralPage()">Voltar para Central Dimpex</button>
             </div>
         </header>
 
         <div class="container">
+            <!-- Abas de navegação para detalhes, documentos e financeiro -->
             <div class="tabs-container">
                 <button class="tab-button active" onclick="openTab(event, 'tabGeral')">Geral</button>
                 <button class="tab-button" onclick="openTab(event, 'tabDocumentos')">Documentos</button>
                 <button class="tab-button" onclick="openTab(event, 'tabFinanceiro')">Financeiro</button>
             </div>
 
+            <!-- Conteúdo da Aba Geral -->
             <div id="tabGeral" class="tab-content active">
                 <div class="form-section">
                     <h2 class="section-title">Visão Geral do Embarque</h2>
@@ -1214,7 +1223,7 @@
                             <div class="detail-value" id="inspectionApprovalDate">N/A</div>
                         </div>
                         <div class="detail-item span-all-columns">
-                            <button class="btn-primary" id="openInspectionReportBtn" onclick="openInspectionReportModal()">Abrir Relatório de Inspeção</button>
+                            <button class="btn-primary" id="requestInspectionBtn" onclick="requestInspection()">Solicitar Inspeção</button>
                         </div>
                     </div>
                 </div>
@@ -1246,6 +1255,7 @@
                 </div>
             </div>
 
+            <!-- Conteúdo da Aba Documentos -->
             <div id="tabDocumentos" class="tab-content">
                 <div class="form-section">
                     <h2 class="section-title">Documentos do Processo</h2>
@@ -1301,6 +1311,7 @@
                 </div>
             </div>
 
+            <!-- Conteúdo da Aba Financeiro -->
             <div id="tabFinanceiro" class="tab-content">
                 <div class="form-section">
                     <h2 class="section-title">Informações Financeiras</h2>
@@ -1370,6 +1381,56 @@
         </div>
     </div>
 
+    <!-- Página da Central de Inspeção da Engenharia -->
+    <div id="engineering-central-page" class="page">
+        <header class="header">
+            <div class="header-left">
+                <h1>Central de Inspeção da Engenharia</h1>
+                <p>Gerencie e realize as inspeções de embarques.</p>
+            </div>
+            <div class="header-right">
+                <button class="btn-secondary" onclick="showDimpexCentralPage()">Central Dimpex</button>
+                <button class="btn-secondary" onclick="logout()">Sair (Logout)</button>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="form-section">
+                <h2 class="section-title">Embarques para Inspeção</h2>
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="inspectionStatusFilter">Filtrar por Status de Inspeção:</label>
+                        <select id="inspectionStatusFilter" onchange="renderEngineeringInspectionTable()">
+                            <option value="Todos">Todos</option>
+                            <option value="Solicitado">Solicitado</option>
+                            <option value="Em Andamento">Em Andamento</option>
+                            <option value="Aprovado">Aprovado</option>
+                            <option value="Aprovado com Ressalvas">Aprovado com Ressalvas</option>
+                            <option value="Reprovado">Reprovado</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Embarque</th>
+                                <th>Fornecedor</th>
+                                <th>Status Inspeção</th>
+                                <th>Solicitado em</th>
+                                <th>Responsável</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="engineeringInspectionTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modais de Mensagem, Visualizador de Documentos e PDF -->
     <div id="messageModal" class="modal-overlay">
         <div class="modal-content">
             <button class="modal-close-btn" id="messageModalCloseBtn">&times;</button>
@@ -1405,6 +1466,7 @@
         </div>
     </div>
 
+    <!-- Modal de Relatório de Inspeção da Engenharia -->
     <div id="inspectionReportModal" class="modal-overlay">
         <div class="modal-content">
             <button class="modal-close-btn" onclick="closeInspectionReportModal()">&times;</button>
@@ -1468,6 +1530,7 @@
         </div>
     </div>
 
+    <!-- Conteúdo do PDF (oculto, usado apenas para geração) -->
     <div id="pdfContentContainer">
         <div class="header-section">
             <div class="header-left">
@@ -1638,8 +1701,10 @@
     </div>
 
     <script>
+        // Variável global para armazenar o pedido Dimpex atualmente selecionado
         let currentDimpexOrder = null;
 
+        // Dados iniciais de exemplo para os embarques Dimpex
         const initialDimpexOrders = [
             {
                 id: 'PED-015',
@@ -1723,7 +1788,7 @@
                 dtPgSalCR: '2025-09-01',
                 dtFinalizado: '2025-08-25',
                 inspectionReport: { 
-                    status: 'N/A', 
+                    status: 'N/A', // Status inicial para embarques que não precisam de inspeção
                     dataInicio: '', 
                     dataFim: '', 
                     responsavel: '', 
@@ -1813,7 +1878,7 @@
                 dtPgSalCR: '2025-09-15',
                 dtFinalizado: '',
                 inspectionReport: { 
-                    status: 'N/A', 
+                    status: 'N/A', // Status inicial para embarques que não precisam de inspeção
                     dataInicio: '', 
                     dataFim: '', 
                     responsavel: '', 
@@ -1898,7 +1963,7 @@
                 dtPgSalCR: '2025-08-15',
                 dtFinalizado: '',
                 inspectionReport: {
-                    status: 'Aprovado',
+                    status: 'Aprovado', // Este embarque está aprovado, não deve aparecer na Central de Engenharia
                     dataInicio: '2025-07-01',
                     dataFim: '2025-07-01',
                     responsavel: 'João Silva',
@@ -1992,7 +2057,7 @@
                 dtPgSalCR: '2025-10-05',
                 dtFinalizado: '',
                 inspectionReport: {
-                    status: 'Aprovado',
+                    status: 'Aprovado', // Este embarque está aprovado, não deve aparecer na Central de Engenharia
                     dataInicio: '2025-07-10',
                     dataFim: '2025-07-10',
                     responsavel: 'Ana Costa',
@@ -2086,21 +2151,12 @@
                 dtPgSalCR: '2025-10-10',
                 dtFinalizado: '',
                 inspectionReport: {
-                    status: 'Pendente',
+                    status: 'Solicitado', // Este embarque deve aparecer na Central de Engenharia
                     dataInicio: '2025-07-15',
                     dataFim: '',
-                    responsavel: 'Engenheiro Teste',
-                    observacoesGerais: 'A carga chegou ao porto de destino e está aguardando a inspeção física pela equipe de engenharia. Necessário verificar a integridade dos produtos após o transporte marítimo.',
-                    productInspections: [
-                        {
-                            productCode: 'PROD003',
-                            description: 'Mini Bomba D\'água',
-                            conformidadePO: 'N/A',
-                            qualidadeEmbalagem: 'N/A',
-                            integridadeProdutos: 'N/A',
-                            condicoesCarregamento: 'N/A'
-                        }
-                    ]
+                    responsavel: '',
+                    observacoesGerais: 'Inspeção solicitada pelo Dimpex. Aguardando início da engenharia.',
+                    productInspections: []
                 }
             },
             {
@@ -2181,7 +2237,7 @@
                 dtPgSalCR: '2025-10-20',
                 dtFinalizado: '',
                 inspectionReport: {
-                    status: 'N/A',
+                    status: 'N/A', // Este embarque não precisa de inspeção, não deve aparecer na Central de Engenharia
                     dataInicio: '', 
                     dataFim: '', 
                     responsavel: '', 
@@ -2267,7 +2323,7 @@
                 dtPgSalCR: '2025-11-01',
                 dtFinalizado: '',
                 inspectionReport: {
-                    status: 'Reprovado',
+                    status: 'Reprovado', // Este embarque deve aparecer na Central de Engenharia
                     dataInicio: '2025-07-20',
                     dataFim: '2025-07-20',
                     responsavel: 'Carlos Mendes',
@@ -2362,7 +2418,7 @@
                 dtPgSalCR: '2025-11-05',
                 dtFinalizado: '2025-07-31',
                 inspectionReport: {
-                    status: 'Aprovado',
+                    status: 'Aprovado', // Este embarque está aprovado, não deve aparecer na Central de Engenharia
                     dataInicio: '2025-07-25',
                     dataFim: '2025-07-25',
                     responsavel: 'Fernanda Lima',
@@ -2381,8 +2437,10 @@
             }
         ];
 
+        // Variável para armazenar todos os pedidos Dimpex
         let dimpexOrders = [];
 
+        // Fluxo de rastreamento Dimpex com seus respectivos status e classes CSS
         const dimpexTrackingFlow = [
             { name: 'Aprovado', class: 'approved', description: 'Pedido aprovado pela Gerência, aguardando início do processo Dimpex.' },
             { name: 'Em Produção', class: 'in-production', description: 'Fornecedor iniciou a produção dos itens.' },
@@ -2396,6 +2454,11 @@
             { name: 'Entrega ao Cliente', class: 'delivered', description: 'Mercadoria entregue ao cliente.' }
         ];
 
+        /**
+         * Formata uma string de data (YYYY-MM-DD) para o formato DD/MM/YYYY.
+         * @param {string} dateString - A string de data no formato YYYY-MM-DD.
+         * @returns {string} A data formatada ou 'N/A' se a string for vazia/nula.
+         */
         function formatDate(dateString) {
             if (!dateString) return 'N/A';
             const [year, month, day] = dateString.split('-');
@@ -2405,15 +2468,14 @@
             return dateString;
         }
 
-        function formatDateTime(dateTimeString) {
-            if (!dateTimeString) return 'N/A';
-            const date = new Date(dateTimeString);
-            if (isNaN(date.getTime())) return 'N/A';
-            const datePart = date.toLocaleDateString('pt-BR');
-            const timePart = date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-            return `${datePart} às ${timePart}`;
-        }
-
+        /**
+         * Exibe um modal de mensagem personalizado.
+         * @param {string} title - Título do modal.
+         * @param {string} content - Conteúdo da mensagem (pode conter HTML).
+         * @param {string} type - Tipo da mensagem ('info', 'success', 'error', 'warning').
+         * @param {function} onConfirm - Função de callback para o botão 'OK'/'Confirmar'.
+         * @param {function} onCancel - Função de callback para o botão 'Cancelar'.
+         */
         function showMessage(title, content, type = 'info', onConfirm = null, onCancel = null) {
             const modal = document.getElementById('messageModal');
             const modalTitle = document.getElementById('messageModalTitle');
@@ -2429,12 +2491,13 @@
             cancelBtn.onclick = () => { if (onCancel) onCancel(); modal.classList.remove('active'); };
             closeBtn.onclick = () => modal.classList.remove('active');
 
+            // Gerencia a visibilidade dos botões de ação
             confirmBtn.classList.add('hidden');
             cancelBtn.classList.add('hidden');
-            closeBtn.classList.remove('hidden');
+            closeBtn.classList.remove('hidden'); // Botão de fechar sempre visível por padrão
 
             if (onConfirm || onCancel) {
-                closeBtn.classList.add('hidden');
+                closeBtn.classList.add('hidden'); // Esconde o 'X' se houver botões de ação
                 confirmBtn.classList.remove('hidden');
                 if (onCancel) {
                     cancelBtn.classList.remove('hidden');
@@ -2443,30 +2506,47 @@
             modal.classList.add('active');
         }
 
-        function showCentralPage() {
-            const detailPage = document.getElementById('dimpex-detail-page');
-            const centralPage = document.getElementById('dimpex-central-page');
-            if (detailPage) detailPage.classList.remove('active');
-            if (centralPage) centralPage.classList.add('active');
+        /**
+         * Exibe a página da Central Dimpex.
+         */
+        function showDimpexCentralPage() {
+            document.getElementById('dimpex-detail-page').classList.remove('active');
+            document.getElementById('engineering-central-page').classList.remove('active');
+            document.getElementById('dimpex-central-page').classList.add('active');
             renderDashboardKPIs();
             renderDimpexOrdersTable();
         }
 
+        /**
+         * Exibe a página da Central de Inspeção da Engenharia.
+         */
+        function showEngineeringCentralPage() {
+            document.getElementById('dimpex-central-page').classList.remove('active');
+            document.getElementById('dimpex-detail-page').classList.remove('active');
+            document.getElementById('engineering-central-page').classList.add('active');
+            renderEngineeringInspectionTable();
+        }
+
+        /**
+         * Exibe a página de detalhes de um embarque específico.
+         * @param {string} orderId - O ID do embarque a ser exibido.
+         */
         function showDetailPage(orderId) {
             const order = dimpexOrders.find(o => o.id === orderId);
             if (order) {
                 currentDimpexOrder = order;
-                const centralPage = document.getElementById('dimpex-central-page');
-                const detailPage = document.getElementById('dimpex-detail-page');
-                if (centralPage) centralPage.classList.remove('active');
-                if (detailPage) detailPage.classList.add('active');
+                document.getElementById('dimpex-central-page').classList.remove('active');
+                document.getElementById('dimpex-detail-page').classList.add('active');
                 renderDimpexOrderDetails();
-                openTab(null, 'tabGeral');
+                openTab(null, 'tabGeral'); // Abre a aba "Geral" por padrão
             } else {
                 showMessage('Erro', 'Embarque não encontrado.', 'error');
             }
         }
 
+        /**
+         * Renderiza a tabela de pedidos na Central Dimpex.
+         */
         function renderDimpexOrdersTable() {
             const tbody = document.getElementById('dimpexOrdersTableBody');
             tbody.innerHTML = '';
@@ -2507,19 +2587,32 @@
             });
         }
 
+        /**
+         * Obtém o valor de um elemento HTML pelo ID, retornando string vazia se não encontrado.
+         * @param {string} id - O ID do elemento HTML.
+         * @returns {string} O valor do elemento.
+         */
         const safeGetValue = (id) => {
             const element = document.getElementById(id);
             return element ? element.value : '';
         };
 
+        /**
+         * Renderiza os detalhes do embarque na página de detalhes.
+         */
         function renderDimpexOrderDetails() {
             if (!currentDimpexOrder) {
                 showMessage('Erro', 'Nenhum embarque selecionado. Retornando à Central Dimpex.', 'error', () => {
-                    showCentralPage();
+                    showDimpexCentralPage();
                 });
                 return;
             }
 
+            /**
+             * Define o valor de um elemento input/textarea/select.
+             * @param {string} id - O ID do elemento.
+             * @param {*} value - O valor a ser definido.
+             */
             const safeSetValue = (id, value) => {
                 const element = document.getElementById(id);
                 if (element) {
@@ -2527,6 +2620,11 @@
                 }
             };
 
+            /**
+             * Define o texto interno de um elemento.
+             * @param {string} id - O ID do elemento.
+             * @param {string} text - O texto a ser definido.
+             */
             const safeSetText = (id, text) => {
                 const element = document.getElementById(id);
                 if (element) {
@@ -2534,6 +2632,7 @@
                 }
             };
 
+            // Preenche os campos da seção Geral
             safeSetText('detailShipmentName', currentDimpexOrder.shipmentName);
             safeSetText('overviewOrderId', currentDimpexOrder.id);
             safeSetValue('detailShipmentNameInput', currentDimpexOrder.shipmentName);
@@ -2561,13 +2660,15 @@
 
             safeSetValue('detailFollowUp', currentDimpexOrder.followUp);
 
+            // Renderiza o rastreamento e o seletor de status
             renderTracking(currentDimpexOrder.statusDimpex);
             safeSetValue('newStatusSelect', currentDimpexOrder.statusDimpex);
 
+            // Atualiza a seção de Relatório de Inspeção
             const inspectionStatusElement = document.getElementById('inspectionStatus');
             const inspectionApprovedByElement = document.getElementById('inspectionApprovedBy');
             const inspectionApprovalDateElement = document.getElementById('inspectionApprovalDate');
-            const openInspectionReportBtn = document.getElementById('openInspectionReportBtn');
+            const requestInspectionBtn = document.getElementById('requestInspectionBtn');
 
             if (currentDimpexOrder.inspectionReport) {
                 inspectionStatusElement.innerText = currentDimpexOrder.inspectionReport.status;
@@ -2577,37 +2678,35 @@
                 inspectionApprovedByElement.innerText = currentDimpexOrder.inspectionReport.approvedBy || 'N/A';
                 inspectionApprovalDateElement.innerText = formatDate(currentDimpexOrder.inspectionReport.approvalDate);
 
-                const allowedStatusesForInspection = ['Carga Pronta', 'Reserva de Espaço (Booking)', 'Saída do Porto de Embarque (ATD)', 'Documentação Pendente', 'Documentação OK', 'Em Trânsito', 'Chegada no Porto de Destino (ATA)'];
-                if (allowedStatusesForInspection.includes(currentDimpexOrder.statusDimpex)) {
-                    openInspectionReportBtn.disabled = false;
-                    openInspectionReportBtn.innerText = 'Abrir Relatório de Inspeção';
-                    if (currentDimpexOrder.inspectionReport.status === 'Aprovado') {
-                        openInspectionReportBtn.innerText = 'Ver Relatório Aprovado';
-                        openInspectionReportBtn.classList.remove('btn-primary');
-                        openInspectionReportBtn.classList.add('btn-secondary');
-                    } else if (currentDimpexOrder.inspectionReport.status === 'Reprovado' || currentDimpexOrder.inspectionReport.status === 'Pendente' || currentDimpexOrder.inspectionReport.status === 'Aprovado com Ressalvas') {
-                        openInspectionReportBtn.innerText = 'Abrir Relatório de Inspeção';
-                        openInspectionReportBtn.classList.remove('btn-secondary');
-                        openInspectionReportBtn.classList.add('btn-primary');
-                    }
-                } else {
-                    openInspectionReportBtn.disabled = true;
-                    openInspectionReportBtn.innerText = 'Relatório de Inspeção (Não Aplicável)';
-                    openInspectionReportBtn.classList.remove('btn-primary');
-                    openInspectionReportBtn.classList.add('btn-secondary');
-                }
+                // Lógica para habilitar/desabilitar o botão de solicitação de inspeção
+                const canRequestInspection = currentDimpexOrder.statusDimpex === 'Carga Pronta' && 
+                                             (currentDimpexOrder.inspectionReport.status === 'N/A' || 
+                                              currentDimpexOrder.inspectionReport.status === 'Reprovado');
 
+                if (canRequestInspection) {
+                    requestInspectionBtn.disabled = false;
+                    requestInspectionBtn.innerText = 'Solicitar Inspeção';
+                    requestInspectionBtn.classList.remove('btn-secondary');
+                    requestInspectionBtn.classList.add('btn-primary');
+                } else {
+                    requestInspectionBtn.disabled = true;
+                    requestInspectionBtn.innerText = `Inspeção: ${currentDimpexOrder.inspectionReport.status}`;
+                    requestInspectionBtn.classList.remove('btn-primary');
+                    requestInspectionBtn.classList.add('btn-secondary');
+                }
             } else {
+                // Caso não haja relatório de inspeção
                 inspectionStatusElement.innerText = 'N/A';
                 inspectionStatusElement.className = 'detail-value status-indicator n-a-inspection';
                 inspectionApprovedByElement.innerText = 'N/A';
                 inspectionApprovalDateElement.innerText = 'N/A';
-                openInspectionReportBtn.disabled = true;
-                openInspectionReportBtn.innerText = 'Relatório de Inspeção (Não Aplicável)';
-                openInspectionReportBtn.classList.remove('btn-primary');
-                openInspectionReportBtn.classList.add('btn-secondary');
+                requestInspectionBtn.disabled = true;
+                requestInspectionBtn.innerText = 'Relatório de Inspeção (Não Aplicável)';
+                requestInspectionBtn.classList.remove('btn-primary');
+                requestInspectionBtn.classList.add('btn-secondary');
             }
 
+            // Renderiza as tabelas de produtos e documentos
             renderProductsTable();
 
             safeSetValue('docsFornecedor', currentDimpexOrder.docsFornecedor);
@@ -2620,6 +2719,7 @@
             safeSetValue('telexRelease', currentDimpexOrder.telexRelease);
             renderDocumentsTable();
 
+            // Preenche os campos da seção Financeiro
             safeSetValue('financeDesconto', currentDimpexOrder.desconto);
             safeSetValue('financeTipoDesconto', currentDimpexOrder.tipoDesconto);
             safeSetValue('financeCustoExtra', currentDimpexOrder.custoExtra);
@@ -2636,6 +2736,10 @@
             safeSetValue('financeDtPgSalCR', currentDimpexOrder.dtPgSalCR);
         }
 
+        /**
+         * Renderiza o componente de rastreamento de status do Dimpex.
+         * @param {string} currentStatus - O status atual do embarque.
+         */
         function renderTracking(currentStatus) {
             const trackingSection = document.getElementById('dimpexTrackingSection');
             trackingSection.innerHTML = '';
@@ -2661,9 +2765,9 @@
                 }
 
                 if (stepClass.includes('completed')) {
-                    circleContent = '&#10003;';
+                    circleContent = '&#10003;'; // Checkmark for completed steps
                 } else if (stepClass.includes('active')) {
-                    circleContent = (index + 1).toString();
+                    circleContent = (index + 1).toString(); // Number for active step
                 }
 
                 trackingHtml += `
@@ -2677,6 +2781,9 @@
             trackingSection.innerHTML = trackingHtml;
         }
 
+        /**
+         * Salva o novo status do pedido Dimpex.
+         */
         function saveOrderStatus() {
             if (!currentDimpexOrder) {
                 showMessage('Erro', 'Nenhum embarque carregado.', 'error');
@@ -2686,33 +2793,6 @@
             const newStatusSelect = document.getElementById('newStatusSelect');
             const newStatus = newStatusSelect.value;
 
-            if (newStatus === 'Carga Pronta' && (!currentDimpexOrder.inspectionReport || currentDimpexOrder.inspectionReport.status === 'N/A' || currentDimpexOrder.inspectionReport.status === 'Reprovado')) {
-                currentDimpexOrder.inspectionReport = {
-                    status: 'Pendente',
-                    dataInicio: new Date().toISOString().slice(0, 10),
-                    dataFim: '',
-                    responsavel: '',
-                    observacoesGerais: `A carga foi declarada pronta pelo fornecedor e está aguardando a inspeção física pela equipe de engenharia. É crucial verificar a integridade e conformidade dos produtos antes do embarque.`,
-                    productInspections: []
-                };
-                currentDimpexOrder.productLines.forEach(product => {
-                    currentDimpexOrder.inspectionReport.productInspections.push({
-                        productCode: product.productCode,
-                        description: product.description,
-                        conformidadePO: 'N/A',
-                        qualidadeEmbalagem: 'N/A',
-                        integridadeProdutos: 'N/A',
-                        condicoesCarregamento: 'N/A'
-                    });
-                });
-
-            } else if (newStatus !== 'Carga Pronta' && currentDimpexOrder.inspectionReport && currentDimpexOrder.inspectionReport.status === 'Pendente') {
-                currentDimpexOrder.inspectionReport.status = 'Aprovado (Auto)';
-                currentDimpexOrder.inspectionReport.approvalDate = new Date().toISOString().slice(0, 10);
-                currentDimpexOrder.inspectionReport.approvedBy = 'Sistema Automático';
-                currentDimpexOrder.inspectionReport.observacoesGerais += `\n\n--- APROVAÇÃO AUTOMÁTICA ---\nRelatório aprovado automaticamente pois o embarque avançou para a próxima etapa sem inspeção explícita.`;
-            }
-
             currentDimpexOrder.statusDimpex = newStatus;
             updateDimpexOrderInLocalStorage(currentDimpexOrder);
 
@@ -2721,6 +2801,9 @@
             });
         }
 
+        /**
+         * Salva as alterações nos detalhes do embarque.
+         */
         function saveShipmentDetails() {
             if (!currentDimpexOrder) {
                 showMessage('Erro', 'Nenhum embarque carregado para salvar os detalhes.', 'error');
@@ -2752,6 +2835,9 @@
             });
         }
 
+        /**
+         * Estorna o status do embarque para "Aprovado" (Compras).
+         */
         function revertToPurchase() {
             if (!currentDimpexOrder) {
                 showMessage('Erro', 'Nenhum embarque carregado para estornar.', 'error');
@@ -2764,6 +2850,7 @@
                 'warning',
                 () => {
                     currentDimpexOrder.statusDimpex = 'Aprovado';
+                    // Ao estornar para compras, a inspeção é resetada para N/A
                     currentDimpexOrder.inspectionReport = { 
                         status: 'N/A', 
                         dataInicio: '', 
@@ -2775,12 +2862,17 @@
 
                     updateDimpexOrderInLocalStorage(currentDimpexOrder);
                     showMessage('Sucesso', `Embarque ${currentDimpexOrder.shipmentName} estornado para "Aprovado" com sucesso!`, 'success', () => {
-                        showCentralPage();
+                        showDimpexCentralPage();
                     });
                 }
             );
         }
 
+        /**
+         * Visualiza o conteúdo de um arquivo anexado.
+         * @param {string} orderId - O ID do embarque.
+         * @param {string} docName - O nome do documento a ser visualizado.
+         */
         function viewAttachedFile(orderId, docName) {
             const order = dimpexOrders.find(o => o.id === orderId);
             if (!order) {
@@ -2794,21 +2886,23 @@
 
             if (doc && doc.content) {
                 documentViewerTitle.innerText = doc.name;
-                documentViewerContent.innerHTML = '';
+                documentViewerContent.innerHTML = ''; // Limpa o conteúdo anterior
 
                 const lines = doc.content.split('\n');
-                let currentList = null;
+                let currentList = null; // Para lidar com listas de itens
 
                 lines.forEach(line => {
                     line = line.trim();
                     if (line.startsWith('---') && line.endsWith('---')) {
+                        // Títulos de seção
                         const title = line.replace(/---/g, '').trim();
                         const h4 = document.createElement('h4');
                         h4.style.cssText = 'font-size: 16px; font-weight: 600; color: var(--primary-color); margin-top: 20px; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px;';
                         h4.innerText = title;
                         documentViewerContent.appendChild(h4);
-                        currentList = null;
+                        currentList = null; // Reseta a lista ao encontrar um novo título
                     } else if (line.includes(':') && !line.startsWith('-')) {
+                        // Linhas de chave-valor
                         const parts = line.split(':', 2);
                         const label = parts[0].trim();
                         const value = parts[1] ? parts[1].trim() : '';
@@ -2829,6 +2923,7 @@
                         documentViewerContent.appendChild(itemDiv);
                         currentList = null;
                     } else if (line.startsWith('-')) {
+                        // Itens de lista
                         if (!currentList) {
                             currentList = document.createElement('ul');
                             currentList.style.cssText = 'list-style: disc inside; margin-left: 20px; margin-bottom: 10px;';
@@ -2840,6 +2935,7 @@
                         currentList.appendChild(listItem);
                     }
                     else if (line) {
+                        // Parágrafos de texto livre
                         const p = document.createElement('p');
                         p.style.cssText = 'margin-bottom: 10px; color: #444;';
                         p.innerText = line;
@@ -2853,17 +2949,21 @@
             }
         }
 
+        /**
+         * Fecha o modal de visualização de documentos.
+         */
         function closeDocumentViewerModal() {
-            const documentViewerModal = document.getElementById('documentViewerModal');
-            if (documentViewerModal) {
-                documentViewerModal.classList.remove('active');
-            }
+            document.getElementById('documentViewerModal').classList.remove('active');
         }
 
+        /**
+         * Renderiza a tabela de documentos do embarque.
+         */
         function renderDocumentsTable() {
             const tbody = document.getElementById('documentsTableBody');
             tbody.innerHTML = '';
 
+            // Recarrega os dados do localStorage para garantir que estão atualizados
             const storedAllOrders = localStorage.getItem('dimpexOrders');
             if (storedAllOrders) {
                 dimpexOrders = JSON.parse(storedAllOrders);
@@ -2874,6 +2974,7 @@
                 return;
             }
 
+            // Garante que currentDimpexOrder está atualizado com a versão do localStorage
             const updatedCurrentOrder = dimpexOrders.find(o => o.id === currentDimpexOrder.id);
             currentDimpexOrder = updatedCurrentOrder;
 
@@ -2883,6 +2984,7 @@
                 let viewAttachmentButtonHtml = '';
                 let dimpexApprovalHtml = '';
 
+                // Botão de Receber Documento
                 if (doc.status === 'Pendente') {
                     receiveButtonHtml = `<button class="icon-button primary" onclick="receiveDocument('${doc.name.replace(/'/g, "\\'")}', ${index})" title="Receber Documento">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/></svg>
@@ -2893,6 +2995,7 @@
                                         </button>`;
                 }
 
+                // Botão de Visualizar Anexo
                 if (doc.status === 'Recebido' && doc.content) {
                     viewAttachmentButtonHtml = `<button class="icon-button" onclick="viewAttachedFile('${currentDimpexOrder.id}', '${doc.name.replace(/'/g, "\\'")}')" title="Visualizar Anexo">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/><path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/></svg>
@@ -2903,6 +3006,7 @@
                                                 </button>`;
                 }
 
+                // Status de Aprovação Dimpex
                 if (doc.status === 'Recebido') {
                     if (doc.dimpexApprovalStatus === 'Pendente') {
                         dimpexApprovalHtml += `<button class="icon-button primary" style="margin-right: 5px;" onclick="acceptDocument('${doc.name.replace(/'/g, "\\'")}', ${index})" title="Aceitar Documento">
@@ -2931,34 +3035,33 @@
             });
         }
 
+        /**
+         * Marca um documento como "Recebido".
+         * @param {string} docName - Nome do documento.
+         * @param {number} index - Índice do documento na lista.
+         */
         function receiveDocument(docName, index) {
-            if (!currentDimpexOrder || !currentDimpexOrder.documents) {
-                return;
-            }
-
-            if (index < 0 || index >= currentDimpexOrder.documents.length) {
-                return;
-            }
+            if (!currentDimpexOrder || !currentDimpexOrder.documents) return;
+            if (index < 0 || index >= currentDimpexOrder.documents.length) return;
 
             currentDimpexOrder.documents[index].status = 'Recebido';
             currentDimpexOrder.documents[index].receivedDate = new Date().toISOString().slice(0, 10);
-            currentDimpexOrder.documents[index].dimpexApprovalStatus = 'Pendente';
+            currentDimpexOrder.documents[index].dimpexApprovalStatus = 'Pendente'; // Define como pendente para aprovação Dimpex
 
             updateDimpexOrderInLocalStorage(currentDimpexOrder);
-
             showMessage('Sucesso', `Documento "${docName}" recebido com sucesso!`, 'success', () => {
                 renderDocumentsTable();
             });
         }
 
+        /**
+         * Marca um documento como "Aceito" pelo Dimpex.
+         * @param {string} docName - Nome do documento.
+         * @param {number} index - Índice do documento na lista.
+         */
         function acceptDocument(docName, index) {
-            if (!currentDimpexOrder || !currentDimpexOrder.documents) {
-                return;
-            }
-
-            if (index < 0 || index >= currentDimpexOrder.documents.length) {
-                return;
-            }
+            if (!currentDimpexOrder || !currentDimpexOrder.documents) return;
+            if (index < 0 || index >= currentDimpexOrder.documents.length) return;
 
             currentDimpexOrder.documents[index].dimpexApprovalStatus = 'Aceito';
             updateDimpexOrderInLocalStorage(currentDimpexOrder);
@@ -2968,14 +3071,14 @@
             });
         }
 
+        /**
+         * Marca um documento como "Recusado" pelo Dimpex.
+         * @param {string} docName - Nome do documento.
+         * @param {number} index - Índice do documento na lista.
+         */
         function rejectDocument(docName, index) {
-            if (!currentDimpexOrder || !currentDimpexOrder.documents) {
-                return;
-            }
-
-            if (index < 0 || index >= currentDimpexOrder.documents.length) {
-                return;
-            }
+            if (!currentDimpexOrder || !currentDimpexOrder.documents) return;
+            if (index < 0 || index >= currentDimpexOrder.documents.length) return;
 
             showMessage(
                 'Confirmação',
@@ -2992,6 +3095,9 @@
             );
         }
 
+        /**
+         * Renderiza a tabela de produtos do embarque.
+         */
         function renderProductsTable() {
             const tbody = document.getElementById('productsTableBody');
             tbody.innerHTML = '';
@@ -3021,18 +3127,24 @@
             });
         }
 
+        /**
+         * Abre uma aba específica na página de detalhes do embarque.
+         * @param {Event} evt - O evento de clique (pode ser nulo se chamado programaticamente).
+         * @param {string} tabName - O ID da aba a ser aberta (ex: 'tabGeral').
+         */
         function openTab(evt, tabName) {
+            // Esconde todas as abas e remove o estilo "active" dos botões
             document.querySelectorAll("#dimpex-detail-page .tab-content").forEach(el => el.classList.remove("active"));
             document.querySelectorAll("#dimpex-detail-page .tab-button").forEach(el => el.classList.remove("active"));
 
-            const targetTab = document.getElementById(tabName);
-            if (targetTab) {
-                targetTab.classList.add("active");
-            }
+            // Exibe a aba selecionada
+            document.getElementById(tabName).classList.add("active");
             
+            // Adiciona o estilo "active" ao botão da aba selecionada
             if (evt) {
                 evt.currentTarget.classList.add("active");
             } else {
+                // Caso a função seja chamada sem um evento (ex: ao carregar a página)
                 const buttonText = {
                     'tabGeral': 'Geral',
                     'tabDocumentos': 'Documentos',
@@ -3045,12 +3157,16 @@
             }
         }
 
+        /**
+         * Renderiza os KPIs do dashboard na Central Dimpex.
+         */
         function renderDashboardKPIs() {
             const totalShipmentsKPI = document.getElementById('totalShipmentsKPI');
             const inTransitShipmentsKPI = document.getElementById('inTransitShipmentsKPI');
             const customsClearanceShipmentsKPI = document.getElementById('customsClearanceShipmentsKPI');
             const deliveredShipmentsKPI = document.getElementById('deliveredShipmentsKPI');
 
+            // Carrega os dados do localStorage ou usa os dados iniciais
             const storedAllOrders = localStorage.getItem('dimpexOrders');
             if (storedAllOrders) {
                 dimpexOrders = JSON.parse(storedAllOrders);
@@ -3059,17 +3175,22 @@
                 localStorage.setItem('dimpexOrders', JSON.stringify(initialDimpexOrders));
             }
 
+            // Calcula os KPIs
             const totalShipments = dimpexOrders.length;
             const inTransitShipments = dimpexOrders.filter(order => order.statusDimpex === 'Em Trânsito').length;
             const customsClearanceShipments = dimpexOrders.filter(order => order.statusDimpex === 'Chegada no Porto de Destino (ATA)').length;
             const deliveredShipments = dimpexOrders.filter(order => order.statusDimpex === 'Entrega ao Cliente').length;
 
+            // Atualiza os elementos HTML
             totalShipmentsKPI.innerText = totalShipments;
             inTransitShipmentsKPI.innerText = inTransitShipments;
             customsClearanceShipmentsKPI.innerText = customsClearanceShipments;
             deliveredShipmentsKPI.innerText = deliveredShipments;
         }
 
+        /**
+         * Gera um PDF do relatório de acompanhamento (Follow Up).
+         */
         async function generatePdfFollowUp() {
             if (!currentDimpexOrder) {
                 showMessage('Erro', 'Nenhum embarque selecionado para gerar o documento.', 'error');
@@ -3080,9 +3201,15 @@
             const pdfViewerModal = document.getElementById('pdfViewerModal');
             const pdfFrame = document.getElementById('pdfFrame');
 
+            // Exibe o modal do visualizador de PDF e o container de conteúdo
             pdfViewerModal.classList.add('active');
             pdfContentContainer.style.display = 'block';
 
+            /**
+             * Define o texto de um elemento dentro do container PDF.
+             * @param {string} id - O ID do elemento.
+             * @param {*} value - O valor a ser definido.
+             */
             const setText = (id, value) => {
                 const element = pdfContentContainer.querySelector(`#${id}`);
                 if (element) {
@@ -3090,6 +3217,7 @@
                 }
             };
 
+            // Preenche os dados do PDF com as informações do embarque atual
             setText('pdfDocReadyDate', formatDate(currentDimpexOrder.prevEmbarque));
             setText('pdfDocTerms', currentDimpexOrder.incoterm);
             setText('pdfDocPol', currentDimpexOrder.pol);
@@ -3121,6 +3249,7 @@
             setText('pdfDocBl', currentDimpexOrder.blNumber);
             setText('pdfDocEta', formatDate(currentDimpexOrder.dtETA));
 
+            // Preenche a tabela de produtos no PDF
             const productsTableBody = pdfContentContainer.querySelector('#pdfProductsTableBodyDoc');
             if (productsTableBody) {
                 productsTableBody.innerHTML = '';
@@ -3143,6 +3272,7 @@
                 }
             }
 
+            // Opções para a geração do PDF
             const options = {
                 margin: 10,
                 filename: `documento_acompanhamento_${currentDimpexOrder.id}.pdf`,
@@ -3153,26 +3283,28 @@
             };
 
             try {
+                // Gera o PDF e define a URL no iframe
                 const pdfDataUri = await html2pdf().set(options).from(pdfContentContainer).outputPdf('datauristring');
                 pdfFrame.src = pdfDataUri;
             } catch (error) {
                 showMessage('Erro', 'Ocorreu um erro ao gerar o PDF. Por favor, tente novamente.', 'error');
             } finally {
+                // Esconde o container de conteúdo do PDF após a geração
                 pdfContentContainer.style.display = 'none';
             }
         }
 
+        /**
+         * Fecha o modal do visualizador de PDF.
+         */
         function closePdfViewerModal() {
-            const pdfViewerModal = document.getElementById('pdfViewerModal');
-            const pdfFrame = document.getElementById('pdfFrame');
-            if (pdfViewerModal) {
-                pdfViewerModal.classList.remove('active');
-            }
-            if (pdfFrame) {
-                pdfFrame.src = '';
-            }
+            document.getElementById('pdfViewerModal').classList.remove('active');
+            document.getElementById('pdfFrame').src = ''; // Limpa o iframe
         }
 
+        /**
+         * Simula o envio do PDF por e-mail.
+         */
         function sendPdfByEmail() {
             if (!currentDimpexOrder) {
                 showMessage('Erro', 'Nenhum embarque selecionado para enviar o PDF.', 'error');
@@ -3183,12 +3315,16 @@
             });
         }
 
+        /**
+         * Simula o envio de dados financeiros para o sistema Protheus.
+         */
         function sendToProtheus() {
             if (!currentDimpexOrder) {
                 showMessage('Erro', 'Nenhum embarque selecionado para enviar ao Protheus.', 'error');
                 return;
             }
 
+            // Objeto com os dados financeiros a serem "enviados"
             const financialData = {
                 shipmentId: currentDimpexOrder.id,
                 desconto: currentDimpexOrder.desconto,
@@ -3210,71 +3346,247 @@
             showMessage('Sucesso', `Dados financeiros do embarque ${currentDimpexOrder.shipmentName} simulados como enviados ao Protheus!`, 'success');
         }
 
-        function openInspectionReportModal() {
-            if (!currentDimpexOrder || !currentDimpexOrder.inspectionReport) {
-                showMessage('Erro', 'Relatório de inspeção não disponível para este embarque.', 'error');
+        /**
+         * Solicita uma inspeção para o embarque atual.
+         */
+        function requestInspection() {
+            if (!currentDimpexOrder) return;
+
+            // Verifica se o status do embarque é "Carga Pronta"
+            if (currentDimpexOrder.statusDimpex !== 'Carga Pronta') {
+                showMessage('Atenção', 'A solicitação de inspeção só pode ser feita quando o status do embarque é "Carga Pronta".', 'info');
                 return;
             }
 
+            // Verifica se uma inspeção já foi solicitada ou está em andamento
+            if (currentDimpexOrder.inspectionReport.status === 'Solicitado' || currentDimpexOrder.inspectionReport.status === 'Em Andamento') {
+                showMessage('Atenção', 'Uma inspeção já foi solicitada ou está em andamento para este embarque.', 'info');
+                return;
+            }
+
+            showMessage(
+                'Confirmação',
+                `Deseja solicitar a inspeção da engenharia para o embarque ${currentDimpexOrder.shipmentName}?`,
+                'info',
+                () => {
+                    // Atualiza o status da inspeção para "Solicitado"
+                    currentDimpexOrder.inspectionReport.status = 'Solicitado';
+                    currentDimpexOrder.inspectionReport.dataInicio = new Date().toISOString().slice(0, 10); // Data da solicitação
+                    currentDimpexOrder.inspectionReport.responsavel = 'Dimpex'; // Quem solicitou
+                    currentDimpexOrder.inspectionReport.observacoesGerais = `Inspeção solicitada pelo Dimpex em ${formatDate(currentDimpexOrder.inspectionReport.dataInicio)}.`;
+                    
+                    // Inicializa as inspeções por produto com 'N/A' se não existirem
+                    if (!currentDimpexOrder.inspectionReport.productInspections || currentDimpexOrder.inspectionReport.productInspections.length === 0) {
+                        currentDimpexOrder.inspectionReport.productInspections = currentDimpexOrder.productLines.map(product => ({
+                            productCode: product.productCode,
+                            description: product.description,
+                            conformidadePO: 'N/A',
+                            qualidadeEmbalagem: 'N/A',
+                            integridadeProdutos: 'N/A',
+                            condicoesCarregamento: 'N/A'
+                        }));
+                    } else {
+                        // Garante que todos os produtos têm uma entrada de inspeção, adicionando se faltar
+                        const existingProductCodes = new Set(currentDimpexOrder.inspectionReport.productInspections.map(pi => pi.productCode));
+                        currentDimpexOrder.productLines.forEach(product => {
+                            if (!existingProductCodes.has(product.productCode)) {
+                                currentDimpexOrder.inspectionReport.productInspections.push({
+                                    productCode: product.productCode,
+                                    description: product.description,
+                                    conformidadePO: 'N/A',
+                                    qualidadeEmbalagem: 'N/A',
+                                    integridadeProdutos: 'N/A',
+                                    condicoesCarregamento: 'N/A'
+                                });
+                            }
+                        });
+                    }
+
+                    updateDimpexOrderInLocalStorage(currentDimpexOrder);
+                    showMessage('Sucesso', `Inspeção solicitada para o embarque ${currentDimpexOrder.shipmentName}!`, 'success', () => {
+                        renderDimpexOrderDetails();
+                    });
+                }
+            );
+        }
+
+        /**
+         * Renderiza a tabela de inspeções na Central de Engenharia.
+         */
+        function renderEngineeringInspectionTable() {
+            const tbody = document.getElementById('engineeringInspectionTableBody');
+            tbody.innerHTML = '';
+
+            const statusFilterElement = document.getElementById('inspectionStatusFilter');
+            const statusFilter = statusFilterElement ? statusFilterElement.value : 'Todos';
+
+            let filteredOrders = dimpexOrders.filter(order => {
+                const inspectionStatus = order.inspectionReport ? order.inspectionReport.status : 'N/A';
+                // **Lógica de Filtragem Importante:**
+                // A Central de Engenharia deve mostrar APENAS os embarques que precisam de ação da engenharia.
+                // Isso inclui status: 'Solicitado', 'Em Andamento', 'Reprovado', 'Aprovado com Ressalvas'.
+                // 'N/A' e 'Aprovado' (finalizado) são excluídos por padrão, a menos que o filtro 'Todos' esteja ativo e o status seja um dos relevantes.
+                const relevantStatusesForAction = ['Solicitado', 'Em Andamento', 'Reprovado', 'Aprovado com Ressalvas'];
+                
+                if (statusFilter === 'Todos') {
+                    return relevantStatusesForAction.includes(inspectionStatus);
+                } else {
+                    return inspectionStatus === statusFilter;
+                }
+            });
+
+            if (filteredOrders.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 20px;">Nenhum embarque encontrado para o status de inspeção selecionado.</td></tr>`;
+                return;
+            }
+
+            filteredOrders.forEach(order => {
+                const row = document.createElement('tr');
+                const inspection = order.inspectionReport;
+                const normalizedStatus = inspection.status.toLowerCase().replace(/ /g, '-').replace(/\//g, '-');
+                
+                let actionButtonHtml = '';
+                if (inspection.status === 'Solicitado') {
+                    actionButtonHtml = `<button class="btn-primary" onclick="startInspection('${order.id}')">Iniciar Inspeção</button>`;
+                } else if (inspection.status === 'Em Andamento' || inspection.status === 'Reprovado' || inspection.status === 'Aprovado com Ressalvas') {
+                    actionButtonHtml = `<button class="btn-primary" onclick="openInspectionReportModal('${order.id}')">Abrir Relatório</button>`;
+                } else if (inspection.status === 'Aprovado') {
+                    // Se o status for "Aprovado", o botão é secundário e apenas para visualização
+                    actionButtonHtml = `<button class="btn-secondary" onclick="openInspectionReportModal('${order.id}')">Ver Relatório</button>`;
+                } else {
+                    actionButtonHtml = `<button class="btn-secondary" disabled>N/A</button>`;
+                }
+
+                row.innerHTML = `
+                    <td>${order.shipmentName || 'N/A'}</td>
+                    <td>${order.fornecedor || 'N/A'}</td>
+                    <td><span class="status-indicator ${normalizedStatus}-inspection"></span>${inspection.status}</td>
+                    <td>${formatDate(inspection.dataInicio)}</td>
+                    <td>${inspection.responsavel || 'N/A'}</td>
+                    <td>${actionButtonHtml}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        /**
+         * Inicia o processo de inspeção para um embarque.
+         * @param {string} orderId - O ID do embarque.
+         */
+        function startInspection(orderId) {
+            const order = dimpexOrders.find(o => o.id === orderId);
+            if (!order) {
+                showMessage('Erro', 'Embarque não encontrado.', 'error');
+                return;
+            }
+
+            if (order.inspectionReport.status === 'Solicitado') {
+                order.inspectionReport.status = 'Em Andamento';
+                order.inspectionReport.dataInicio = new Date().toISOString().slice(0, 10);
+                order.inspectionReport.responsavel = 'Engenharia'; // Define o responsável ao iniciar a inspeção
+                order.inspectionReport.observacoesGerais = `Inspeção iniciada pela Engenharia em ${formatDate(order.inspectionReport.dataInicio)}.`;
+                
+                // Garante que as inspeções por produto são inicializadas com 'Conforme'
+                order.inspectionReport.productInspections = order.productLines.map(product => {
+                    const existing = order.inspectionReport.productInspections.find(pi => pi.productCode === product.productCode);
+                    if (existing && Object.values(existing).some(val => val !== 'N/A')) { // Mantém os existentes se não forem todos N/A
+                        return existing;
+                    } else {
+                        return {
+                            productCode: product.productCode,
+                            description: product.description,
+                            conformidadePO: 'Conforme',
+                            qualidadeEmbalagem: 'Conforme',
+                            integridadeProdutos: 'Conforme',
+                            condicoesCarregamento: 'Conforme'
+                        };
+                    }
+                });
+                updateDimpexOrderInLocalStorage(order);
+                showMessage('Sucesso', `Inspeção do embarque ${order.shipmentName} iniciada!`, 'success', () => {
+                    openInspectionReportModal(orderId);
+                });
+            } else {
+                showMessage('Atenção', `A inspeção para este embarque já está em status "${order.inspectionReport.status}".`, 'info');
+            }
+        }
+
+        /**
+         * Abre o modal do relatório de inspeção para um embarque.
+         * @param {string} orderId - O ID do embarque.
+         */
+        function openInspectionReportModal(orderId) {
+            const order = dimpexOrders.find(o => o.id === orderId);
+            if (!order || !order.inspectionReport) {
+                showMessage('Erro', 'Relatório de inspeção não disponível para este embarque.', 'error');
+                return;
+            }
+            currentDimpexOrder = order; // Define o pedido atual para o modal
+
             const report = currentDimpexOrder.inspectionReport;
 
+            // Preenche os dados do embarque no modal do relatório
             document.getElementById('reportCliente').innerText = currentDimpexOrder.cliente || 'N/A';
             document.getElementById('reportPedidoInterno').innerText = currentDimpexOrder.id || 'N/A';
             document.getElementById('reportEmbarque').innerText = currentDimpexOrder.shipmentName || 'N/A';
             document.getElementById('reportFornecedor').innerText = currentDimpexOrder.fornecedor || 'N/A';
 
+            // Preenche os dados da inspeção
             document.getElementById('reportDataInicioInspecao').value = report.dataInicio || '';
             document.getElementById('reportDataFimInspecao').value = report.dataFim || '';
             document.getElementById('reportResponsavel').value = report.responsavel || '';
             document.getElementById('reportObservacoesGerais').value = report.observacoesGerais || '';
 
-            renderProductInspections();
-
-            document.getElementById('saveInspectionReportBtn').onclick = saveInspectionReport;
-            document.getElementById('rejectInspectionBtn').onclick = rejectInspectionReport;
+            renderProductInspections(); // Renderiza a tabela de inspeção por produto
 
             const saveBtn = document.getElementById('saveInspectionReportBtn');
             const rejectBtn = document.getElementById('rejectInspectionBtn');
+            const inputs = document.querySelectorAll('#inspectionReportModal input, #inspectionReportModal textarea');
+            const iconStatuses = document.querySelectorAll('#productInspectionContainer .icon-status');
 
-            if (report.status === 'Aprovado' || report.status === 'Aprovado (Auto)') {
-                saveBtn.disabled = true;
-                rejectBtn.disabled = true;
-                saveBtn.innerText = 'Relatório Aprovado';
-                rejectBtn.innerText = 'Reprovado';
-            } else if (report.status === 'Reprovado') {
-                saveBtn.disabled = false;
-                rejectBtn.disabled = true;
-                saveBtn.innerText = 'Revisar e Aprovar';
-                rejectBtn.innerText = 'Já Reprovado';
-            } else {
-                saveBtn.disabled = false;
-                rejectBtn.disabled = false;
-                saveBtn.innerText = 'Salvar Relatório';
-                rejectBtn.innerText = 'Reprovar Inspeção';
-            }
+            // Define se os campos são editáveis com base no status da inspeção
+            const isEditable = report.status === 'Em Andamento' || report.status === 'Reprovado' || report.status === 'Aprovado com Ressalvas';
+
+            saveBtn.disabled = !isEditable;
+            // O botão de reprovar é desabilitado se a inspeção já estiver reprovada
+            rejectBtn.disabled = !isEditable || report.status === 'Reprovado';
+
+            // Ajusta o texto dos botões
+            saveBtn.innerText = isEditable ? 'Salvar Relatório' : 'Relatório Aprovado';
+            if (report.status === 'Reprovado') saveBtn.innerText = 'Revisar e Aprovar';
+            
+            rejectBtn.innerText = report.status === 'Reprovado' ? 'Já Reprovado' : 'Reprovar Inspeção';
+
+            // Define a propriedade readOnly para inputs e textareas
+            inputs.forEach(input => input.readOnly = !isEditable);
+            // Controla a interatividade dos ícones de status
+            iconStatuses.forEach(icon => {
+                if (isEditable) {
+                    icon.style.pointerEvents = 'auto';
+                    icon.style.opacity = '1';
+                } else {
+                    icon.style.pointerEvents = 'none';
+                    icon.style.opacity = '0.7';
+                }
+            });
 
             document.getElementById('inspectionReportModal').classList.add('active');
         }
 
+        /**
+         * Fecha o modal do relatório de inspeção.
+         */
         function closeInspectionReportModal() {
             document.getElementById('inspectionReportModal').classList.remove('active');
+            renderEngineeringInspectionTable(); // Atualiza a tabela da engenharia após fechar o modal
         }
 
+        /**
+         * Renderiza a tabela de inspeções por produto dentro do modal de relatório.
+         */
         function renderProductInspections() {
             const container = document.getElementById('productInspectionContainer');
             container.innerHTML = '';
-
-            if (!currentDimpexOrder.inspectionReport.productInspections || currentDimpexOrder.inspectionReport.productInspections.length === 0) {
-                currentDimpexOrder.inspectionReport.productInspections = currentDimpexOrder.productLines.map(product => ({
-                    productCode: product.productCode,
-                    description: product.description,
-                    conformidadePO: 'N/A',
-                    qualidadeEmbalagem: 'N/A',
-                    integridadeProdutos: 'N/A',
-                    condicoesCarregamento: 'N/A'
-                }));
-                updateDimpexOrderInLocalStorage(currentDimpexOrder);
-            }
 
             if (!currentDimpexOrder.inspectionReport.productInspections || currentDimpexOrder.inspectionReport.productInspections.length === 0) {
                 container.innerHTML = '<p style="text-align: center; color: #777; padding: 15px;">Nenhum produto para inspeção neste embarque.</p>';
@@ -3302,6 +3614,7 @@
             `;
 
             currentDimpexOrder.productLines.forEach((product, index) => {
+                // Encontra a inspeção específica para este produto
                 const productInspection = currentDimpexOrder.inspectionReport.productInspections.find(pi => pi.productCode === product.productCode) || {};
 
                 tableHtml += `
@@ -3327,29 +3640,45 @@
             `;
             container.innerHTML = tableHtml;
 
+            // Define se os ícones são editáveis com base no status da inspeção
+            const isEditable = currentDimpexOrder.inspectionReport.status === 'Em Andamento' || currentDimpexOrder.inspectionReport.status === 'Reprovado' || currentDimpexOrder.inspectionReport.status === 'Aprovado com Ressalvas';
+
+            // Adiciona event listeners aos ícones de status para permitir a seleção
             container.querySelectorAll('.icon-status').forEach(icon => {
-                icon.addEventListener('click', function() {
-                    const productIndex = this.closest('.icon-selection').dataset.productIndex;
-                    const criterion = this.closest('.icon-selection').dataset.criterion;
-                    const value = this.dataset.value;
+                if (isEditable) {
+                    icon.addEventListener('click', function() {
+                        const productIndex = this.closest('.icon-selection').dataset.productIndex;
+                        const criterion = this.closest('.icon-selection').dataset.criterion;
+                        const value = this.dataset.value;
 
-                    this.closest('.icon-selection').querySelectorAll('.icon-status').forEach(sibling => {
-                        sibling.classList.remove('active');
+                        // Remove a classe 'active' de todos os irmãos e adiciona ao clicado
+                        this.closest('.icon-selection').querySelectorAll('.icon-status').forEach(sibling => {
+                            sibling.classList.remove('active');
+                        });
+                        this.classList.add('active');
+
+                        // Atualiza o valor no objeto de dados
+                        if (currentDimpexOrder && currentDimpexOrder.inspectionReport && currentDimpexOrder.inspectionReport.productInspections[productIndex]) {
+                            currentDimpexOrder.inspectionReport.productInspections[productIndex][criterion] = value;
+                        }
                     });
-                    this.classList.add('active');
-
-                    if (currentDimpexOrder && currentDimpexOrder.inspectionReport && currentDimpexOrder.inspectionReport.productInspections[productIndex]) {
-                        currentDimpexOrder.inspectionReport.productInspections[productIndex][criterion] = value;
-                    }
-                });
+                } else {
+                    // Desabilita a interação se não for editável
+                    icon.style.pointerEvents = 'none';
+                    icon.style.opacity = '0.7';
+                }
             });
         }
 
+        /**
+         * Salva o relatório de inspeção.
+         */
         function saveInspectionReport() {
             if (!currentDimpexOrder) return;
 
             const report = currentDimpexOrder.inspectionReport;
 
+            // Atualiza os campos gerais do relatório
             report.dataInicio = document.getElementById('reportDataInicioInspecao').value;
             report.dataFim = document.getElementById('reportDataFimInspecao').value;
             report.responsavel = document.getElementById('reportResponsavel').value;
@@ -3358,6 +3687,7 @@
             let hasNonConforme = false;
             let allConforme = true;
             
+            // Verifica o status geral da inspeção com base nas inspeções por produto
             if (report.productInspections && report.productInspections.length > 0) {
                 report.productInspections.forEach(prodInsp => {
                     const criteriaToCheck = ['conformidadePO', 'qualidadeEmbalagem', 'integridadeProdutos', 'condicoesCarregamento'];
@@ -3371,15 +3701,16 @@
                     });
                 });
             } else {
-                report.status = 'N/A';
+                // Se não houver produtos para inspecionar, o status é N/A
+                report.status = 'N/A'; 
                 updateDimpexOrderInLocalStorage(currentDimpexOrder);
                 showMessage('Sucesso', `Relatório de inspeção do embarque ${currentDimpexOrder.shipmentName} salvo com status: ${report.status}!`, 'success', () => {
                     closeInspectionReportModal();
-                    renderDimpexOrderDetails();
                 });
                 return;
             }
 
+            // Define o status final da inspeção
             if (hasNonConforme) {
                 report.status = 'Reprovado';
             } else if (allConforme) {
@@ -3395,10 +3726,12 @@
 
             showMessage('Sucesso', `Relatório de inspeção do embarque ${currentDimpexOrder.shipmentName} salvo com status: ${report.status}!`, 'success', () => {
                 closeInspectionReportModal();
-                renderDimpexOrderDetails();
             });
         }
 
+        /**
+         * Reprova o relatório de inspeção.
+         */
         function rejectInspectionReport() {
             if (!currentDimpexOrder) return;
 
@@ -3418,12 +3751,15 @@
 
                     showMessage('Sucesso', `Relatório de inspeção do embarque ${currentDimpexOrder.shipmentName} reprovado pela Engenharia!`, 'success', () => {
                         closeInspectionReportModal();
-                        renderDimpexOrderDetails();
                     });
                 }
             );
         }
 
+        /**
+         * Atualiza um pedido Dimpex no localStorage.
+         * @param {object} orderToUpdate - O objeto do pedido a ser atualizado.
+         */
         function updateDimpexOrderInLocalStorage(orderToUpdate) {
             let allDimpexOrders = JSON.parse(localStorage.getItem('dimpexOrders')) || [];
             const orderIndex = allDimpexOrders.findIndex(order => order.id === orderToUpdate.id);
@@ -3435,20 +3771,27 @@
             localStorage.setItem('dimpexOrders', JSON.stringify(allDimpexOrders));
         }
 
+        /**
+         * Simula o logout do usuário.
+         */
         function logout() {
             showMessage(
                 'Confirmação',
                 'Tem certeza que deseja sair?',
                 'info',
                 () => {
+                    // Redireciona para a página inicial (simulando logout)
                     window.location.href = 'index.html'; 
                 },
                 () => {
+                    // Não faz nada se o usuário cancelar
                 }
             );
         }
 
+        // Evento que é disparado quando o DOM é completamente carregado
         document.addEventListener('DOMContentLoaded', () => {
+            // Carrega os pedidos do localStorage ou inicializa com os dados de exemplo
             const storedAllOrders = localStorage.getItem('dimpexOrders');
             if (storedAllOrders) {
                 dimpexOrders = JSON.parse(storedAllOrders);
@@ -3456,6 +3799,7 @@
                 dimpexOrders = initialDimpexOrders;
             }
 
+            // Garante que todos os pedidos têm a estrutura completa de inspectionReport e productInspections
             dimpexOrders.forEach(order => {
                 if (!order.inspectionReport) {
                     order.inspectionReport = { 
@@ -3468,6 +3812,7 @@
                     };
                 }
 
+                // Garante que os campos padrão do relatório de inspeção existem
                 const defaultReportFields = {
                     dataInicio: '', dataFim: '', responsavel: '', observacoesGerais: ''
                 };
@@ -3477,6 +3822,8 @@
                     }
                 }
 
+                // Inicializa productInspections se não existirem ou estiverem vazios,
+                // ou garante que todos os produtos tenham uma entrada de inspeção.
                 if (order.productLines && order.productLines.length > 0) {
                     const existingProductInspectionsMap = new Map();
                     if (order.inspectionReport.productInspections) {
@@ -3504,10 +3851,12 @@
                     order.inspectionReport.productInspections = [];
                 }
 
+                // Preenche dados de cliente padrão se ausentes
                 if (!order.clienteEndereco) order.clienteEndereco = 'Endereço Padrão';
                 if (!order.clienteTelefone) order.clienteTelefone = '(XX) XXXX-XXXX';
                 if (!order.clienteCnpj) order.clienteCnpj = 'XX.XXX.XXX/XXXX-XX';
 
+                // Garante que os documentos têm status de aprovação e conteúdo padrão
                 order.documents.forEach(doc => {
                     if (doc.dimpexApprovalStatus === undefined) {
                         doc.dimpexApprovalStatus = doc.status === 'Recebido' ? 'Pendente' : 'N/A';
@@ -3518,8 +3867,11 @@
                 });
             });
 
+            // Salva a estrutura de dados inicializada de volta no localStorage
             localStorage.setItem('dimpexOrders', JSON.stringify(dimpexOrders));
-            showCentralPage();
+            
+            // Exibe a página inicial da Central Dimpex
+            showDimpexCentralPage();
         });
     </script>
 </body>
