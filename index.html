@@ -23,6 +23,8 @@
             --hongkong-bg: #fff3e0;
             --colombia-border: #90cdf4;
             --hongkong-border: #ffcc80;
+            --highlight-container-bg: #d1e7dd; /* Light green for highlight */
+            --highlight-container-border: #28a745; /* Darker green border */
         }
 
         * {
@@ -1054,6 +1056,13 @@
             text-transform: uppercase;
         }
 
+        /* Highlight for the most probable container */
+        .cubage-table tr.highlight-container {
+            background-color: var(--highlight-container-bg);
+            border: 1px solid var(--highlight-container-border);
+            font-weight: bold;
+        }
+
         /* Specific styles for Renato Approval Screen table */
         #renatoApprovalScreen .data-table {
             table-layout: fixed; /* Ensures columns respect defined widths */
@@ -1997,7 +2006,7 @@
                 supplier: 'Fornecedor A', products: [{ code: 'PROD003', description: 'Fone Bluetooth Max', quantity: 2, unitPrice: 50.00, cubageUnit: 0.001 }]
             },
             {
-                orderId: 'PED-012', parentOrderId: 'SOL-012', clientFlag: assignClientName('Colômbia'), originCountry: 'Colômbia',
+                orderId: 'PED-012', parentOrderId: 'SOL-012', clientFlag: assignClientName('Colômbia'), originCountry: 'Colômbia', // This client will not be "Cliente Colombia"
                 totalValue: 800.00, status: 'Em Rota de Entrega', requestDate: '2025-06-27', lastUpdateDate: '2025-06-27',
                 supplier: 'Fornecedor B', products: [{ code: 'PROD008', description: 'Impressora 3D Industrial', quantity: 1, unitPrice: 800.00, cubageUnit: 0.8 }]
             },
@@ -2457,7 +2466,7 @@
                 valorTotalGroup.style.display = 'none';
                 productStockGroup.style.display = 'none';
             } else if (productBranch === 'Colômbia') {
-                totalM3Group.style.display = 'none';
+                totalM3Group.style.display = 'block'; // Cubagem é sempre relevante
                 valorTotalGroup.style.display = 'block';
                 productStockGroup.style.display = 'block';
             } else {
@@ -3049,6 +3058,52 @@
             }
         }
 
+        // Nova função para atualizar a quantidade de um produto na lista
+        function updateProductQuantityInList(index, newQuantity) {
+            const product = productsInCurrentOrder[index];
+            const productInfoFromDB = productDatabase[product.code];
+            const oldQuantity = product.quantity; // Salva a quantidade antiga para possível reversão
+            const quantity = parseInt(newQuantity);
+
+            // Validação da quantidade
+            if (isNaN(quantity) || quantity <= 0) {
+                // Reverte para a quantidade antiga se a nova for inválida
+                product.quantity = oldQuantity; 
+                renderProductList(); // Renderiza novamente para exibir a quantidade antiga
+                displayAddProductMessage('Quantidade inválida. Por favor, insira um número maior que zero.', 'error');
+                return;
+            }
+
+            // Atualiza a quantidade e recalcula os totais
+            product.quantity = quantity;
+            product.totalM3 = (productInfoFromDB.cubageUnit * quantity).toFixed(2);
+            product.totalValue = (productInfoFromDB.tableValue * quantity).toFixed(2);
+
+            // Revalida as regras de negócio (MOQ e estoque)
+            let validationMessage = '';
+            let messageType = 'info';
+
+            if (product.selectedBranch === 'Hong Kong') {
+                if (quantity < productInfoFromDB.moq) {
+                    validationMessage = `⚠️ Quantidade (${quantity}) abaixo do MOQ mínimo (${productInfoFromDB.moq}) para Hong Kong.`;
+                    messageType = 'warning';
+                } else {
+                    validationMessage = `✅ Quantidade (${quantity}) atende ao MOQ mínimo (${productInfoFromDB.moq}) para Hong Kong.`;
+                    messageType = 'success';
+                }
+            } else if (product.selectedBranch === 'Colômbia') {
+                if (quantity > productInfoFromDB.simulatedStock) {
+                    validationMessage = `🚫 Quantidade (${quantity}) excede o estoque disponível (${productInfoFromDB.simulatedStock}) na Colômbia.`;
+                    messageType = 'error';
+                } else {
+                    validationMessage = `✅ Quantidade (${quantity}) disponível em estoque na Colômbia.`;
+                    messageType = 'success';
+                }
+            }
+            displayAddProductMessage(validationMessage, messageType);
+            renderProductList(); // Renderiza novamente para atualizar os cálculos e o estilo da linha
+        }
+
         function updateProductSelectedBranch(index, newBranch) {
             productsInCurrentOrder[index].selectedBranch = newBranch;
             renderProductList();
@@ -3123,7 +3178,11 @@
                         <td>${product.clientCode}</td>
                         <td>${product.code}</td>
                         <td>${product.name}</td>
-                        <td>${product.quantity}</td>
+                        <td>
+                            <input type="number" value="${product.quantity}" min="1" 
+                                onchange="updateProductQuantityInList(${index}, this.value)"
+                                class="w-20 text-center border rounded-md px-2 py-1 text-sm">
+                        </td>
                         <td class="colombia-col" style="color: ${columbiaStockColor}; font-weight: bold;">${columbiaStockStatus}</td>
                         <td class="colombia-col">R$ ${columbiaUnitPrice.toFixed(2).replace('.', ',')}</td>
                         <td class="colombia-col">R$ ${columbiaTotalPrice.toFixed(2).replace('.', ',')}</td>
@@ -3131,7 +3190,8 @@
                         <td class="hongkong-col">R$ ${hongKongUnitPrice.toFixed(2).replace('.', ',')}</td>
                         <td class="hongkong-col">R$ ${hongKongTotalPrice.toFixed(2).replace('.', ',')}</td>
                         <td>
-                            <select onchange="updateProductSelectedBranch(${index}, this.value)">
+                            <select onchange="updateProductSelectedBranch(${index}, this.value)"
+                                class="border rounded-md px-2 py-1 text-sm">
                                 <option value="Colômbia" ${product.selectedBranch === 'Colômbia' ? 'selected' : ''}>Colômbia</option>
                                 <option value="Hong Kong" ${product.selectedBranch === 'Hong Kong' ? 'selected' : ''}>Hong Kong</option>
                             </select>
@@ -3339,9 +3399,29 @@
                     } else if (po.overallApprovalStatus === 'Rejeitado') {
                         cardStatusEmoji = '🔴';
                     } else if (po.overallApprovalStatus === 'Negociado') {
-                        cardStatusEmoji = '�';
+                        cardStatusEmoji = '🟣';
                     } else if (po.overallApprovalStatus === 'Finalizado') {
                         cardStatusEmoji = '✅';
+                    }
+
+                    // Determine the most probable container
+                    let highlightLCL = false;
+                    let highlight20HC = false;
+                    let highlight40HC = false;
+                    let containerWarning = '';
+
+                    if (totalCubage === 0) {
+                        // No highlight needed if no cubage
+                    } else if (totalCubage <= 1) { // Small volume, likely LCL
+                        highlightLCL = true;
+                    } else if (percentageOccupation20HC <= 100) {
+                        highlight20HC = true;
+                    } else if (percentageOccupation40HC <= 100) {
+                        highlight40HC = true;
+                    } else {
+                        // If neither fits, highlight 40HC as the "least overflow" option
+                        highlight40HC = true;
+                        containerWarning = '<p class="text-red-600 mt-2 text-sm font-semibold">⚠️ A cubagem excede a capacidade de um container de 40HC. Necessário mais de um container ou solução alternativa.</p>';
                     }
 
                     poDiv.innerHTML = `
@@ -3366,17 +3446,27 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    ${po.products.map(p => `
+                                    ${po.products.map(p => {
+                                        const internalPrice = parseFloat(p.currentInternalUnitPrice);
+                                        const supplierPrice = parseFloat(p.newSupplierUnitPrice);
+                                        let priceClass = '';
+                                        if (supplierPrice > internalPrice) {
+                                            priceClass = 'price-difference-positive';
+                                        } else if (supplierPrice < internalPrice) {
+                                            priceClass = 'price-difference-negative';
+                                        }
+                                        return `
                                         <tr>
                                             <td>${p.code}</td>
                                             <td>${p.name}</td>
                                             <td>${p.quantity}</td>
-                                            <td>R$ ${parseFloat(p.currentInternalUnitPrice).toFixed(2).replace('.', ',')}</td>
-                                            <td>R$ ${parseFloat(p.newSupplierUnitPrice).toFixed(2).replace('.', ',')}</td>
+                                            <td>R$ ${internalPrice.toFixed(2).replace('.', ',')}</td>
+                                            <td class="${priceClass}">R$ ${supplierPrice.toFixed(2).replace('.', ',')}</td>
                                             <td>${(p.cubageUnit * p.quantity).toFixed(2).replace('.', ',')} m³</td>
                                             <td class="product-approval-status ${p.approvalStatus}">${p.approvalStatus}</td>
                                         </tr>
-                                    `).join('')}
+                                    `;
+                                    }).join('')}
                                 </tbody>
                             </table>
                         </div>
@@ -3391,20 +3481,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr class="${highlightLCL ? 'highlight-container' : ''}">
                                     <td>LCL</td>
                                     <td>${totalCubage > 0 ? '100.00' : '0.00'}%</td>
                                 </tr>
-                                <tr>
+                                <tr class="${highlight20HC ? 'highlight-container' : ''}">
                                     <td>CTN 20</td>
                                     <td>${percentageOccupation20HC.toFixed(2).replace('.', ',')}%</td>
                                 </tr>
-                                <tr>
+                                <tr class="${highlight40HC ? 'highlight-container' : ''}">
                                     <td>CTN 40HC</td>
                                     <td>${percentageOccupation40HC.toFixed(2).replace('.', ',')}%</td>
                                 </tr>
                             </tbody>
                         </table>
+                        ${containerWarning}
                     `;
                     hongKongSection.appendChild(poDiv);
                 }
@@ -3623,21 +3714,29 @@
 
             currentPurchasingPO.products.forEach(product => {
                 const row = document.createElement('tr');
-                const newSupplierUnitPrice = parseFloat(product.newSupplierUnitPrice || 0).toFixed(2).replace('.', ',');
+                const newSupplierUnitPrice = parseFloat(product.newSupplierUnitPrice || 0);
+                const currentInternalUnitPrice = parseFloat(product.currentInternalUnitPrice || 0);
+
+                let priceClass = '';
+                if (newSupplierUnitPrice > currentInternalUnitPrice) {
+                    priceClass = 'price-difference-positive';
+                } else if (newSupplierUnitPrice < currentInternalUnitPrice) {
+                    priceClass = 'price-difference-negative';
+                }
                 
                 const isEditable = currentPurchasingPO.overallApprovalStatus !== 'Aprovado' && currentPurchasingPO.overallApprovalStatus !== 'Finalizado';
                 const inputHtml = isEditable ? 
-                    `<input type="number" step="0.01" value="${parseFloat(product.newSupplierUnitPrice).toFixed(2)}"
+                    `<input type="number" step="0.01" value="${newSupplierUnitPrice.toFixed(2)}"
                             oninput="updateProductNewPrice('${product.code}', this.value)"
                             class="product-quantity-input !w-full !text-right">` :
-                    `R$ ${newSupplierUnitPrice}`;
+                    `R$ ${newSupplierUnitPrice.toFixed(2).replace('.', ',')}`;
 
                 row.innerHTML = `
                     <td>${product.code}</td>
                     <td>${product.name}</td>
                     <td>${product.quantity}</td>
-                    <td>R$ ${parseFloat(product.currentInternalUnitPrice).toFixed(2).replace('.', ',')}</td>
-                    <td>R$ ${newSupplierUnitPrice}</td>
+                    <td>R$ ${currentInternalUnitPrice.toFixed(2).replace('.', ',')}</td>
+                    <td class="${priceClass}">R$ ${newSupplierUnitPrice.toFixed(2).replace('.', ',')}</td>
                     <td>${inputHtml}</td>
                     <td class="product-approval-status ${product.approvalStatus}">${product.approvalStatus}</td>
                 `;
@@ -3663,6 +3762,8 @@
                 currentPurchasingPO.newSupplierPriceTotal = currentPurchasingPO.products.reduce((sum, p) =>
                     sum + (parseFloat(p.newSupplierUnitPrice) * p.quantity), 0
                 ).toFixed(2);
+                // Re-render the table to apply the color change immediately
+                viewPurchasingOrderDetails(currentPurchasingPO.id);
             }
         }
 
@@ -3851,6 +3952,26 @@
                 cardStatusEmoji = '✅';
             }
 
+            // Determine the most probable container for the approval screen (same logic as summary)
+            let highlightLCL = false;
+            let highlight20HC = false;
+            let highlight40HC = false;
+            let containerWarning = '';
+
+            if (totalCubage === 0) {
+                // No highlight needed if no cubage
+            } else if (totalCubage <= 1) { // Small volume, likely LCL
+                highlightLCL = true;
+            } else if (percentageOccupation20HC <= 100) {
+                highlight20HC = true;
+            } else if (percentageOccupation40HC <= 100) {
+                highlight40HC = true;
+            } else {
+                highlight40HC = true;
+                containerWarning = '<p class="text-red-600 mt-2 text-sm font-semibold">⚠️ A cubagem excede a capacidade de um container de 40HC. Necessário mais de um container ou solução alternativa.</p>';
+            }
+
+
             card.innerHTML = `
                 <span class="supplier-status-indicator">${cardStatusEmoji}</span>
                 <h3 class="font-semibold text-lg mb-2">PO Nº ${po.id} para Fornecedor: <span class="text-blue-700">${po.supplierCode} - ${po.supplier}</span></h3>
@@ -3868,20 +3989,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr class="${highlightLCL ? 'highlight-container' : ''}">
                             <td>LCL</td>
                             <td>${totalCubage > 0 ? '100.00' : '0.00'}%</td>
                         </tr>
-                        <tr>
+                        <tr class="${highlight20HC ? 'highlight-container' : ''}">
                             <td>CTN 20</td>
                             <td>${percentageOccupation20HC.toFixed(2).replace('.', ',')}%</td>
                         </tr>
-                        <tr>
+                        <tr class="${highlight40HC ? 'highlight-container' : ''}">
                             <td>CTN 40HC</td>
                             <td>${percentageOccupation40HC.toFixed(2).replace('.', ',')}%</td>
                         </tr>
                     </tbody>
                 </table>
+                ${containerWarning}
 
                 <h4 class="font-semibold text-md mb-2">Detalhes dos Produtos:</h4>
                 <div class="overflow-x-auto">
@@ -3902,25 +4024,34 @@
                         </thead>
                         <tbody>
                             ${po.products.map((p, pIndex) => {
-                                const diff = parseFloat(p.newSupplierUnitPrice) - parseFloat(p.currentInternalUnitPrice);
-                                const percent = parseFloat(p.currentInternalUnitPrice) === 0
+                                const internalPrice = parseFloat(p.currentInternalUnitPrice);
+                                const supplierPrice = parseFloat(p.newSupplierUnitPrice);
+                                let priceClass = '';
+                                if (supplierPrice > internalPrice) {
+                                    priceClass = 'price-difference-positive';
+                                } else if (supplierPrice < internalPrice) {
+                                    priceClass = 'price-difference-negative';
+                                }
+
+                                const diff = supplierPrice - internalPrice;
+                                const percent = internalPrice === 0
                                     ? 0
-                                    : (diff / parseFloat(p.currentInternalUnitPrice)) * 100;
+                                    : (diff / internalPrice) * 100;
                                 const diffClass = diff > 0 ? 'price-difference-positive' : (diff < 0 ? 'price-difference-negative' : '');
                                 const diffText = diff > 0
                                     ? `+R$ ${diff.toFixed(2).replace('.', ',')} (+${percent.toFixed(2)}%)`
                                     : diff < 0
                                         ? `-R$ ${Math.abs(diff).toFixed(2).replace('.', ',')} (${percent.toFixed(2)}%)`
                                         : 'R$ 0,00 (0,00%)';
-                                const totalInterno = parseFloat(p.currentInternalUnitPrice) * p.quantity;
-                                const totalFornecedor = parseFloat(p.newSupplierUnitPrice) * p.quantity;
+                                const totalInterno = internalPrice * p.quantity;
+                                const totalFornecedor = supplierPrice * p.quantity;
                                 return `
                                     <tr>
                                         <td>${p.code}</td>
                                         <td>${p.name}</td>
                                         <td>${p.quantity}</td>
-                                        <td>R$ ${parseFloat(p.currentInternalUnitPrice).toFixed(2).replace('.', ',')}</td>
-                                        <td>R$ ${parseFloat(p.newSupplierUnitPrice).toFixed(2).replace('.', ',')}</td>
+                                        <td>R$ ${internalPrice.toFixed(2).replace('.', ',')}</td>
+                                        <td class="${priceClass}">R$ ${supplierPrice.toFixed(2).replace('.', ',')}</td>
                                         <td><span class="${diffClass}">${diffText}</span></td>
                                         <td>R$ ${totalInterno.toFixed(2).replace('.', ',')}</td>
                                         <td>R$ ${totalFornecedor.toFixed(2).replace('.', ',')}</td>
